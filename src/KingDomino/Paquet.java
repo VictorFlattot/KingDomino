@@ -120,7 +120,7 @@ public class Paquet {
 
 	public void shuffle() {
 		Collections.shuffle(dominos);
-		/* TO DO */
+
 	}
 
 
