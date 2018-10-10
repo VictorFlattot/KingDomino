@@ -1,17 +1,19 @@
 package KingDomino;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 public class Paquet {
 	List<Domino> dominos;
 	List<Tuile> tuiles;
 
-	public Paquet() throws Exception {
-		initTuiles();
-		initDominos();
-		showTuiles();
-		showDominos();
+	public Paquet(boolean initDomino) throws Exception {
+		if (initDomino){
+			initTuiles();
+			initDominos();
+		}
+		//showTuiles();
+		//showDominos();
 	}
 
 	private void initDominos() throws Exception {
@@ -19,7 +21,6 @@ public class Paquet {
 		initDominoEntre1et12();
 		initDominoEntre13et34();
 		initDominoEntre34et48();
-		initDominoDepart();
 
 		setIdDominos();
 
@@ -65,11 +66,6 @@ public class Paquet {
 		}
 	}
 
-	private void initDominoDepart() throws PasDominoDepartException {
-		for (int i = 0; i < 4; i++) {
-			dominos.add(new Domino(tuiles.get(16),tuiles.get(16)));
-		}
-	}
 
 	private void initDominoEntre34et48() throws PasDominoDepartException {
 		dominos.add(new Domino(tuiles.get(4),tuiles.get(3)));
@@ -106,6 +102,25 @@ public class Paquet {
 					case 3:	if (terrain == Terrain.MONTAGNES) tuiles.add(new Tuile(terrain, i)); break;
 				}
 		}
+	}
+
+	public boolean isEmpty(){
+		return dominos.isEmpty();
+	}
+
+	public int size(){
+		return dominos.size();
+	}
+
+	public Domino takeFirst() {
+		Domino domino = dominos.get(0);
+		dominos.remove(domino);
+		return domino;
+	}
+
+	public void shuffle() {
+		Collections.shuffle(dominos);
+		/* TO DO */
 	}
 
 

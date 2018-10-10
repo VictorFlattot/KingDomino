@@ -1,5 +1,8 @@
 package KingDomino;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 public class Domino {
 	private int id;
 	private Tuile tuile1;
@@ -55,6 +58,7 @@ public class Domino {
 			if (!verifDepart()) throw new PasDominoDepartException();
 		}
 	}
+
 
 	@Override
 	public String toString() {
