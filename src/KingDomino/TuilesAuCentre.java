@@ -1,42 +1,42 @@
 package KingDomino;
 
-import java.util.*;
-
-
-
 public class TuilesAuCentre {
-	List<Domino> dominoList;
+	Domino[] dominoTab;
 	Paquet paquet;
 
 	public TuilesAuCentre(Paquet paquet) {
-		dominoList = new ArrayList<>();
+		dominoTab = new Domino[4];
 		this.paquet = paquet;
 		for (int i = 0; i < 4; i++) {
-			addDomino(paquet.takeFirst());
+			dominoTab[i]=paquet.takeFirst();
 		}
+
 		triOrdreCroissant();
 		showTuilesAuCentre();
 	}
 
 
 	private void triOrdreCroissant() {
-
-
-		Domino maxId=dominoList.get(0);
-		for (int i = 0; i < dominoList.size(); i++) {
-			if (dominoList.get(i).getId()>maxId.getId()){
-
+		int i;
+		int j;
+		for (j = dominoTab.length-1; j > 0 ; j--) {
+			for ( i = 0; i<j+1 ; i++) {
+				if(dominoTab[j].getId()<dominoTab[i].getId()) permut(i,j);
 			}
 		}
+
 	}
 
-	private void addDomino(Domino domino){
-		dominoList.add(domino);
+	private void permut(int i,int j) {
+		Domino tmp;
+		tmp = dominoTab[i];
+		dominoTab[i]=dominoTab[j];
+		dominoTab[j]=tmp;
 	}
 
 
 	public void showTuilesAuCentre(){
-		for (Domino domino: dominoList) {
+		for (Domino domino: dominoTab) {
 			System.out.println(domino);
 		}
 	}

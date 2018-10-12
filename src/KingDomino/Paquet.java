@@ -1,22 +1,21 @@
 package KingDomino;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Paquet {
 	List<Domino> dominos;
-	List<Tuile> tuiles;
+	static List<Tuile> tuileList;
 
-	public Paquet(boolean initDomino) throws Exception {
-		if (initDomino){
-			initTuiles();
-			initDominos();
-		}
-		//showTuiles();
-		//showDominos();
+	public Paquet() {
+		initTuiles();
+		initDominos();
+
 	}
 
-	private void initDominos() throws Exception {
+	private void initDominos() {
 		dominos = new ArrayList<>();
 		initDominoEntre1et12();
 		initDominoEntre13et34();
@@ -28,7 +27,7 @@ public class Paquet {
 
 
 	}
-	private void initDominoEntre1et12() throws PasDominoDepartException {
+	private void initDominoEntre1et12() {
 		int nbDominoDouble = 0;
 		for (int i = 0; i <= 8; i+=2) {
 			switch (i){
@@ -39,50 +38,50 @@ public class Paquet {
 				case 8: i++;nbDominoDouble = 1;break;
 			}
 			for (int j = 0; j < nbDominoDouble; j++) {
-				dominos.add(new Domino(tuiles.get(i),tuiles.get(i)));
+				dominos.add(new Domino(tuileList.get(i), tuileList.get(i)));
 			}
 		}
 	}
 
-	private void initDominoEntre13et34() throws PasDominoDepartException {
+	private void initDominoEntre13et34() {
 
-		for (int i = 2; i <= 6; i+=2) {	dominos.add(new Domino(tuiles.get(i),tuiles.get(0)));}
-		dominos.add(new Domino(tuiles.get(9),tuiles.get(6)));
-		for (int i = 4; i <= 6; i+=2) {dominos.add(new Domino(tuiles.get(i),tuiles.get(2)));}
+		for (int i = 2; i <= 6; i+=2) {	dominos.add(new Domino(tuileList.get(i), tuileList.get(0)));}
+		dominos.add(new Domino(tuileList.get(9), tuileList.get(6)));
+		for (int i = 4; i <= 6; i+=2) {dominos.add(new Domino(tuileList.get(i), tuileList.get(2)));}
 
 		for (int i = 2; i <= 12; i+=2) {
 			switch (i){
 				case 8: i++;break;
 				case 11: i++;break;
 			}
-			dominos.add(new Domino(tuiles.get(i),tuiles.get(1)));
+			dominos.add(new Domino(tuileList.get(i), tuileList.get(1)));
 		}
-		for (int i = 0; i < 4; i++) {dominos.add(new Domino(tuiles.get(0),tuiles.get(3)));}
-		for (int i = 4; i <= 6; i+=2) {dominos.add(new Domino(tuiles.get(i),tuiles.get(3)));}
+		for (int i = 0; i < 4; i++) {dominos.add(new Domino(tuileList.get(0), tuileList.get(3)));}
+		for (int i = 4; i <= 6; i+=2) {dominos.add(new Domino(tuileList.get(i), tuileList.get(3)));}
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < i+2; j++) {
-				dominos.add(new Domino(tuiles.get(i*2),tuiles.get(5)));
+				dominos.add(new Domino(tuileList.get(i*2), tuileList.get(5)));
 			}
 		}
 	}
 
 
-	private void initDominoEntre34et48() throws PasDominoDepartException {
-		dominos.add(new Domino(tuiles.get(4),tuiles.get(3)));
+	private void initDominoEntre34et48() {
+		dominos.add(new Domino(tuileList.get(4), tuileList.get(3)));
 		for (int i = 7; i <=10 ; i+=3) {
-			dominos.add(new Domino(tuiles.get(i),tuiles.get(0)));
-			dominos.add(new Domino(tuiles.get(i),tuiles.get(i/2+1)));
+			dominos.add(new Domino(tuileList.get(i), tuileList.get(0)));
+			dominos.add(new Domino(tuileList.get(i), tuileList.get(i/2+1)));
 		}
-		dominos.add(new Domino(tuiles.get(0),tuiles.get(13)));
-		for (int i = 0; i <=4 ; i+=4) {	dominos.add(new Domino(tuiles.get(8),tuiles.get(i)));}
-		for (int i = 0; i <=6 ; i+=6) { dominos.add(new Domino(tuiles.get(11),tuiles.get(i)));}
-		dominos.add(new Domino(tuiles.get(0),tuiles.get(14)));
-		for (int i = 0; i < 2; i++) { dominos.add(new Domino(tuiles.get(14),tuiles.get(9)));}
-		dominos.add(new Domino(tuiles.get(15),tuiles.get(0)));
+		dominos.add(new Domino(tuileList.get(0), tuileList.get(13)));
+		for (int i = 0; i <=4 ; i+=4) {	dominos.add(new Domino(tuileList.get(8), tuileList.get(i)));}
+		for (int i = 0; i <=6 ; i+=6) { dominos.add(new Domino(tuileList.get(11), tuileList.get(i)));}
+		dominos.add(new Domino(tuileList.get(0), tuileList.get(14)));
+		for (int i = 0; i < 2; i++) { dominos.add(new Domino(tuileList.get(14), tuileList.get(9)));}
+		dominos.add(new Domino(tuileList.get(15), tuileList.get(0)));
 	}
 
 
-	private void setIdDominos() throws PasDominoDepartException {
+	private void setIdDominos() {
 		for (int i = 0; i < dominos.size(); i++) {
 			dominos.get(i).setId(i+1);
 		}
@@ -91,15 +90,15 @@ public class Paquet {
 
 
 	private void initTuiles() {
-		tuiles = new ArrayList<>();
+		tuileList = new ArrayList<>();
 		for (Terrain terrain : Terrain.values()){
 			for (int i = 0; i < 4; i++)
 				switch (i){
-					case 0:	tuiles.add(new Tuile(terrain, i)); break;
-					case 1:	if (terrain != Terrain.DEPART) tuiles.add(new Tuile(terrain, i)); break;
+					case 0:	tuileList.add(new Tuile(terrain, i)); break;
+					case 1:	if (terrain != Terrain.DEPART) tuileList.add(new Tuile(terrain, i)); break;
 					case 2:	if (terrain == Terrain.PRAIRIE || terrain == Terrain.MONTAGNES
-						|| terrain == Terrain.MARAIS) tuiles.add(new Tuile(terrain, i));break;
-					case 3:	if (terrain == Terrain.MONTAGNES) tuiles.add(new Tuile(terrain, i)); break;
+						|| terrain == Terrain.MARAIS) tuileList.add(new Tuile(terrain, i));break;
+					case 3:	if (terrain == Terrain.MONTAGNES) tuileList.add(new Tuile(terrain, i)); break;
 				}
 		}
 	}
@@ -127,7 +126,7 @@ public class Paquet {
 
 	private void showTuiles() {
 		for (Tuile tuile :
-				tuiles) {
+				tuileList) {
 			System.out.println(tuile);
 		}
 	}

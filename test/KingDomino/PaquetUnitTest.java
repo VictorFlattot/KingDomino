@@ -10,7 +10,7 @@ public class PaquetUnitTest {
 
 	@Before
 	public void init() throws Exception {
-		paquet = new Paquet(true);
+		paquet = new Paquet();
 	}
 
 	@Test

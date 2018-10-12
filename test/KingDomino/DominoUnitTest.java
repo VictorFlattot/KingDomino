@@ -32,8 +32,5 @@ public class DominoUnitTest {
 		Assert.assertEquals(d.getTuile2(), tuile2);
 	}
 
-	@Test
-	public void testIsCaseDepart(){
-		Assert.assertTrue(d.isDepart());
-	}
+
 }

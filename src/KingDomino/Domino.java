@@ -1,39 +1,30 @@
 package KingDomino;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 public class Domino {
 	private int id;
 	private Tuile tuile1;
 	private Tuile tuile2;
-	private boolean isDepart;
 
-	public Domino(Tuile tuile1,Tuile tuile2) throws PasDominoDepartException {
+	public Domino(Tuile tuile1,Tuile tuile2){
 		this(0,tuile1,tuile2);
 	}
 
-	public Domino(int id, Tuile tuile1,Tuile tuile2) throws PasDominoDepartException {
-		isDepart = false;
+	public Domino(int id, Tuile tuile1,Tuile tuile2) {
 		this.id = id;
 		this.tuile1 = tuile1;
 		this.tuile2 = tuile2;
-		if (id>48) {
-			isDepart = true;
-			if (!verifDepart()) throw new PasDominoDepartException();
-		}
+		this.id = id;
+
 
 	}
 
 	private boolean verifDepart() {
 
-		if ((tuile1.getTerrain() == Terrain.DEPART )
-			&&(tuile2.getTerrain() == Terrain.DEPART )
-			&&(tuile1.getCouronne() == 0 )
-			&&(tuile1.getCouronne() == 0 )
-		) return true;
-		return false;
-}
+		return (tuile1.getTerrain() == Terrain.DEPART)
+				&& (tuile2.getTerrain() == Terrain.DEPART)
+				&& (tuile1.getCouronne() == 0)
+				&& (tuile1.getCouronne() == 0);
+	}
 
 	public int getId() {
 		return id;
@@ -47,18 +38,10 @@ public class Domino {
 		return tuile2;
 	}
 
-	public boolean isDepart() {
-		return isDepart;
-	}
 
-	public void setId(int id) throws PasDominoDepartException {
+	public void setId(int id) {
 		this.id = id;
-		if (id>48) {
-			isDepart = true;
-			if (!verifDepart()) throw new PasDominoDepartException();
-		}
 	}
-
 
 	@Override
 	public String toString() {
@@ -66,7 +49,6 @@ public class Domino {
 				"id=" + id +
 				", tuile1=" + tuile1 +
 				", tuile2=" + tuile2 +
-				", isDepart=" + isDepart +
 				'}';
 	}
 }
