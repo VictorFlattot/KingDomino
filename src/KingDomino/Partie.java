@@ -9,7 +9,8 @@ public class Partie {
 	Map<Integer,Royaume> royaumeJoueur;
 	Paquet pioche;
 	TuilesAuCentre tuilesAuCentre;
-	int[] ordreJoueur;
+	String[] ordreJoueurTourActuel;
+	String[] ordreJoueurToursuivant;
 
 	int JoueurActuel;
 
@@ -20,21 +21,22 @@ public class Partie {
 		initNomJoueur();
 		initIdJoueurEtRoyaume();
 		pioche.shuffle();
+		ordreDépartJoueur();
 		nouveauTour();
 
-		//ordreDépartJoueur();
+
 
 	}
 
 	private void ordreDépartJoueur() {
-		ordreJoueur = new int[4];
-		int r;
-		for (int i = 4; i > 0; i--) {
-			r=random.nextInt(i);
-			ordreJoueur[i]= Integer.parseInt(idJoueurs.get(joueurs.get(r)));
+		ordreJoueurTourActuel = new String[4];
+		int r=random.nextInt(4)+1;
 
+		for (int i = 1; i < 4; i++) {
+			ordreJoueurTourActuel[i] = idJoueurs.get((r+i)%4);
+			System.out.println();
 		}
-		System.out.println(ordreJoueur);
+
 	}
 
 	private void initInstance() {
@@ -52,6 +54,7 @@ public class Partie {
 
 	private void nouveauTour() {
 		tuilesAuCentre = new TuilesAuCentre(pioche);
+
 	}
 
 	public void addJoueur(String nom){

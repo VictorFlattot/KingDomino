@@ -4,6 +4,7 @@ public class Domino {
 	private int id;
 	private Tuile tuile1;
 	private Tuile tuile2;
+	private boolean estChoisi;
 
 	public Domino(Tuile tuile1,Tuile tuile2){
 		this(0,tuile1,tuile2);
@@ -14,6 +15,7 @@ public class Domino {
 		this.tuile1 = tuile1;
 		this.tuile2 = tuile2;
 		this.id = id;
+		estChoisi=false;
 
 
 	}
@@ -43,12 +45,21 @@ public class Domino {
 		this.id = id;
 	}
 
+	public boolean isEstChoisi() {
+		return estChoisi;
+	}
+
+	public void setEstChoisi(boolean estChoisi) {
+		this.estChoisi = estChoisi;
+	}
+
 	@Override
 	public String toString() {
 		return "Domino{" +
 				"id=" + id +
 				", tuile1=" + tuile1 +
 				", tuile2=" + tuile2 +
+				", estChoisi=" + estChoisi +
 				'}';
 	}
 }
