@@ -1,5 +1,7 @@
 package KingDomino;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Partie {
@@ -12,9 +14,10 @@ public class Partie {
 	String[] ordreJoueurTourActuel;
 	String[] ordreJoueurToursuivant;
 
-	int JoueurActuel;
+	int joueurActuel;
 
 	Domino dominoChoisiParLeJoueurActuel;
+	BufferedReader consoleIn; // to read from stdin
 
 	public Partie() {
 		initInstance();
@@ -22,7 +25,7 @@ public class Partie {
 		initIdJoueurEtRoyaume();
 		pioche.shuffle();
 		ordreDépartJoueur();
-		nouveauTour();
+		//nouveauTour();
 
 
 
@@ -52,10 +55,21 @@ public class Partie {
 		}
 	}
 
-	private void nouveauTour() {
+	/*private void nouveauTour() {
 		tuilesAuCentre = new TuilesAuCentre(pioche);
+		for (int i = 0; i < 4; i++) {
+			try {
+			String line = consoleIn.readLine();
+		}
+		catch(IOException e) {
+			System.out.println(e);
+		}
 
-	}
+			DominoChoisiParLeJoueurActuel = line;
+			tuilesAuCentre.choisirDomino(line);
+		}
+
+	}*/
 
 	public void addJoueur(String nom){
 		joueurs.add(nom);
