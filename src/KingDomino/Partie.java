@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Partie {
+public class Partie extends Fenetre {
 	public static Random random = new Random();
 	List<String> joueurs;
 	Map<Integer, String> idJoueurs;
@@ -13,6 +13,7 @@ public class Partie {
 	TuilesAuCentre tuilesAuCentre;
 	String[] ordreJoueurTourActuel;
 	String[] ordreJoueurToursuivant;
+
 
 	int joueurActuel;
 
@@ -25,7 +26,9 @@ public class Partie {
 		initIdJoueurEtRoyaume();
 		pioche.shuffle();
 		ordreDépartJoueur();
-		//nouveauTour();
+		TuilesAuCentre centre = new TuilesAuCentre(pioche);
+		afficheDominoAuCentre(centre);
+
 
 
 
@@ -54,6 +57,8 @@ public class Partie {
 			addJoueur("J"+i);
 		}
 	}
+
+
 
 	/*private void nouveauTour() {
 		tuilesAuCentre = new TuilesAuCentre(pioche);
