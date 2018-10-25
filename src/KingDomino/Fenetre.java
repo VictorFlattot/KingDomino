@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Fenetre extends JFrame {
-    JPanel grandPano = new JPanel(new GridLayout(2,2,10,10));
-    JPanel mainFrame = new JPanel(new GridLayout(2,1,10,0));
+    JPanel grandPano = new JPanel();
     JPanel pion = new JPanel();
+    int idRoyaumeAPlacer = 0;
     public Fenetre(){
         ajouteWidget();
         pack();
@@ -18,41 +18,80 @@ public class Fenetre extends JFrame {
 
     public void ajouteWidget(){
 
+
     }
 
     public void afficheDominoAuCentre(TuilesAuCentre centre){
-        Domino domino1 = centre.dominoTab[0];
-        Domino domino2 = centre.dominoTab[1];
-        Domino domino3 = centre.dominoTab[2];
-        Domino domino4 = centre.dominoTab[3];
-        JPanel domino1Vue = new JPanel(new GridLayout(1,2));
-        JPanel domino2Vue = new JPanel(new GridLayout(1,2));
-        JPanel domino3Vue = new JPanel(new GridLayout(1,2));
-        JPanel domino4Vue = new JPanel(new GridLayout(1,2));
-        DominoFen domino1Fen = new DominoFen(domino1.getTuile1(),domino1.getTuile2());
-        DominoFen domino2Fen = new DominoFen(domino2.getTuile1(),domino2.getTuile2());
-        DominoFen domino3Fen = new DominoFen(domino3.getTuile1(),domino3.getTuile2());
-        DominoFen domino4Fen = new DominoFen(domino4.getTuile1(),domino4.getTuile2());
+        DominoFen domino1 = new DominoFen(centre.dominoTab[0].getId(),this);
+        DominoFen domino2 = new DominoFen(centre.dominoTab[1].getId(),this);
+        DominoFen domino3 = new DominoFen(centre.dominoTab[2].getId(),this);
+        DominoFen domino4 = new DominoFen(centre.dominoTab[3].getId(),this);
+        JPanel hautGauche = new JPanel(new GridLayout(1,2));
+        JPanel hautDroit = new JPanel(new GridLayout(1,2));
+        JPanel basGauche = new JPanel(new GridLayout(1,2));
+        JPanel basDroit = new JPanel(new GridLayout(1,2));
+        hautGauche.add(domino1.bouton1);
+        hautDroit.add(domino2.bouton1);
+        basGauche.add(domino3.bouton1);
+        basDroit.add(domino4.bouton1);
+        grandPano.add(hautGauche);
+        grandPano.add(hautDroit);
+        grandPano.add(basGauche);
+        grandPano.add(basDroit);
+        setContentPane(grandPano);
+        revalidate();
+    }
 
-        domino1Vue.add(domino1Fen.bouton1);
-        domino1Vue.add(domino1Fen.bouton2);
-        domino2Vue.add(domino2Fen.bouton1);
-        domino2Vue.add(domino2Fen.bouton2);
-        domino3Vue.add(domino3Fen.bouton1);
-        domino3Vue.add(domino3Fen.bouton2);
-        domino4Vue.setLocation(10,10);
-        domino4Vue.add(domino4Fen.bouton1);
-        domino4Vue.add(domino4Fen.bouton2);
-        domino1Fen.bouton1.setSize(40,40);
-        domino1Fen.bouton2.setSize(40,40);
-        grandPano.add(domino3Vue);
-        grandPano.add(domino2Vue);
-        grandPano.add(domino1Vue);
-        grandPano.add(domino4Vue);
-        mainFrame.add(pion);
-        mainFrame.add(grandPano);
-        setContentPane(mainFrame);
-        mainFrame.revalidate();
+    public void afficheRoyaumeJoueur(){
+        grandPano.removeAll();
+        JPanel royaumeCentre = new JPanel();
+        royaumeCentre.setBackground(Color.BLUE);
+        JButton selection;
+        JPanel grille = new JPanel(new GridLayout(3,3));
+        JPanel blanc = new JPanel();
+        blanc.setBackground(Color.white);
+
+        for(int i=0;i<=8;i++){
+            if(i==4){
+                grille.add(royaumeCentre);
+            }else if(i%2!=0){
+                selection = new JButton();
+                selection.addActionListener(new ControlRoyaume(this));
+                selection.setActionCommand(""+i);
+                grille.add(selection);
+            }else if(i!=4){
+                selection = new JButton();
+                grille.add(selection);
+            }
+        }
+        setContentPane(grille);
+        revalidate();
+    }
+
+    public void ajouteDomino(int noDomino, int emplacement){
+        grandPano.removeAll();
+        JPanel royaumeCentre = new JPanel();
+        royaumeCentre.setBackground(Color.BLUE);
+        JButton selection;
+        JPanel grille = new JPanel(new GridLayout(3,3));
+        JPanel blanc = new JPanel();
+        blanc.setBackground(Color.white);
+
+        for(int i=0;i<=8;i++){
+            if(i==4){
+                grille.add(royaumeCentre);
+            }else if(i==emplacement){
+                selection = new JButton();
+                Icon image = new ImageIcon("images/"+noDomino+".png");
+                selection.setIcon(image);
+                grille.add(selection);
+            }else{
+                selection = new JButton();
+                grille.add(selection);
+            }
+        }
+        setContentPane(grille);
+        revalidate();
     }
 
 

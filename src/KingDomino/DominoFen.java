@@ -4,37 +4,32 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DominoFen {
-    Tuile tuile1;
-    Tuile tuile2;
+    int numDomino;
+    String chemin;
     JButton bouton1;
-    JButton bouton2;
-    public DominoFen(Tuile tuile1, Tuile tuile2){
-        this.tuile1 = tuile1;
-        this.tuile2 = tuile2;
+    Fenetre fen;
+    public DominoFen(int noDomino, Fenetre fen){
+        this.fen = fen;
+        numDomino = noDomino;
+        chemin = donneCheminDomino(noDomino);
         bouton1 = new JButton();
-        bouton1.setBackground(donneCouleurTerrain(tuile1));
-        bouton2=new JButton();
-        bouton2.setBackground(donneCouleurTerrain(tuile2));
+        Icon icon = new ImageIcon(donneCheminDomino(noDomino));
+        ControlBouton listener = new ControlBouton(fen);
+        bouton1.addActionListener(listener);
+        bouton1.setActionCommand(""+noDomino);
+        bouton1.setIcon(icon);
     }
 
-    public Color donneCouleurTerrain(Tuile tuile) {
-
-        switch (tuile.getTerrain()) {
-            case CHAMPS:
-                return Color.green;
-            case LAC:
-                return Color.blue;
-            case MONTAGNES:
-                return Color.gray;
-            case MARAIS:
-                return Color.red;
-            case PRAIRIE:
-                return Color.orange;
-            case FORET:
-                return Color.pink;
-            case DEPART:
-                return Color.black;
+    public String donneCheminDomino(int numeroDomino){
+        String retour = "images/";
+        if(numeroDomino<10){
+            retour += "0"+numeroDomino+".png";
+            System.out.println(retour);
+        }else {
+            retour += numeroDomino + ".png";
+            System.out.println(retour);
         }
-        return Color.white;
+        return retour;
     }
+
 }
