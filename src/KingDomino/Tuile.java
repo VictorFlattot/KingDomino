@@ -1,6 +1,7 @@
 package KingDomino;
 
 public class Tuile {
+	private int id;
 	private int nbCouronne;
 	private Terrain terrain;
 
@@ -21,8 +22,16 @@ public class Tuile {
 	@Override
 	public String toString() {
 		return "Tuile{" +
-				"nbCouronne=" + nbCouronne +
+				", nbCouronne=" + nbCouronne +
 				", terrain=" + terrain +
 				'}';
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

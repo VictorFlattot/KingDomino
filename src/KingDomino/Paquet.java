@@ -22,7 +22,7 @@ public class Paquet {
 		initDominoEntre34et48();
 
 		setIdDominos();
-
+		showDominos();
 
 
 
@@ -84,6 +84,7 @@ public class Paquet {
 	private void setIdDominos() {
 		for (int i = 0; i < dominos.size(); i++) {
 			dominos.get(i).setId(i+1);
+
 		}
 	}
 
