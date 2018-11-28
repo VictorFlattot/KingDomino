@@ -4,6 +4,7 @@ package KingDomino;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class FenetreTest extends JFrame {
 	private ModelTest model;
 	private JFrame jFrame;
 	private JLabel jLabel;
-	private JButton[] jButtonTuillesCentre;
+	private Bouton[] jButtonTuillesCentre;
 	private JPanel jPanelCentre;
 
 	public FenetreTest(ModelTest model ) throws IOException {
@@ -32,7 +33,7 @@ public class FenetreTest extends JFrame {
 		jFrame.setLayout(new BorderLayout());
 		jLabel = new JLabel("test");
 		jPanelCentre = new JPanel();
-		jButtonTuillesCentre = new JButton[4];
+		jButtonTuillesCentre = new Bouton[4];
 		jFrame.add(jLabel,BorderLayout.NORTH);
 		jFrame.pack();
 
@@ -44,7 +45,7 @@ public class FenetreTest extends JFrame {
 			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(
 					model.getTuilesAuCentre().getDominoTab()[i].getId())));
 
-			jButtonTuillesCentre[i] = new JButton();
+			jButtonTuillesCentre[i] = new Bouton();
 			jButtonTuillesCentre[i].setIcon(new ImageIcon(bi));
 			jPanelCentre.add(jButtonTuillesCentre[i]);
 		}
@@ -56,12 +57,19 @@ public class FenetreTest extends JFrame {
 	public String donneCheminDomino(int numeroDomino){
 		String retour = "img/";
 		if(numeroDomino<10){
-			retour += "0"+numeroDomino+".pivoté90.png";
+			retour += "0"+numeroDomino+".pivoté90.jpg";
 			System.out.println(retour);
 		}else {
-			retour += numeroDomino + ".pivoté90.png";
+			retour += numeroDomino + ".pivoté90.jpg";
 			System.out.println(retour);
 		}
 		return retour;
+	}
+
+	public void setActionListenerTuileCentre(ActionListener actionListener){
+		for (int i = 0; i < 4; i++) {
+			jButtonTuillesCentre[i].setActionCommand(String.valueOf(model.getTuilesAuCentre().getDominoTab()[i].getId()));
+			jButtonTuillesCentre[i].addActionListener(actionListener);
+		}
 	}
 }
