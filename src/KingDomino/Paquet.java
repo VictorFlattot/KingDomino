@@ -86,6 +86,9 @@ public class Paquet {
 			dominos.get(i).setId(i+1);
 
 		}
+		for (int i = 0; i < tuileList.size(); i++) {
+			tuileList.get(i).setId(i);
+		}
 	}
 
 
@@ -123,14 +126,6 @@ public class Paquet {
 
 	}
 
-
-
-	private void showTuiles() {
-		for (Tuile tuile :
-				tuileList) {
-			System.out.println(tuile);
-		}
-	}
 	private void showDominos() {
 			for (Domino domino :
 					dominos) {
