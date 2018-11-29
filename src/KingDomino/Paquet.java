@@ -22,7 +22,7 @@ public class Paquet {
 		initDominoEntre34et48();
 
 		setIdDominos();
-		showDominos();
+		//showDominos();
 
 
 

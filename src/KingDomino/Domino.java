@@ -20,13 +20,6 @@ public class Domino {
 
 	}
 
-	private boolean verifDepart() {
-
-		return (tuile1.getTerrain() == Terrain.DEPART)
-				&& (tuile2.getTerrain() == Terrain.DEPART)
-				&& (tuile1.getCouronne() == 0)
-				&& (tuile1.getCouronne() == 0);
-	}
 
 	public int getId() {
 		return id;
