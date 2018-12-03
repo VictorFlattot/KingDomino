@@ -10,7 +10,7 @@ public class Royaume {
 		this.taille=taille;
 		initRoyaume();
 		System.out.println(depart);
-		afficherRoyaume();
+
 
 	}
 
@@ -28,13 +28,6 @@ public class Royaume {
 		tuiles[x][y] = new Tuile(Terrain.DEPART,0);
 	}
 
-	void afficherRoyaume(){
-		for (int i = 0; i < taille; i++) {
-			for (int j = 0; j < taille; j++) {
-				System.out.println("x="+i+" y="+j+" " + tuiles[i][j]);
-			}
-		}
-	}
 
 	Tuile[][] matrice(){
 		return tuiles;
@@ -64,7 +57,6 @@ public class Royaume {
 				}
 			}
 		}
-		System.out.println("pas de depart");
 		return null;
 	}
 

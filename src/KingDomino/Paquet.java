@@ -12,6 +12,7 @@ public class Paquet {
 	public Paquet() {
 		initTuiles();
 		initDominos();
+		showTuile();
 
 	}
 
@@ -131,6 +132,13 @@ public class Paquet {
 					dominos) {
 				System.out.println(domino);
 			}
+	}
+
+	private void showTuile(){
+		for (Tuile tuile: tuileList
+			 ) {
+			System.out.println(tuile);
 		}
+	}
 
 }

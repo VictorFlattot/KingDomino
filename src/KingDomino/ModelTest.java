@@ -3,13 +3,14 @@ package KingDomino;
 public class ModelTest {
     private Paquet paquet;
     private TuilesAuCentre tuilesAuCentre;
-    private Joueur joueur;
+    private Joueur[] joueurs;
 
     public ModelTest() {
         paquet = new Paquet();
         paquet.shuffle();
         tuilesAuCentre = new TuilesAuCentre(paquet);
-        joueur = new Joueur("J1");
+        joueurs = new Joueur[4];
+        joueurs[0] = new Joueur("J1");
     }
 
 
@@ -29,11 +30,11 @@ public class ModelTest {
         this.tuilesAuCentre = tuilesAuCentre;
     }
 
-    public Joueur getJoueur() {
-        return joueur;
+    public Joueur[] getJoueurs() {
+        return joueurs;
     }
 
-    public void setJoueur(Joueur joueur) {
-        this.joueur = joueur;
+    public void setJoueurs(Joueur[] joueurs) {
+        this.joueurs = joueurs;
     }
 }

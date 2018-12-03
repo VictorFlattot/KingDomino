@@ -16,8 +16,9 @@ public class FenetreTest extends JFrame {
 	private JFrame jFrame;
 	private Bouton[] jButtonTuillesCentre;
 	private JPanel jPanelCentre;
+	private JPanel jPanelRoyaume;
 	private JPanel jPanelSouth;
-	private JLabel[][] jButtonRoyaumeJoueur;
+	private Bouton[][] jButtonRoyaumeJoueur;
 	private Royaume royaume;
 
 	public FenetreTest(ModelTest model ) throws IOException {
@@ -35,7 +36,12 @@ public class FenetreTest extends JFrame {
 		jPanelCentre = new JPanel();
 		jButtonTuillesCentre = new Bouton[4];
 		jPanelSouth = new JPanel();
-		jPanelSouth.setLayout(new GridLayout(5,5));
+		jPanelRoyaume = new JPanel();
+		jPanelRoyaume.setLayout(new GridLayout(5,5));
+		jPanelRoyaume.setMaximumSize(new Dimension(320,320));
+		jPanelRoyaume.setMinimumSize(new Dimension(320,320));
+
+		jPanelRoyaume.setPreferredSize(new Dimension(320,320));
 		jFrame.pack();
 
 	}
@@ -71,28 +77,39 @@ public class FenetreTest extends JFrame {
 		}
 	}
 
-	private void afficheRoyaume(){
-		royaume = model.getJoueur().getRoyaume();
+	private void afficheRoyaume() throws IOException {
+		royaume = model.getJoueurs()[0].getRoyaume();
 		System.out.println(royaume.getTuile(2,2));
-		jButtonRoyaumeJoueur = new JLabel[5][5];
+		jButtonRoyaumeJoueur = new Bouton[5][5];
+
+		final BufferedImage depart = ImageIO.read(new File("img/depart.jpg"));
+		final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
+
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-				jButtonRoyaumeJoueur[i][j] = new JLabel();
-				jButtonRoyaumeJoueur[i][j].setText(textLabel(i,j));
-				jPanelSouth.add(jButtonRoyaumeJoueur[i][j]);
+				jButtonRoyaumeJoueur[i][j] = new Bouton();
+
+				jButtonRoyaumeJoueur[i][j].setIcon(new ImageIcon(croix));
+
+				jPanelRoyaume.add(jButtonRoyaumeJoueur[i][j]);
 			}
 		}
-
+		jPanelRoyaume.setSize(jPanelRoyaume.getPreferredSize());
+		jPanelSouth.add(jPanelRoyaume);
+		jButtonRoyaumeJoueur[2][2].setIcon(new ImageIcon(depart));
+		jButtonRoyaumeJoueur[2][2].setDisabledIcon(new ImageIcon(depart));
 		jFrame.add(jPanelSouth,BorderLayout.SOUTH);
 		jFrame.pack();
 	}
-	/*
-		A ENLEVER APRES
-	 */
-	private String textLabel(int x,int y){
-		if (royaume.getTuile(x,y).getTerrain() == Terrain.DEPART) return "D";
-		return "vide";
+	
+
+
+	public void setActionListenerCaseRoyaume(ControlCaseRoyaume controlCaseRoyaume) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				jButtonRoyaumeJoueur[i][j].setActionCommand("" + i + "+" + j);
+				jButtonRoyaumeJoueur[i][j].addActionListener(controlCaseRoyaume);
+			}
+		}
 	}
-
-
 }
