@@ -12,7 +12,7 @@ public class TuilesAuCentre {
 		}
 
 		triOrdreCroissant();
-		showTuilesAuCentre();
+		//showTuilesAuCentre();
 	}
 
 
@@ -51,8 +51,9 @@ public class TuilesAuCentre {
 		return -1;
 	}
 
-
-
+	public Domino[] getDominoTab() {
+		return dominoTab;
+	}
 
 	public void showTuilesAuCentre(){
 		for (Domino domino: dominoTab) {

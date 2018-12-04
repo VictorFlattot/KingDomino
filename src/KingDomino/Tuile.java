@@ -22,6 +22,7 @@ public class Tuile {
 	@Override
 	public String toString() {
 		return "Tuile{" +
+				"id=" + id +
 				", nbCouronne=" + nbCouronne +
 				", terrain=" + terrain +
 				'}';
