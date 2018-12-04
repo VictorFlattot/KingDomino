@@ -9,7 +9,6 @@ public class Royaume {
 	public Royaume(int taille) {
 		this.taille=taille;
 		initRoyaume();
-		System.out.println(depart);
 
 
 	}
@@ -34,8 +33,6 @@ public class Royaume {
 	}
 
 	void addDominoRoyaume(Domino domino,int x1,int y1,int x2,int y2){
-		addTuille(domino.getTuile1(),x1,y1);
-		addTuille(domino.getTuile2(),x2,y2);
 
 	}
 

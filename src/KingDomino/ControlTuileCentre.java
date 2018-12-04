@@ -27,13 +27,17 @@ public class ControlTuileCentre implements ActionListener {
 		String actionCommandSplit[] = a.getActionCommand().split("/");
 		idDom = Integer.valueOf(actionCommandSplit[0]);
 		posDom = Integer.valueOf(actionCommandSplit[1]);
+
+		model.setDominoSelect(model.getTuilesAuCentre().getDominoTab()[posDom]);
+
 		try {
 			image = ImageIO.read(new File(fenetre.donneCheminDomino(idDom,0)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		fenetre.afficheTuileSelect(new ImageIcon(image),0);
-		fenetre.bloquerBoutonCentre(posDom);
-		//fenetre.afficheTuileSelect();
+		fenetre.afficheTuileSelect(new ImageIcon(image),idDom);
+		fenetre.bloquerToutBoutonCentre(true);
+
+
 	}
 }

@@ -37,22 +37,7 @@ public class TuilesAuCentre {
 		dominoTab[j]=tmp;
 	}
 
-	public int choisirDomino(int id){
 
-		if (isOnCenter(id)>0){
-			Domino domino = dominoTab[isOnCenter(id)];
-			domino.setEstChoisi(true);
-			return isOnCenter(id);
-
-		}return -1;
-	}
-
-	private int isOnCenter(int id) {
-		for (int i = 0; i < 4; i++) {
-			if (id == dominoTab[i].getId()) return i;
-		}
-		return -1;
-	}
 
 
 

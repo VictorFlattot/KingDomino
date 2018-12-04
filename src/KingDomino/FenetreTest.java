@@ -43,6 +43,8 @@ public class FenetreTest extends JFrame {
 		jPanelRoyaume = new JPanel();
 		jPanelRoyaume.setLayout(new GridLayout(5,5));
         controlRotationTuile = new ControlRotationTuile(model, this);
+		boutontuileSelect = new Bouton();
+		boutontuileSelect.addActionListener(controlRotationTuile);
 		jFrame.pack();
 
 	}
@@ -68,20 +70,22 @@ public class FenetreTest extends JFrame {
 	}
 
 	void afficheTuileSelect(Icon icon,int id){
-	    boutontuileSelect = new Bouton();
+
 	    boutontuileSelect.setIcon(icon);
 	    boutontuileSelect.setActionCommand(String.valueOf(id));
-
-        boutontuileSelect.addActionListener(controlRotationTuile);
 		jPanelTuileSelect.add(boutontuileSelect);
 		jFrame.revalidate();
 	}
 
-	void tournerTuileSelect(int rot,int idDom){
-        /*image = ImageIO.read(new File(donneCheminDomino(idDom,0)));
+	void tournerTuileSelect(int rot,int idDom) throws IOException {
+
+        BufferedImage image = ImageIO.read(new File(donneCheminDomino(idDom,rot)));
+        model.setRotDominoSelect(rot);
+		jFrame.revalidate();
         jPanelTuileSelect.remove(boutontuileSelect);
-        afficheTuileSelect();
-		*/
+		jFrame.revalidate();
+        afficheTuileSelect(new ImageIcon(image),idDom);
+		jFrame.revalidate();
     }
 
 	String donneCheminDomino(int numeroDomino , int rot){
@@ -105,7 +109,6 @@ public class FenetreTest extends JFrame {
 
 	private void afficheRoyaume() throws IOException {
 		royaume = model.getJoueurs()[0].getRoyaume();
-		System.out.println(royaume.getTuile(2,2));
 		jButtonRoyaumeJoueur = new Bouton[5][5];
 
 		final BufferedImage depart = ImageIO.read(new File("img/depart.jpg"));
@@ -139,12 +142,17 @@ public class FenetreTest extends JFrame {
 		}
 	}
 
-	public void bloquerBoutonCentre(int index){
+	public void bloquerToutBoutonCentre(boolean b){
 		for (int i = 0; i < 4; i++) {
-		    jButtonTuillesCentre[i].setEnabled(false);
-
+		    jButtonTuillesCentre[i].setEnabled(!b);
 		}
 	}
+
+	public void bloquerBoutonCentre(int index,boolean b){
+		jButtonTuillesCentre[index].setEnabled(b);
+	}
+
+
 
 
 }

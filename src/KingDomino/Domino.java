@@ -2,9 +2,13 @@ package KingDomino;
 
 public class Domino {
 	private int id;
+	private Tuile tuileNord;
+	private Tuile tuileSud;
+	private Tuile tuileEst;
+	private Tuile tuileOuest;
 	private Tuile tuile1;
 	private Tuile tuile2;
-	private boolean estChoisi;
+	private int rotation;
 
 	public Domino(Tuile tuile1,Tuile tuile2){
 		this(0,tuile1,tuile2);
@@ -12,12 +16,11 @@ public class Domino {
 
 	public Domino(int id, Tuile tuile1,Tuile tuile2) {
 		this.id = id;
-		this.tuile1 = tuile1;
-		this.tuile2 = tuile2;
-		this.id = id;
-		estChoisi=false;
-
-
+		this.tuileNord = null;
+		this.tuileSud = null;
+		this.tuileOuest = tuile1;
+		this.tuileEst = tuile2;
+		this.rotation = 0;
 	}
 
 
@@ -25,34 +28,44 @@ public class Domino {
 		return id;
 	}
 
-	public Tuile getTuile1() {
-		return tuile1;
-	}
-
-	public Tuile getTuile2() {
-		return tuile2;
-	}
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public boolean isEstChoisi() {
-		return estChoisi;
+
+
+	public Tuile getTuileNord() {
+		return tuileNord;
 	}
 
-	public void setEstChoisi(boolean estChoisi) {
-		this.estChoisi = estChoisi;
+	public void setTuileNord(Tuile tuileNord) {
+		this.tuileNord = tuileNord;
 	}
 
-	@Override
-	public String toString() {
-		return "Domino{" +
-				"id=" + id +
-				", tuile1=" + tuile1 +
-				", tuile2=" + tuile2 +
-				", estChoisi=" + estChoisi +
-				'}';
+	public Tuile getTuileSud() {
+		return tuileSud;
 	}
+
+	public void setTuileSud(Tuile tuileSud) {
+		this.tuileSud = tuileSud;
+	}
+
+	public Tuile getTuileEst() {
+		return tuileEst;
+	}
+
+	public void setTuileEst(Tuile tuileEst) {
+		this.tuileEst = tuileEst;
+	}
+
+	public Tuile getTuileOuest() {
+		return tuileOuest;
+	}
+
+	public void setTuileOuest(Tuile tuileOuest) {
+		this.tuileOuest = tuileOuest;
+	}
+
+
 }
+

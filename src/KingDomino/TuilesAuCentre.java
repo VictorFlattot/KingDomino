@@ -7,8 +7,8 @@ public class TuilesAuCentre {
 	public TuilesAuCentre(Paquet paquet) {
 		dominoTab = new Domino[4];
 		this.paquet = paquet;
-		for (int i = 0; i < 4; i++) {
-			dominoTab[i]=paquet.takeFirst();
+		for (int i = 0; i <4; i++) {
+			dominoTab[i]= paquet.takeFirst();
 		}
 
 		triOrdreCroissant();
@@ -32,23 +32,6 @@ public class TuilesAuCentre {
 		tmp = dominoTab[i];
 		dominoTab[i]=dominoTab[j];
 		dominoTab[j]=tmp;
-	}
-
-	public int choisirDomino(int id){
-
-		if (isOnCenter(id)>0){
-			Domino domino = dominoTab[isOnCenter(id)];
-			domino.setEstChoisi(true);
-			return isOnCenter(id);
-
-		}return -1;
-	}
-
-	private int isOnCenter(int id) {
-		for (int i = 0; i < 4; i++) {
-			if (id == dominoTab[i].getId()) return i;
-		}
-		return -1;
 	}
 
 	public Domino[] getDominoTab() {

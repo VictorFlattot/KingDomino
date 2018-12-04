@@ -22,15 +22,7 @@ public class DominoUnitTest {
 		Assert.assertEquals(d.getId(),49);
 	}
 
-	@Test
-	public void testCase1(){
-		Assert.assertEquals(d.getTuile1(), tuile1);
-	}
 
-	@Test
-	public void testCase2(){
-		Assert.assertEquals(d.getTuile2(), tuile2);
-	}
 
 
 }
