@@ -20,11 +20,14 @@ public class FenetreTest extends JFrame {
 	private JPanel jPanelSouth;
 	private Bouton[][] jButtonRoyaumeJoueur;
 	private Royaume royaume;
+	private JPanel jPanelTuileSelect;
+	private JButton boutontuileSelect;
+    private ControlRotationTuile controlRotationTuile;
 
-	public FenetreTest(ModelTest model ) throws IOException {
+    public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
 		initAtribut();
-		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.setVisible(true);
 		afficherTuilleAuCentre();
 		afficheRoyaume();
@@ -34,45 +37,68 @@ public class FenetreTest extends JFrame {
 		jFrame = new JFrame("KingDomino");
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
+		jPanelCentre.setLayout(new GridLayout(2,1));
 		jButtonTuillesCentre = new Bouton[4];
 		jPanelSouth = new JPanel();
 		jPanelRoyaume = new JPanel();
 		jPanelRoyaume.setLayout(new GridLayout(5,5));
-		jPanelRoyaume.setMaximumSize(new Dimension(320,320));
-		jPanelRoyaume.setMinimumSize(new Dimension(320,320));
-
-		jPanelRoyaume.setPreferredSize(new Dimension(320,320));
+        controlRotationTuile = new ControlRotationTuile(model, this);
 		jFrame.pack();
 
 	}
 
 	private void afficherTuilleAuCentre() throws IOException {
-
+		JPanel jPanelTuileAuCentre = new JPanel();
+		jPanelTuileSelect = new JPanel();
 		for (int i = 0; i < 4; i++) {
-			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(
-					model.getTuilesAuCentre().getDominoTab()[i].getId())));
+			int idDom = model.getTuilesAuCentre().getDominoTab()[i].getId();
+			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
+			final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
 
 			jButtonTuillesCentre[i] = new Bouton();
 			jButtonTuillesCentre[i].setIcon(new ImageIcon(bi));
-			jPanelCentre.add(jButtonTuillesCentre[i]);
+			jButtonTuillesCentre[i].setActionCommand(""+idDom+"/"+i);
+			jPanelTuileAuCentre.add(jButtonTuillesCentre[i]);
 		}
+		jPanelCentre.add(jPanelTuileAuCentre);
+		jPanelCentre.add(jPanelTuileSelect);
 		jFrame.add(jPanelCentre,BorderLayout.CENTER);
 		//jFrame.pack();
 
 	}
 
-	private String donneCheminDomino(int numeroDomino){
-		String retour = "img/";
-		if(numeroDomino<10) return "img/0"+ numeroDomino+".pivoté90.jpg";
-		return "img/"+ numeroDomino + ".pivoté90.jpg";
+	void afficheTuileSelect(Icon icon,int id){
+	    boutontuileSelect = new Bouton();
+	    boutontuileSelect.setIcon(icon);
+	    boutontuileSelect.setActionCommand(String.valueOf(id));
+
+        boutontuileSelect.addActionListener(controlRotationTuile);
+		jPanelTuileSelect.add(boutontuileSelect);
+		jFrame.revalidate();
+	}
+
+	void tournerTuileSelect(int rot,int idDom){
+        /*image = ImageIO.read(new File(donneCheminDomino(idDom,0)));
+        jPanelTuileSelect.remove(boutontuileSelect);
+        afficheTuileSelect();
+		*/
+    }
+
+	String donneCheminDomino(int numeroDomino , int rot){
+	    String nomImg ="";
+	    switch (rot){
+            case 0:break;
+            case 90:nomImg=".pivoté90";break;
+            case 180:nomImg=".pivoté180";break;
+            case 270:nomImg=".pivoté270";break;
+        }
+		if(numeroDomino<10) return "img/0"+ numeroDomino+ nomImg +".jpg";
+		return "img/"+ numeroDomino + nomImg +".jpg";
 
 	}
 
 	public void setActionListenerTuileCentre(ActionListener actionListener){
 		for (int i = 0; i < 4; i++) {
-			jButtonTuillesCentre[i].setActionCommand(
-					String.valueOf(model.getTuilesAuCentre().getDominoTab()[i].getId())
-			);
 			jButtonTuillesCentre[i].addActionListener(actionListener);
 		}
 	}
@@ -112,4 +138,13 @@ public class FenetreTest extends JFrame {
 			}
 		}
 	}
+
+	public void bloquerBoutonCentre(int index){
+		for (int i = 0; i < 4; i++) {
+		    jButtonTuillesCentre[i].setEnabled(false);
+
+		}
+	}
+
+
 }
