@@ -45,6 +45,9 @@ public class ControlRotationTuile implements ActionListener {
                 dominoSelect.setTuileOuest(dominoSelect.getTuileSud());
             break;
         }
+        System.out.println("T1 : " + dominoSelect.getTuiles()[0]);
+        System.out.println("T2 : " + dominoSelect.getTuiles()[1]);
+
 
 
 

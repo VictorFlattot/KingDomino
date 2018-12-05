@@ -6,8 +6,6 @@ public class Domino {
 	private Tuile tuileSud;
 	private Tuile tuileEst;
 	private Tuile tuileOuest;
-	private Tuile tuile1;
-	private Tuile tuile2;
 	private int rotation;
 
 	public Domino(Tuile tuile1,Tuile tuile2){
@@ -66,6 +64,31 @@ public class Domino {
 		this.tuileOuest = tuileOuest;
 	}
 
+	public int getRotation() {
+		return rotation;
+	}
 
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
+	}
+
+	public Tuile[] getTuiles(){
+        System.out.println(rotation);
+        Tuile[] tuiles = new Tuile[2];
+        if (rotation==0){
+            tuiles[0] = tuileOuest;
+            tuiles[1] = tuileEst;
+        }
+        if (rotation==180){
+            tuiles[0] = tuileEst;
+            tuiles[1] = tuileOuest;
+        }
+        if (rotation==90 || rotation==270){
+            tuiles[0] = tuileNord;
+            tuiles[1] = tuileSud;
+        }
+
+        return tuiles;
+    }
 }
 

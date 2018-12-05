@@ -81,11 +81,8 @@ public class FenetreTest extends JFrame {
 
         BufferedImage image = ImageIO.read(new File(donneCheminDomino(idDom,rot)));
         model.setRotDominoSelect(rot);
-		jFrame.revalidate();
         jPanelTuileSelect.remove(boutontuileSelect);
-		jFrame.revalidate();
         afficheTuileSelect(new ImageIcon(image),idDom);
-		jFrame.revalidate();
     }
 
 	String donneCheminDomino(int numeroDomino , int rot){

@@ -13,7 +13,7 @@ public class ModelTest {
         tuilesAuCentre = new TuilesAuCentre(paquet);
         joueurs = new Joueur[4];
         joueurs[0] = new Joueur("J1");
-        rotDominoSelect = 0;
+
     }
 
 
@@ -42,11 +42,11 @@ public class ModelTest {
     }
 
     public int getRotDominoSelect() {
-        return rotDominoSelect;
+        return dominoSelect.getRotation();
     }
 
     public void setRotDominoSelect(int rotDominoSelect) {
-        this.rotDominoSelect = rotDominoSelect;
+        dominoSelect.setRotation(rotDominoSelect);
     }
 
     public Domino getDominoSelect() {
