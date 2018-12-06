@@ -34,13 +34,11 @@ public class Royaume {
 		return tuiles;
 	}
 
-	void addDominoRoyaume(Domino domino, int x, int y){
+	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2){
 		Tuile[] tuilesDomino = domino.getTuiles();
 		addTuille(tuilesDomino[0],x,y);
-		int rotation = domino.getRotation();
-				if (rotation==0 || rotation==180) addTuille(tuilesDomino[1],x+1,y);
-				if (rotation==90 || rotation==270) addTuille(tuilesDomino[1],x,y+1);
-				showRoyaume();
+		addTuille(tuilesDomino[1],x2,y2);
+		showRoyaume();
 
 	}
 

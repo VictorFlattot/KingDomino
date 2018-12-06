@@ -4,6 +4,7 @@ public class Joueur {
 
     private String nom;
     private Royaume royaume;
+    private boolean estJoueurActuel;
 
     public Joueur(String nom) {
         this.nom = nom;
@@ -24,5 +25,13 @@ public class Joueur {
 
     public void setRoyaume(Royaume royaume) {
         this.royaume = royaume;
+    }
+
+    public boolean isEstJoueurActuel() {
+        return estJoueurActuel;
+    }
+
+    public void setEstJoueurActuel(boolean estJoueurActuel) {
+        this.estJoueurActuel = estJoueurActuel;
     }
 }

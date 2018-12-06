@@ -130,6 +130,7 @@ public class FenetreTest extends JFrame {
 			}
 		}
 		bloquerToutBoutonRoyaume(true);
+		jPanelRoyaume.setPreferredSize(new Dimension(320,320));
 		jPanelRoyaume.setSize(jPanelRoyaume.getPreferredSize());
 		jPanelSouth.add(jPanelRoyaume);
 		afficherTuileRoyaume(new ImageIcon(depart),2,2);

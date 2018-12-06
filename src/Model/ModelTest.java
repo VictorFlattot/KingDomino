@@ -4,9 +4,9 @@ public class ModelTest {
     private Paquet paquet;
     private TuilesAuCentre tuilesAuCentre;
     private Joueur[] joueurs;
-    private Joueur joueurActuel;
     private int rotDominoSelect;
     private Domino dominoSelect;
+
 
     public ModelTest() {
         paquet = new Paquet();
@@ -14,7 +14,7 @@ public class ModelTest {
         tuilesAuCentre = new TuilesAuCentre(paquet);
         joueurs = new Joueur[4];
         joueurs[0] = new Joueur("J1");
-        joueurActuel=joueurs[0];
+        joueurs[0].setEstJoueurActuel(true);
 
     }
 
@@ -59,13 +59,17 @@ public class ModelTest {
         this.dominoSelect = dominoSelect;
     }
 
-    public void addDominoRoyaume(Domino domino,int idJoueur,int x,int y){
-        joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino,x,y);
+    public void addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
+        joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino,x,y,x2,y2);
     }
 
-    public int indexJoueur(){
+    public void setJoueurActuel(int index){
+        joueurs[index].setEstJoueurActuel(true);
+    }
+
+    public int getJoueurActuel(){
         for (int i = 0; i < joueurs.length; i++) {
-            if (joueurs[i] == joueurActuel)
+            if (joueurs[i].isEstJoueurActuel())
                 return i;
         }
         return -1;

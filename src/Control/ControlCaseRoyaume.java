@@ -3,6 +3,7 @@ package Control;
 import Fenetre.FenetreTest;
 import Model.Domino;
 import Model.ModelTest;
+import Model.Royaume;
 import Model.Tuile;
 
 import javax.imageio.ImageIO;
@@ -19,6 +20,7 @@ public class ControlCaseRoyaume implements ActionListener {
     private Domino domino;
     private int x;
     private int y;
+    private Royaume royaume;
 
 
     public ControlCaseRoyaume(ModelTest model, FenetreTest fenetre) {
@@ -32,8 +34,15 @@ public class ControlCaseRoyaume implements ActionListener {
         domino = model.getDominoSelect();
         x = Integer.valueOf(e.getActionCommand().split("/")[0]);
         y = Integer.valueOf(e.getActionCommand().split("/")[1]);
+        int x2=x;
+        int y2=y;
 
-        model.addDominoRoyaume(domino, model.indexJoueur(),x,y);
+        int rotation = domino.getRotation();
+        if (rotation==0 || rotation==180) y2+=1;
+        if (rotation==90 || rotation==270) x2-=1;
+
+        model.addDominoRoyaume(domino, model.getJoueurActuel(),x,y,x2,y2);
+        royaume = model.getJoueurs()[model.getJoueurActuel()].getRoyaume();
 
         Tuile[] tuile = domino.getTuiles();
         BufferedImage imgTuile2 = null;
@@ -46,6 +55,8 @@ public class ControlCaseRoyaume implements ActionListener {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+
         fenetre.afficherTuileRoyaume(new ImageIcon(imgTuile1),x,y);
+        fenetre.afficherTuileRoyaume(new ImageIcon(imgTuile2),x2,y2);
     }
 }
