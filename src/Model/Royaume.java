@@ -9,6 +9,8 @@ public class Royaume {
 	public Royaume(int taille) {
 		this.taille=taille;
 		initRoyaume();
+		showRoyaume();
+
 
 
 	}
@@ -32,7 +34,13 @@ public class Royaume {
 		return tuiles;
 	}
 
-	void addDominoRoyaume(Domino domino, int x1, int y1){
+	void addDominoRoyaume(Domino domino, int x, int y){
+		Tuile[] tuilesDomino = domino.getTuiles();
+		addTuille(tuilesDomino[0],x,y);
+		int rotation = domino.getRotation();
+				if (rotation==0 || rotation==180) addTuille(tuilesDomino[1],x+1,y);
+				if (rotation==90 || rotation==270) addTuille(tuilesDomino[1],x,y+1);
+				showRoyaume();
 
 	}
 
@@ -55,6 +63,14 @@ public class Royaume {
 			}
 		}
 		return null;
+	}
+
+	void showRoyaume(){
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				System.out.println(tuiles[i][j]);
+			}
+		}
 	}
 
 }

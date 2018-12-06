@@ -103,6 +103,11 @@ public class FenetreTest extends JFrame {
 
 	}
 
+	public String donneCheminTuile(int idTuile , int rot){
+		return "img/"+ idTuile  +".jpg";
+
+	}
+
 	public void setActionListenerTuileCentre(ActionListener actionListener){
 		for (int i = 0; i < 4; i++) {
 			jButtonTuillesCentre[i].addActionListener(actionListener);
@@ -113,24 +118,27 @@ public class FenetreTest extends JFrame {
 		royaume = model.getJoueurs()[0].getRoyaume();
 		jButtonRoyaumeJoueur = new Bouton[5][5];
 
+
 		final BufferedImage depart = ImageIO.read(new File("img/depart.jpg"));
 		final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
 
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				jButtonRoyaumeJoueur[i][j] = new Bouton();
-
-				jButtonRoyaumeJoueur[i][j].setIcon(new ImageIcon(croix));
-
+				afficherTuileRoyaume(new ImageIcon(croix),i,j);
 				jPanelRoyaume.add(jButtonRoyaumeJoueur[i][j]);
 			}
 		}
+		bloquerToutBoutonRoyaume(true);
 		jPanelRoyaume.setSize(jPanelRoyaume.getPreferredSize());
 		jPanelSouth.add(jPanelRoyaume);
-		jButtonRoyaumeJoueur[2][2].setIcon(new ImageIcon(depart));
-		jButtonRoyaumeJoueur[2][2].setDisabledIcon(new ImageIcon(depart));
+		afficherTuileRoyaume(new ImageIcon(depart),2,2);
 		jFrame.add(jPanelSouth,BorderLayout.SOUTH);
 		jFrame.pack();
+	}
+
+	public void afficherTuileRoyaume(Icon icon,int x,int y){
+    	jButtonRoyaumeJoueur[x][y].setIcon(icon);
 	}
 	
 
@@ -138,8 +146,11 @@ public class FenetreTest extends JFrame {
 	public void setActionListenerCaseRoyaume(ControlCaseRoyaume controlCaseRoyaume) {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-				jButtonRoyaumeJoueur[i][j].setActionCommand("" + i + "+" + j);
-				jButtonRoyaumeJoueur[i][j].addActionListener(controlCaseRoyaume);
+				if (i!=2 || j!=2){
+
+					jButtonRoyaumeJoueur[i][j].setActionCommand("" + i + "/"+ j);
+					jButtonRoyaumeJoueur[i][j].addActionListener(controlCaseRoyaume);
+				}
 			}
 		}
 	}
@@ -147,6 +158,14 @@ public class FenetreTest extends JFrame {
 	public void bloquerToutBoutonCentre(boolean b){
 		for (int i = 0; i < 4; i++) {
 		    jButtonTuillesCentre[i].setEnabled(!b);
+		}
+	}
+
+	public void bloquerToutBoutonRoyaume(boolean b){
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				jButtonRoyaumeJoueur[i][j].setEnabled(!b);
+			}
 		}
 	}
 

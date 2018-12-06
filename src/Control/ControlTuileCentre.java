@@ -40,6 +40,7 @@ public class ControlTuileCentre implements ActionListener {
 		}
 		fenetre.afficheTuileSelect(new ImageIcon(image),idDom);
 		fenetre.bloquerToutBoutonCentre(true);
+		fenetre.bloquerToutBoutonRoyaume(false);
 		System.out.println(model.getDominoSelect().getRotation());
 
 
