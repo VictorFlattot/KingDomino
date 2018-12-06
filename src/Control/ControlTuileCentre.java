@@ -1,6 +1,6 @@
 package Control;
 
-import Fenetre.FenetreTest;
+import Vues.FenetreTest;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -41,6 +41,7 @@ public class ControlTuileCentre implements ActionListener {
 		fenetre.afficheTuileSelect(new ImageIcon(image),idDom);
 		fenetre.bloquerToutBoutonCentre(true);
 		fenetre.bloquerToutBoutonRoyaume(false);
+		model.setDominoDejaPlacé(posDom,true);
 		System.out.println(model.getDominoSelect().getRotation());
 
 

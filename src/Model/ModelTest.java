@@ -6,6 +6,7 @@ public class ModelTest {
     private Joueur[] joueurs;
     private int rotDominoSelect;
     private Domino dominoSelect;
+    private boolean[] dominoDejaPlacé;
 
 
     public ModelTest() {
@@ -15,6 +16,7 @@ public class ModelTest {
         joueurs = new Joueur[4];
         joueurs[0] = new Joueur("J1");
         joueurs[0].setEstJoueurActuel(true);
+        dominoDejaPlacé = new boolean[4];
 
     }
 
@@ -74,4 +76,13 @@ public class ModelTest {
         }
         return -1;
     }
+
+    public void setDominoDejaPlacé(int index,boolean b){
+        dominoDejaPlacé[index]=b;
+    }
+
+    public boolean[] getDominoDejaPlacé() {
+        return dominoDejaPlacé;
+    }
+
 }

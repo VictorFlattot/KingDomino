@@ -1,6 +1,6 @@
 package Control;
 
-import Fenetre.FenetreTest;
+import Vues.FenetreTest;
 import Model.Domino;
 import Model.ModelTest;
 import Model.Royaume;
@@ -58,5 +58,8 @@ public class ControlCaseRoyaume implements ActionListener {
 
         fenetre.afficherTuileRoyaume(new ImageIcon(imgTuile1),x,y);
         fenetre.afficherTuileRoyaume(new ImageIcon(imgTuile2),x2,y2);
+
+
+        fenetre.nouvelleSelectionDomino();
     }
 }

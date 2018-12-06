@@ -1,6 +1,6 @@
 package Control;
 
-import Fenetre.FenetreTest;
+import Vues.FenetreTest;
 import Model.ModelTest;
 
 import java.io.IOException;

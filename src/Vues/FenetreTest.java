@@ -1,4 +1,4 @@
-package Fenetre;
+package Vues;
 
 
 import Control.ControlCaseRoyaume;
@@ -39,7 +39,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	private void initAtribut() {
-		jFrame = new JFrame("Fenetre");
+		jFrame = new JFrame("KingDomino");
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new GridLayout(2,1));
@@ -79,7 +79,8 @@ public class FenetreTest extends JFrame {
 	    boutontuileSelect.setIcon(icon);
 	    boutontuileSelect.setActionCommand(String.valueOf(id));
 		jPanelTuileSelect.add(boutontuileSelect);
-		jFrame.revalidate();
+		jPanelTuileSelect.revalidate();
+		jFrame.repaint();
 	}
 
 	public void tournerTuileSelect(int rot,int idDom) throws IOException {
@@ -141,8 +142,6 @@ public class FenetreTest extends JFrame {
 	public void afficherTuileRoyaume(Icon icon,int x,int y){
     	jButtonRoyaumeJoueur[x][y].setIcon(icon);
 	}
-	
-
 
 	public void setActionListenerCaseRoyaume(ControlCaseRoyaume controlCaseRoyaume) {
 		for (int i = 0; i < 5; i++) {
@@ -170,11 +169,28 @@ public class FenetreTest extends JFrame {
 		}
 	}
 
-	public void bloquerBoutonCentre(int index,boolean b){
+	private void bloquerBoutonCentre(int index,boolean b){
 		jButtonTuillesCentre[index].setEnabled(b);
 	}
 
+	public void nouvelleSelectionDomino(){
+    	jPanelTuileSelect.remove(boutontuileSelect);
+    	bloquerToutBoutonRoyaume(true);
+    	bloquerBoutonDominoDejaPlacé();
+    	jPanelTuileSelect.revalidate();
+		jFrame.repaint();
+	}
 
+	private void bloquerBoutonDominoDejaPlacé(){
+		for (int i = 0; i < 4; i++) {
+				bloquerBoutonCentre(i,!model.getDominoDejaPlacé()[i]);
+		}
+	}
+
+	public void afficheErrPlacement(){
+		JOptionPane.showMessageDialog(jFrame,
+				"Eggs are not supposed to be green.");
+	}
 
 
 }

@@ -1,4 +1,4 @@
-package Fenetre;
+package Vues;
 
 import javax.swing.*;
 

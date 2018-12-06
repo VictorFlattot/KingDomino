@@ -30,6 +30,7 @@ public class Royaume {
 	}
 
 
+
 	Tuile[][] matrice(){
 		return tuiles;
 	}
@@ -43,6 +44,7 @@ public class Royaume {
 	}
 
 	void addTuille(Tuile tuile,int x,int y){
+		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)
 		tuiles[x][y] = tuile;
 	}
 
@@ -52,9 +54,9 @@ public class Royaume {
 
 	public int[] getDepart() {
 		int[] coordDepart = new int[2];
-		for (int i = 0; i < taille; i++) {
-			for (int j = 0; j < taille; j++) {
-				if (tuiles[i][j].getTerrain() == Terrain.DEPART){
+		for (int i = 0; i < 5; i++){
+			for (int j = 0; j < 5; j++) {
+				if (tuiles[i][j] == depart){
 					coordDepart[0]=i;
 					coordDepart[1]=j;
 				}

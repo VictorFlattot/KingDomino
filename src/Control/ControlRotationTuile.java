@@ -1,7 +1,7 @@
 package Control;
 
 import Model.Domino;
-import Fenetre.FenetreTest;
+import Vues.FenetreTest;
 import Model.ModelTest;
 import Model.Tuile;
 
