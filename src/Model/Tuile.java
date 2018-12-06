@@ -1,4 +1,4 @@
-package KingDomino;
+package Model;
 
 public class Tuile {
 	private int id;

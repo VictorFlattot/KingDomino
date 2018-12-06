@@ -1,4 +1,7 @@
-package KingDomino;
+package Control;
+
+import Fenetre.FenetreTest;
+import Model.ModelTest;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -37,6 +40,7 @@ public class ControlTuileCentre implements ActionListener {
 		}
 		fenetre.afficheTuileSelect(new ImageIcon(image),idDom);
 		fenetre.bloquerToutBoutonCentre(true);
+		System.out.println(model.getDominoSelect().getRotation());
 
 
 	}

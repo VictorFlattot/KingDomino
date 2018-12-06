@@ -1,4 +1,4 @@
-package KingDomino;
+package Model;
 
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Paquet {
 	List<Domino> dominos;
-	static List<Tuile> tuileList;
+	List<Tuile> tuileList;
 
 	public Paquet() {
 		initTuiles();

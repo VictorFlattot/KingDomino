@@ -1,4 +1,4 @@
-package KingDomino;
+package Model;
 
 public class ModelTest {
     private Paquet paquet;
@@ -55,5 +55,9 @@ public class ModelTest {
 
     public void setDominoSelect(Domino dominoSelect) {
         this.dominoSelect = dominoSelect;
+    }
+
+    public void addDominoRoyaume(Domino domino,int idJoueur,int x,int y){
+        joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino,x,y);
     }
 }

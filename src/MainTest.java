@@ -1,4 +1,5 @@
-package KingDomino;
+import Control.ControlGroup;
+import Model.ModelTest;
 
 import java.io.IOException;
 

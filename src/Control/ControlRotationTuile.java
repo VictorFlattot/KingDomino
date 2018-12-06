@@ -1,8 +1,12 @@
-package KingDomino;
+package Control;
+
+import Model.Domino;
+import Fenetre.FenetreTest;
+import Model.ModelTest;
+import Model.Tuile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ControlRotationTuile implements ActionListener {
@@ -26,16 +30,19 @@ public class ControlRotationTuile implements ActionListener {
         switch (model.getRotDominoSelect()){
             case 0:
                 rot=90;
+                model.setRotDominoSelect(rot);
                 dominoSelect.setTuileNord(dominoSelect.getTuileOuest());
                 dominoSelect.setTuileSud(dominoSelect.getTuileEst());
             break;
             case 90:
                 rot=180;
+                model.setRotDominoSelect(rot);
                 dominoSelect.setTuileEst(dominoSelect.getTuileNord());
                 dominoSelect.setTuileOuest(dominoSelect.getTuileSud());
             break;
             case 180:
                 rot=270;
+                model.setRotDominoSelect(rot);
                 dominoSelect.setTuileNord(dominoSelect.getTuileOuest());
                 dominoSelect.setTuileSud(dominoSelect.getTuileEst());
             break;
@@ -43,17 +50,9 @@ public class ControlRotationTuile implements ActionListener {
                 rot=0;
                 dominoSelect.setTuileEst(dominoSelect.getTuileNord());
                 dominoSelect.setTuileOuest(dominoSelect.getTuileSud());
+                model.setRotDominoSelect(rot);
             break;
         }
-        System.out.println("T1 : " + dominoSelect.getTuiles()[0]);
-        System.out.println("T2 : " + dominoSelect.getTuiles()[1]);
-
-
-
-
-
-
-
         try {
             fenetre.tournerTuileSelect(rot, Integer.valueOf(e.getActionCommand()));
         } catch (IOException e1) {

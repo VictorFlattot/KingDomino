@@ -1,4 +1,4 @@
-package KingDomino;
+package Model;
 
 public class Royaume {
 	private int taille;
@@ -32,7 +32,7 @@ public class Royaume {
 		return tuiles;
 	}
 
-	void addDominoRoyaume(Domino domino,int x1,int y1,int x2,int y2){
+	void addDominoRoyaume(Domino domino, int x1, int y1){
 
 	}
 

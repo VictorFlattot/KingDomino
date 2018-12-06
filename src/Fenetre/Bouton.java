@@ -1,4 +1,4 @@
-package KingDomino;
+package Fenetre;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package KingDomino;
+package Model;
 
 public class Domino {
 	private int id;
@@ -73,20 +73,17 @@ public class Domino {
 	}
 
 	public Tuile[] getTuiles(){
-        System.out.println(rotation);
+
         Tuile[] tuiles = new Tuile[2];
-        if (rotation==0){
+        if (rotation==0 || rotation==180){
             tuiles[0] = tuileOuest;
             tuiles[1] = tuileEst;
         }
-        if (rotation==180){
-            tuiles[0] = tuileEst;
-            tuiles[1] = tuileOuest;
-        }
+
         if (rotation==90 || rotation==270){
-            tuiles[0] = tuileNord;
-            tuiles[1] = tuileSud;
-        }
+			tuiles[0] = tuileSud;
+			tuiles[1] = tuileNord;
+		}
 
         return tuiles;
     }

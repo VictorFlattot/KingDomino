@@ -1,5 +1,10 @@
-package KingDomino;
+package Fenetre;
 
+
+import Control.ControlCaseRoyaume;
+import Control.ControlRotationTuile;
+import Model.ModelTest;
+import Model.Royaume;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -34,7 +39,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	private void initAtribut() {
-		jFrame = new JFrame("KingDomino");
+		jFrame = new JFrame("Fenetre");
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new GridLayout(2,1));
@@ -69,7 +74,7 @@ public class FenetreTest extends JFrame {
 
 	}
 
-	void afficheTuileSelect(Icon icon,int id){
+	public void afficheTuileSelect(Icon icon,int id){
 
 	    boutontuileSelect.setIcon(icon);
 	    boutontuileSelect.setActionCommand(String.valueOf(id));
@@ -77,15 +82,15 @@ public class FenetreTest extends JFrame {
 		jFrame.revalidate();
 	}
 
-	void tournerTuileSelect(int rot,int idDom) throws IOException {
+	public void tournerTuileSelect(int rot,int idDom) throws IOException {
 
         BufferedImage image = ImageIO.read(new File(donneCheminDomino(idDom,rot)));
-        model.setRotDominoSelect(rot);
+
         jPanelTuileSelect.remove(boutontuileSelect);
         afficheTuileSelect(new ImageIcon(image),idDom);
     }
 
-	String donneCheminDomino(int numeroDomino , int rot){
+	public String donneCheminDomino(int numeroDomino , int rot){
 	    String nomImg ="";
 	    switch (rot){
             case 0:break;
