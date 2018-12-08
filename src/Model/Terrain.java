@@ -1,4 +1,4 @@
-package KingDomino;
+package Model;
 
 public enum Terrain {
 	CHAMPS,

@@ -1,4 +1,4 @@
-package KingDomino;
+package Vues;
 
 import javax.swing.*;
 

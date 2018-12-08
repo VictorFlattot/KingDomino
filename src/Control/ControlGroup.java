@@ -1,4 +1,7 @@
-package KingDomino;
+package Control;
+
+import Vues.FenetreTest;
+import Model.ModelTest;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package KingDomino;
+package Model;
 
 public class Royaume {
 	private int taille;
@@ -9,7 +9,8 @@ public class Royaume {
 	public Royaume(int taille) {
 		this.taille=taille;
 		initRoyaume();
-		System.out.println(depart);
+		showRoyaume();
+
 
 
 	}
@@ -29,17 +30,21 @@ public class Royaume {
 	}
 
 
+
 	Tuile[][] matrice(){
 		return tuiles;
 	}
 
-	void addDominoRoyaume(Domino domino,int x1,int y1,int x2,int y2){
-		addTuille(domino.getTuile1(),x1,y1);
-		addTuille(domino.getTuile2(),x2,y2);
+	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2){
+		Tuile[] tuilesDomino = domino.getTuiles();
+		addTuille(tuilesDomino[0],x,y);
+		addTuille(tuilesDomino[1],x2,y2);
+		showRoyaume();
 
 	}
 
 	void addTuille(Tuile tuile,int x,int y){
+		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)
 		tuiles[x][y] = tuile;
 	}
 
@@ -49,15 +54,23 @@ public class Royaume {
 
 	public int[] getDepart() {
 		int[] coordDepart = new int[2];
-		for (int i = 0; i < taille; i++) {
-			for (int j = 0; j < taille; j++) {
-				if (tuiles[i][j].getTerrain() == Terrain.DEPART){
+		for (int i = 0; i < 5; i++){
+			for (int j = 0; j < 5; j++) {
+				if (tuiles[i][j] == depart){
 					coordDepart[0]=i;
 					coordDepart[1]=j;
 				}
 			}
 		}
 		return null;
+	}
+
+	void showRoyaume(){
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				System.out.println(tuiles[i][j]);
+			}
+		}
 	}
 
 }

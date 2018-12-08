@@ -1,7 +1,4 @@
-package old;
-
-import KingDomino.Domino;
-import KingDomino.Paquet;
+package Model;
 
 public class TuilesAuCentre {
 	Domino[] dominoTab;
@@ -10,12 +7,12 @@ public class TuilesAuCentre {
 	public TuilesAuCentre(Paquet paquet) {
 		dominoTab = new Domino[4];
 		this.paquet = paquet;
-		for (int i = 0; i < 4; i++) {
-			dominoTab[i]=paquet.takeFirst();
+		for (int i = 0; i <4; i++) {
+			dominoTab[i]= paquet.takeFirst();
 		}
 
 		triOrdreCroissant();
-		showTuilesAuCentre();
+		//showTuilesAuCentre();
 	}
 
 
@@ -37,25 +34,9 @@ public class TuilesAuCentre {
 		dominoTab[j]=tmp;
 	}
 
-	public int choisirDomino(int id){
-
-		if (isOnCenter(id)>0){
-			Domino domino = dominoTab[isOnCenter(id)];
-			domino.setEstChoisi(true);
-			return isOnCenter(id);
-
-		}return -1;
+	public Domino[] getDominoTab() {
+		return dominoTab;
 	}
-
-	private int isOnCenter(int id) {
-		for (int i = 0; i < 4; i++) {
-			if (id == dominoTab[i].getId()) return i;
-		}
-		return -1;
-	}
-
-
-
 
 	public void showTuilesAuCentre(){
 		for (Domino domino: dominoTab) {
