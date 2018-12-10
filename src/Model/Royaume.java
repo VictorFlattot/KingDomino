@@ -39,7 +39,6 @@ public class Royaume {
 		Tuile[] tuilesDomino = domino.getTuiles();
 		addTuille(tuilesDomino[0],x,y);
 		addTuille(tuilesDomino[1],x2,y2);
-		showRoyaume();
 
 	}
 
@@ -48,7 +47,7 @@ public class Royaume {
 		tuiles[x][y] = tuile;
 	}
 
-	Tuile getTuile(int x,int y){
+	public Tuile getTuile(int x,int y){
 		return tuiles[x][y];
 	}
 

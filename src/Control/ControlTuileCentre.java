@@ -42,7 +42,7 @@ public class ControlTuileCentre implements ActionListener {
 		fenetre.bloquerToutBoutonCentre(true);
 		fenetre.bloquerToutBoutonRoyaume(false);
 		model.setDominoDejaPlacé(posDom,true);
-		System.out.println(model.getDominoSelect().getRotation());
+
 
 
 	}

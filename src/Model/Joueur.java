@@ -1,13 +1,15 @@
 package Model;
 
 public class Joueur {
-
+    private int id;
     private String nom;
     private Royaume royaume;
     private boolean estJoueurActuel;
 
-    public Joueur(String nom) {
+    public Joueur(String nom,int id) {
+        this.id = id;
         this.nom = nom;
+        estJoueurActuel = false;
         royaume = new Royaume(5);
     }
 
@@ -33,5 +35,13 @@ public class Joueur {
 
     public void setEstJoueurActuel(boolean estJoueurActuel) {
         this.estJoueurActuel = estJoueurActuel;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

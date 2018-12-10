@@ -41,8 +41,8 @@ public class ControlCaseRoyaume implements ActionListener {
         if (rotation==0 || rotation==180) y2+=1;
         if (rotation==90 || rotation==270) x2-=1;
 
-        model.addDominoRoyaume(domino, model.getJoueurActuel(),x,y,x2,y2);
-        royaume = model.getJoueurs()[model.getJoueurActuel()].getRoyaume();
+        model.addDominoRoyaume(domino, model.getJoueurActuel().getId(),x,y,x2,y2);
+        royaume = model.getJoueurs()[model.getJoueurActuel().getId()].getRoyaume();
 
         Tuile[] tuile = domino.getTuiles();
         BufferedImage imgTuile2 = null;
@@ -56,10 +56,14 @@ public class ControlCaseRoyaume implements ActionListener {
             e1.printStackTrace();
         }
 
-        fenetre.afficherTuileRoyaume(new ImageIcon(imgTuile1),x,y);
-        fenetre.afficherTuileRoyaume(new ImageIcon(imgTuile2),x2,y2);
+        fenetre.afficherTuileRoyaume(model.getJoueurActuel().getId(),new ImageIcon(imgTuile1),x,y);
+        fenetre.afficherTuileRoyaume(model.getJoueurActuel().getId(),new ImageIcon(imgTuile2),x2,y2);
 
-
-        fenetre.nouvelleSelectionDomino();
+        model.changementJoueur();
+        try {
+            fenetre.nouvelleSelectionDomino();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 }
