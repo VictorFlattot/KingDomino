@@ -28,7 +28,9 @@ public class FenetreTest extends JFrame {
 	private Map<Integer,Bouton[][]> mapRoyaumeJoueur;
 	private JPanel jPanelSouth;
 	private Bouton[][] jButtonRoyaumeJoueur;
-	private Royaume royaume;
+
+	private JPanel[] jPanelsRoyaume;
+
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
     private ControlRotationTuile controlRotationTuile;
@@ -47,9 +49,6 @@ public class FenetreTest extends JFrame {
 	private void initRoyaumeToutJoueur(){
     	mapRoyaumeJoueur = new HashMap<>();
 
-
-
-
 		for (int i = 0; i < model.getJoueurs().length; i++) {
 			Bouton[][] boutons = new Bouton[5][5];
 			for (int j = 0; j < 5; j++) {
@@ -60,7 +59,12 @@ public class FenetreTest extends JFrame {
 			mapRoyaumeJoueur.put(model.getJoueurs()[i].getId(),boutons);
 		}
 
-
+		for (int i = 0; i < model.getNbJoueur(); i++) {
+			jPanelsRoyaume[i] = new JPanel();
+			jPanelsRoyaume[i].setLayout(new GridLayout(5,5));
+			jPanelsRoyaume[i].setPreferredSize(new Dimension(320,320));
+			jPanelsRoyaume[i].setSize(jPanelRoyaume.getPreferredSize());
+		}
 	}
 
 	private void initAtribut() {
@@ -69,6 +73,7 @@ public class FenetreTest extends JFrame {
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new GridLayout(2,1));
 		jButtonTuillesCentre = new Bouton[4];
+		jPanelsRoyaume = new JPanel[model.getNbJoueur()];
 		jPanelSouth = new JPanel();
 		jPanelRoyaume = new JPanel();
 		jPanelRoyaume.setLayout(new GridLayout(5,5));
@@ -141,7 +146,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	private void afficheRoyaume() throws IOException {
-		royaume = model.getJoueurActuel().getRoyaume();
+		Royaume royaume = model.getJoueurActuel().getRoyaume();
 		int idJoueur = model.getJoueurActuel().getId();
 		jButtonRoyaumeJoueur = mapRoyaumeJoueur.get(idJoueur);
 
@@ -217,7 +222,6 @@ public class FenetreTest extends JFrame {
 			afficherTuilleAuCentre();
 		}
 		jFrame.repaint();
-
 	}
 
 
