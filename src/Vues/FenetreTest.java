@@ -29,7 +29,7 @@ public class FenetreTest extends JFrame {
 	private JPanel jPanelSouth;
 	private Bouton[][] jButtonRoyaumeJoueur;
 
-	private JPanel[] jPanelsRoyaume;
+	private JPanelRoyaume[] jPanelsRoyaume;
 
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
@@ -43,10 +43,14 @@ public class FenetreTest extends JFrame {
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.setVisible(true);
 		afficherTuilleAuCentre();
-		afficheRoyaume();
+		afficherToutLesRoyaumes();
 	}
 
 	private void initRoyaumeToutJoueur(){
+		for (int i = 0; i < model.getNbJoueur(); i++) {
+			jPanelsRoyaume[i] = new JPanelRoyaume();
+		}
+
     	mapRoyaumeJoueur = new HashMap<>();
 
 		for (int i = 0; i < model.getJoueurs().length; i++) {
@@ -54,17 +58,14 @@ public class FenetreTest extends JFrame {
 			for (int j = 0; j < 5; j++) {
 				for (int k = 0; k < 5; k++) {
 					boutons[j][k] = new Bouton();
+					jPanelsRoyaume[i].add(boutons[j][k]);
 				}
 			}
 			mapRoyaumeJoueur.put(model.getJoueurs()[i].getId(),boutons);
+
 		}
 
-		for (int i = 0; i < model.getNbJoueur(); i++) {
-			jPanelsRoyaume[i] = new JPanel();
-			jPanelsRoyaume[i].setLayout(new GridLayout(5,5));
-			jPanelsRoyaume[i].setPreferredSize(new Dimension(320,320));
-			jPanelsRoyaume[i].setSize(jPanelRoyaume.getPreferredSize());
-		}
+
 	}
 
 	private void initAtribut() {
@@ -73,7 +74,7 @@ public class FenetreTest extends JFrame {
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new GridLayout(2,1));
 		jButtonTuillesCentre = new Bouton[4];
-		jPanelsRoyaume = new JPanel[model.getNbJoueur()];
+		jPanelsRoyaume = new JPanelRoyaume[model.getNbJoueur()];
 		jPanelSouth = new JPanel();
 		jPanelRoyaume = new JPanel();
 		jPanelRoyaume.setLayout(new GridLayout(5,5));
@@ -93,10 +94,11 @@ public class FenetreTest extends JFrame {
 
 	private void afficherTuilleAuCentre() throws IOException {
 		JPanel jPanelTuileAuCentre = new JPanel();
+		jPanelTuileAuCentre.setLayout(new GridLayout(4,1));
 		jPanelTuileSelect = new JPanel();
 		for (int i = 0; i < 4; i++) {
 			int idDom = model.getTuilesAuCentre().getDominoTab()[i].getId();
-			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
+			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,0)));
 			final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
 
 			jButtonTuillesCentre[i].setIcon(new ImageIcon(bi));
@@ -145,12 +147,34 @@ public class FenetreTest extends JFrame {
 		}
 	}
 
-	private void afficheRoyaume() throws IOException {
+	private void afficherToutLesRoyaumes() throws IOException {
+		for (int i = 0; i < model.getNbJoueur(); i++) {
+			afficheRoyaume(i);
+			bloquerToutBoutonRoyaume(true);
+
+			final BufferedImage depart = ImageIO.read(new File("img/depart.jpg"));
+
+			jPanelSouth.add(jPanelRoyaume);
+			afficherTuileRoyaume(i,new ImageIcon(depart),2,2);
+			if (i == 1)
+				jFrame.add(jPanelSouth,BorderLayout.WEST);
+			if (i == 2)
+				jFrame.add(jPanelSouth,BorderLayout.EAST);
+			if (i == 3)
+				jFrame.add(jPanelSouth,BorderLayout.NORTH);
+			if (i == 4)
+				jFrame.add(jPanelSouth,BorderLayout.SOUTH);
+
+			jFrame.pack();
+		}
+	}
+
+
+	private JPanel afficheRoyaume(int idJoueur) throws IOException {
 		Royaume royaume = model.getJoueurActuel().getRoyaume();
-		int idJoueur = model.getJoueurActuel().getId();
 		jButtonRoyaumeJoueur = mapRoyaumeJoueur.get(idJoueur);
 
-		final BufferedImage depart = ImageIO.read(new File("img/depart.jpg"));
+
 		final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
 
 		for (int i = 0; i < 5; i++) {
@@ -167,12 +191,8 @@ public class FenetreTest extends JFrame {
 				jPanelRoyaume.add(mapRoyaumeJoueur.get(idJoueur)[i][j]);
 			}
 		}
-		bloquerToutBoutonRoyaume(true);
+		return jPanelRoyaume;
 
-		jPanelSouth.add(jPanelRoyaume);
-		afficherTuileRoyaume(idJoueur,new ImageIcon(depart),2,2);
-		jFrame.add(jPanelSouth,BorderLayout.SOUTH);
-		jFrame.pack();
 	}
 
 	public void afficherTuileRoyaume(int index,Icon icon,int x,int y){

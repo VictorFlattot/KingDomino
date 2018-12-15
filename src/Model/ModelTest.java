@@ -14,15 +14,15 @@ public class ModelTest {
 
 
     public ModelTest() {
-        nbJoueur = 4;
+        nbJoueur = 2;
         paquet = new Paquet();
         paquet.shuffle();
         tuilesAuCentre = new TuilesAuCentre(paquet);
         joueurs = new Joueur[nbJoueur];
         joueurs[0] = new Joueur("J1",0);
         joueurs[1] = new Joueur("J2",1);
-        joueurs[2] = new Joueur("J3",2);
-        joueurs[3] = new Joueur("J4",3);
+        //joueurs[2] = new Joueur("J3",2);
+        //joueurs[3] = new Joueur("J4",3);
         dominoDejaPlacé = new boolean[4];
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
