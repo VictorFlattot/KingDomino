@@ -28,7 +28,8 @@ public class JPanelRoyaume extends JPanel {
         setLayout(new BorderLayout());
         this.add(new JLabel(joueur.getNom()),BorderLayout.NORTH);
         this.add(panelRoyaume);
-        setBorder(new EmptyBorder(20,20,20,20));
+        setOpaque(false);
+        setBorder(new EmptyBorder(22,40,90,40));
 
     }
 
@@ -36,8 +37,9 @@ public class JPanelRoyaume extends JPanel {
         boutons = new Bouton[5][5];
         panelRoyaume = new JPanel();
         panelRoyaume.setLayout(new GridLayout(5,5));
-        panelRoyaume.setPreferredSize(new Dimension(320,320));
-        panelRoyaume.setSize(getPreferredSize());
+        panelRoyaume.setPreferredSize(new Dimension(320,200));
+        panelRoyaume.setSize(panelRoyaume.getPreferredSize());
+        panelRoyaume.setOpaque(false);
         initBoutonPanel();
     }
 
@@ -49,6 +51,7 @@ public class JPanelRoyaume extends JPanel {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 boutons[i][j] = new Bouton();
+
                 panelRoyaume.add(boutons[i][j]);
             }
         }
@@ -69,6 +72,7 @@ public class JPanelRoyaume extends JPanel {
                 }
             }
         }
+        revalidate();
     }
     public void setActionListener(ControlCaseRoyaume listener){
         for (int i = 0; i < 5; i++) {
@@ -91,6 +95,13 @@ public class JPanelRoyaume extends JPanel {
         }
     }
 
-
-
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        try {
+            g.drawImage(ImageIO.read(new File("img/fondSable.png")),0,0,null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

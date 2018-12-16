@@ -25,9 +25,7 @@ public class FenetreTest extends JFrame {
 	private JPanel jPanelCentre;
 	private JPanel jPanelOuest;
 	private JPanel jPanelEst;
-	private Map<Integer,Bouton[][]> mapRoyaumeJoueur;
 	private JPanel jPanelNord;
-	private JPanel jButtonRoyaumeJoueur;
 	private JPanelPressStart jPanelPressStart;
 
 	private JPanelRoyaume[] jPanelRoyaumes;
@@ -57,13 +55,17 @@ public class FenetreTest extends JFrame {
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
+		jPanelCentre.setOpaque(false);
 		jPanelEst = new JPanel();
 		jPanelEst.setLayout(new GridLayout(2,1));
+		jPanelEst.setOpaque(false);
 		jPanelOuest = new JPanel();
 		jPanelOuest.setLayout(new GridLayout(2,1));
+		jPanelOuest.setOpaque(false);
 		jButtonTuillesCentre = new Bouton[4];
 		jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
 		jPanelNord = new JPanel();
+		jPanelNord.setOpaque(false);
 		controlRotationTuile = new ControlRotationTuile(model, this);
 		boutontuileSelect = new Bouton();
 		boutontuileSelect.addActionListener(controlRotationTuile);
@@ -147,7 +149,8 @@ public class FenetreTest extends JFrame {
         afficheTuileSelect(new ImageIcon(image),idDom);
     }
 
-	private void afficherRoyaume() {
+	private void afficherRoyaume() throws IOException {
+
 
 		if (model.getNbJoueur() == 2){
 			jFrame.add(jPanelRoyaumes[1], BorderLayout.EAST);
@@ -246,8 +249,13 @@ public class FenetreTest extends JFrame {
 
 	public void afficherJeu() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
-		afficherRoyaume();
+
+		jFrame.add(new JPanelPressStart(ImageIO.read(new File("img/Wood-Floor-Background.jpg"))));
 		afficherTuilleAuCentre();
+
+		afficherRoyaume();
+		jFrame.revalidate();
+
 	}
 
 	public void afficherMenuJouerQuitter(){
@@ -283,4 +291,6 @@ public class FenetreTest extends JFrame {
 	public void fermer() {
 		jFrame.dispose();
 	}
+
+
 }
