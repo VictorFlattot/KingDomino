@@ -34,6 +34,7 @@ public class ControlCaseRoyaume implements ActionListener {
         domino = model.getDominoSelect();
         x = Integer.valueOf(e.getActionCommand().split("/")[0]);
         y = Integer.valueOf(e.getActionCommand().split("/")[1]);
+        System.out.println(e.getActionCommand());
         int x2=x;
         int y2=y;
 
@@ -56,12 +57,18 @@ public class ControlCaseRoyaume implements ActionListener {
             e1.printStackTrace();
         }
 
-        fenetre.afficherTuileRoyaume(model.getJoueurActuel().getId(),new ImageIcon(imgTuile1),x,y);
-        fenetre.afficherTuileRoyaume(model.getJoueurActuel().getId(),new ImageIcon(imgTuile2),x2,y2);
 
+        //fenetre.afficherTuileRoyaume(model.getJoueurActuel().getId(),new ImageIcon(imgTuile1),x,y);
+        //fenetre.afficherTuileRoyaume(model.getJoueurActuel().getId(),new ImageIcon(imgTuile2),x2,y2);
+        try {
+            fenetre.changementJoueur();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
         model.changementJoueur();
         try {
             fenetre.nouvelleSelectionDomino();
+            fenetre.bloquerToutRoyaumes(true);
         } catch (IOException e1) {
             e1.printStackTrace();
         }

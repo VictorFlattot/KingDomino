@@ -1,14 +1,17 @@
 package Vues;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class Bouton extends JButton {
 	public Bouton() {
 
 
-		this.setOpaque(false);
-		this.setContentAreaFilled(false);
-		this.setBorderPainted(false);
+		setOpaque(false);
+		setContentAreaFilled(false);
+		setBorderPainted(false);
+
 
 
 

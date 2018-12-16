@@ -9,7 +9,7 @@ public class Royaume {
 	public Royaume(int taille) {
 		this.taille=taille;
 		initRoyaume();
-		showRoyaume();
+		//showRoyaume();
 
 
 
@@ -39,6 +39,8 @@ public class Royaume {
 		Tuile[] tuilesDomino = domino.getTuiles();
 		addTuille(tuilesDomino[0],x,y);
 		addTuille(tuilesDomino[1],x2,y2);
+		showRoyaume();
+
 
 	}
 
@@ -67,7 +69,7 @@ public class Royaume {
 	void showRoyaume(){
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-				System.out.println(tuiles[i][j]);
+				System.out.println(i +"/" + j +":"+tuiles[i][j]);
 			}
 		}
 	}

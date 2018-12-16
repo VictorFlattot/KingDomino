@@ -23,7 +23,7 @@ public class Paquet {
 		initDominoEntre34et48();
 
 		setIdDominos();
-		//showDominos();
+
 
 
 
@@ -96,9 +96,7 @@ public class Paquet {
 			dominos.get(i).setId(i+1);
 
 		}
-		for (int i = 0; i < tuileList.size(); i++) {
-			tuileList.get(i).setId(i);
-		}
+
 	}
 
 
@@ -111,7 +109,7 @@ public class Paquet {
 					case 0:	tuileList.add(new Tuile(terrain, i)); break;
 					case 1:	if (terrain != Terrain.DEPART) tuileList.add(new Tuile(terrain, i)); break;
 					case 2:	if (terrain == Terrain.PRAIRIE || terrain == Terrain.MONTAGNES
-						|| terrain == Terrain.MARAIS) tuileList.add(new Tuile(terrain, i));break;
+							|| terrain == Terrain.MARAIS) tuileList.add(new Tuile(terrain, i));break;
 					case 3:	if (terrain == Terrain.MONTAGNES) tuileList.add(new Tuile(terrain, i)); break;
 				}
 		}
@@ -136,18 +134,6 @@ public class Paquet {
 
 	}
 
-	private void showDominos() {
-			for (Domino domino :
-					dominos) {
-				System.out.println(domino);
-			}
-	}
 
-	private void showTuile(){
-		for (Tuile tuile: tuileList
-			 ) {
-			System.out.println(tuile);
-		}
-	}
 
 }
