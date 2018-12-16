@@ -17,16 +17,13 @@ public class JPanelRoyaume extends JPanel {
     private JPanel panelRoyaume;
     private Bouton[][] boutons;
     private Royaume royaume;
-    private int idJoueur;
-    private Joueur joueur;
     private BufferedImage croix;
 
 
-    public JPanelRoyaume(ModelTest modelTest, int idJoueur) throws IOException {
+    JPanelRoyaume(ModelTest modelTest, int idJoueur) throws IOException {
         super();
-        this.idJoueur = idJoueur;
-        joueur = modelTest.getJoueur(idJoueur);
-        royaume =joueur.getRoyaume();
+        Joueur joueur = modelTest.getJoueur(idJoueur);
+        royaume = joueur.getRoyaume();
         initAtribut();
         setLayout(new BorderLayout());
         this.add(new JLabel(joueur.getNom()),BorderLayout.NORTH);
@@ -35,7 +32,7 @@ public class JPanelRoyaume extends JPanel {
 
     }
 
-    public void initAtribut() throws IOException {
+    private void initAtribut() throws IOException {
         boutons = new Bouton[5][5];
         panelRoyaume = new JPanel();
         panelRoyaume.setLayout(new GridLayout(5,5));
@@ -44,19 +41,7 @@ public class JPanelRoyaume extends JPanel {
         initBoutonPanel();
     }
 
-    public Bouton[][] getBoutons() {
-        return boutons;
-    }
-
-    public void setBoutons(Bouton[][] boutons) {
-        this.boutons = boutons;
-    }
-
-    public void addIconBouton(int x,int y,Icon icon){
-        boutons[x][y].setIcon(icon);
-    }
-
-    public void initBoutonPanel() throws IOException {
+    private void initBoutonPanel() throws IOException {
 
         croix = ImageIO.read(new File("img/croix.png"));
         final BufferedImage depart = ImageIO.read(new File("img/Tuile16.jpg"));
@@ -75,12 +60,12 @@ public class JPanelRoyaume extends JPanel {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (royaume.getTuile(i,j).getTerrain()!=null){
-                    afficherTuileRoyaume(idJoueur,new ImageIcon(
+                    afficherTuileRoyaume(new ImageIcon(
                             ImageIO.read(new File("img/Tuile" +
                                     royaume.getTuile(i,j).getId() + ".jpg"))),i,j);
                 }else{
 
-                    afficherTuileRoyaume(idJoueur,new ImageIcon(croix),i,j);
+                    afficherTuileRoyaume(new ImageIcon(croix),i,j);
                 }
             }
         }
@@ -94,7 +79,7 @@ public class JPanelRoyaume extends JPanel {
         }
     }
 
-    public void afficherTuileRoyaume(int index,Icon icon,int x,int y){
+    private void afficherTuileRoyaume(Icon icon, int x, int y){
         boutons[x][y].setIcon(icon);
     }
 

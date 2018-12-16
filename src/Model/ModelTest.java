@@ -4,9 +4,8 @@ public class ModelTest {
     private Paquet paquet;
     private TuilesAuCentre tuilesAuCentre;
     private Joueur[] joueurs;
-    private int rotDominoSelect;
     private Domino dominoSelect;
-    private boolean[] dominoDejaPlacé;
+    private boolean[] dominoDejaPlace;
     private int nbJoueur;
     private Joueur[] ordreJoueurTourActuel;
     private Joueur[] ordreJoueurTourSuivant;
@@ -23,7 +22,7 @@ public class ModelTest {
         joueurs[1] = new Joueur("Pierre",1);
         joueurs[2] = new Joueur("Paul",2);
         joueurs[3] = new Joueur("Jacques",3);
-        dominoDejaPlacé = new boolean[4];
+        dominoDejaPlace = new boolean[4];
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
         faireUnNouveauTour = false;
@@ -61,7 +60,7 @@ public class ModelTest {
 
     public void nouveauTour(){
 	    setFaireUnNouveauTour(false);
-	    dominoDejaPlacé = new boolean[4];
+	    dominoDejaPlace = new boolean[4];
         for (int i = 0; i < nbJoueur; i++) {
             ordreJoueurTourActuel[i]= ordreJoueurTourSuivant[i];
         }
@@ -149,11 +148,11 @@ public class ModelTest {
 
     public void setDominoDejaPlacé(int index,boolean b){
         nouveauIndextourSuivant(index);
-        dominoDejaPlacé[index]=b;
+        dominoDejaPlace[index]=b;
     }
 
-    public boolean[] getDominoDejaPlacé() {
-        return dominoDejaPlacé;
+    public boolean[] getDominoDejaPlace() {
+        return dominoDejaPlace;
     }
 
     public int getNbJoueur() {

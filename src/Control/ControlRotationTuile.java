@@ -3,7 +3,6 @@ package Control;
 import Model.Domino;
 import Vues.FenetreTest;
 import Model.ModelTest;
-import Model.Tuile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,9 +11,6 @@ import java.io.IOException;
 public class ControlRotationTuile implements ActionListener {
     private ModelTest model;
     private FenetreTest fenetre;
-    private Domino dominoSelect;
-    private Tuile tuile1;
-    private Tuile tuile2;
 
     public ControlRotationTuile(ModelTest model, FenetreTest fenetre) {
         this.model = model;
@@ -25,7 +21,7 @@ public class ControlRotationTuile implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
 
-        dominoSelect = model.getDominoSelect();
+        Domino dominoSelect = model.getDominoSelect();
         int rot = 0;
         switch (model.getRotDominoSelect()){
             case 0:

@@ -4,17 +4,16 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Model.ModelTest;
-import Model.Royaume;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -29,12 +28,18 @@ public class FenetreTest extends JFrame {
 	private Map<Integer,Bouton[][]> mapRoyaumeJoueur;
 	private JPanel jPanelNord;
 	private JPanel jButtonRoyaumeJoueur;
+	private JPanelPressStart jPanelPressStart;
 
 	private JPanelRoyaume[] jPanelRoyaumes;
 
+	private JPanel panelMenuJouerQuiter;
+
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
+	private JButton boutonJouer;
+	private JButton boutonQuitter;
     private ControlRotationTuile controlRotationTuile;
+
 
     public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
@@ -43,12 +48,12 @@ public class FenetreTest extends JFrame {
 		initBoutonCentre();
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.setVisible(true);
-		afficherTuilleAuCentre();
-		afficherRoyaume();
+
 	}
 
-	private void initAtribut() {
+	private void initAtribut() throws IOException {
 		jFrame = new JFrame("KingDomino");
+		setFullscreen();
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
@@ -62,9 +67,37 @@ public class FenetreTest extends JFrame {
 		controlRotationTuile = new ControlRotationTuile(model, this);
 		boutontuileSelect = new Bouton();
 		boutontuileSelect.addActionListener(controlRotationTuile);
-		jFrame.add(jPanelNord);
-		jFrame.pack();
+		jFrame.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
 
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==10) afficherMenuJouerQuitter();
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+		});
+		Image image = ImageIO.read(new File("img/kingdomino_menu_press_start.png"));
+		jPanelPressStart = new JPanelPressStart(image);
+		panelMenuJouerQuiter = new JPanel();
+		boutonJouer = new JButton();
+		boutonQuitter = new JButton();
+		boutonQuitter.setText("Quitter");
+		boutonQuitter.addActionListener(e -> fermer());
+		jFrame.add(jPanelPressStart);
+
+
+	}
+
+	private void setFullscreen(){
+		jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		jFrame.setUndecorated(true);
 	}
 
 	private void initRoyaumeToutJoueur() throws IOException {
@@ -94,8 +127,7 @@ public class FenetreTest extends JFrame {
 		jPanelCentre.add(jPanelTuileAuCentre);
 		jPanelCentre.add(jPanelTuileSelect);
 		jFrame.add(jPanelCentre,BorderLayout.CENTER);
-
-		jFrame.pack();
+		jFrame.revalidate();
 
 	}
 
@@ -117,9 +149,9 @@ public class FenetreTest extends JFrame {
 
 	private void afficherRoyaume() {
 
-		if (model.getNbJoueur() < 3){
-			jFrame.add(jPanelRoyaumes[0], BorderLayout.EAST);
-			jFrame.add(jPanelRoyaumes[1],BorderLayout.WEST);
+		if (model.getNbJoueur() == 2){
+			jFrame.add(jPanelRoyaumes[1], BorderLayout.EAST);
+			jFrame.add(jPanelRoyaumes[0],BorderLayout.WEST);
 		}
 		if (model.getNbJoueur() == 3){
 			jFrame.add(jPanelRoyaumes[2],BorderLayout.SOUTH);
@@ -135,7 +167,6 @@ public class FenetreTest extends JFrame {
 
 		bloquerToutRoyaumes(true);
 
-		jFrame.pack();
 	}
 
 	public String donneCheminDomino(int numeroDomino , int rot){
@@ -203,7 +234,7 @@ public class FenetreTest extends JFrame {
 
 	private void bloquerBoutonDominoDejaPlacé(){
 		for (int i = 0; i < 4; i++) {
-				bloquerBoutonCentre(i,!model.getDominoDejaPlacé()[i]);
+				bloquerBoutonCentre(i,!model.getDominoDejaPlace()[i]);
 		}
 	}
 
@@ -213,4 +244,43 @@ public class FenetreTest extends JFrame {
 	}
 
 
+	public void afficherJeu() throws IOException {
+		jFrame.remove(panelMenuJouerQuiter);
+		afficherRoyaume();
+		afficherTuilleAuCentre();
+	}
+
+	public void afficherMenuJouerQuitter(){
+		jFrame.remove(jPanelPressStart);
+    	boutonJouer.setText("Jouer");
+
+    	boutonJouer.addActionListener(e -> {
+			try {
+				afficherJeu();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
+
+    	panelMenuJouerQuiter.setLayout(new GridLayout(2,1));
+    	panelMenuJouerQuiter.add(boutonJouer);
+    	panelMenuJouerQuiter.add(boutonQuitter);
+    	jFrame.add(panelMenuJouerQuiter,BorderLayout.CENTER);
+    	jFrame.revalidate();
+	}
+
+
+
+	private void afficherChoixNbJoueur() {
+		jFrame.remove(panelMenuJouerQuiter);
+		panelMenuJouerQuiter.setLayout(new BoxLayout(panelMenuJouerQuiter,BoxLayout.PAGE_AXIS));
+		panelMenuJouerQuiter.add(boutonJouer);
+		panelMenuJouerQuiter.add(boutonQuitter);
+		jFrame.add(panelMenuJouerQuiter);
+		jFrame.revalidate();
+	}
+
+	public void fermer() {
+		jFrame.dispose();
+	}
 }
