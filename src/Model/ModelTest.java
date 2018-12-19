@@ -195,4 +195,20 @@ public class ModelTest {
 
         }
     }
+
+    public boolean isPartieFinie(){
+        boolean fin =false;
+        if (paquet.isEmpty()){
+            fin = true;
+            for (int i = 0; i>dominoDejaPlace.length; i++){
+                if(dominoDejaPlace[i]){
+                    fin = true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return fin;
+    }
+
 }
