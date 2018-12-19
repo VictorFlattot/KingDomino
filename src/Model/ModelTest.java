@@ -45,7 +45,6 @@ public class ModelTest {
             setJoueurActuel(0);
             faireUnNouveauTour = true;
         }
-
         else{
             setJoueurActuel(getPosJoueurActuel()+1);
             faireUnNouveauTour = false;
@@ -55,17 +54,21 @@ public class ModelTest {
 
     public void nouveauIndextourSuivant(int posDom){
         ordreJoueurTourSuivant[posDom]=getJoueurActuel();
-        showOrdreNext();
+        /*System.out.println("\nnouvel ordre\n");
+        showOrdreNext();*/
     }
 
     public void nouveauTour(){
+        System.out.println("nex turn");
 	    setFaireUnNouveauTour(false);
 	    dominoDejaPlace = new boolean[4];
         for (int i = 0; i < nbJoueur; i++) {
-            ordreJoueurTourActuel[i]= ordreJoueurTourSuivant[i];
+            ordreJoueurTourActuel[i] = ordreJoueurTourSuivant[i];
         }
         tuilesAuCentre = new TuilesAuCentre(paquet);
-        showOrdreActuel();
+        setJoueurActuel(0);
+        /*System.out.println();
+        showOrdreActuel();*/
     }
 
 

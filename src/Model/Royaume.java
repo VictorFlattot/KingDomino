@@ -39,7 +39,7 @@ public class Royaume {
 		Tuile[] tuilesDomino = domino.getTuiles();
 		addTuille(tuilesDomino[0],x,y);
 		addTuille(tuilesDomino[1],x2,y2);
-		showRoyaume();
+		//showRoyaume();
 
 
 	}

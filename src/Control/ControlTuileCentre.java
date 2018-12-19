@@ -27,6 +27,7 @@ public class ControlTuileCentre implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent a) {
+		//System.out.println("Joueur actuel : " + model.getJoueurActuel().getNom());
 		String actionCommandSplit[] = a.getActionCommand().split("/");
 		idDom = Integer.valueOf(actionCommandSplit[0]);
 		posDom = Integer.valueOf(actionCommandSplit[1]);
