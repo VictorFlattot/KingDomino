@@ -112,8 +112,13 @@ public class ModelTest {
         this.dominoSelect = dominoSelect;
     }
 
-    public void addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
-        joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino,x,y,x2,y2);
+    public boolean addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
+        try {
+            joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino, x, y, x2, y2);
+        }catch (ArrayIndexOutOfBoundsException | UnconnectedException e1){
+            return false;
+        }
+        return  true;
     }
 
     public void setJoueurActuel(int index){
@@ -195,4 +200,6 @@ public class ModelTest {
 
         }
     }
+
+
 }
