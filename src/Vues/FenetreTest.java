@@ -33,6 +33,8 @@ FenetreTest extends JFrame {
 
 	private JPanel panelMenuJouerQuiter;
 
+	private JScrollPane panelInstruction ;
+
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
 	private Bouton boutonJouer;
@@ -82,8 +84,15 @@ FenetreTest extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				System.out.println(e.getKeyCode());
-				if (e.getKeyCode()==10) afficherMenuJouerQuitter();
+				if (e.getKeyCode()==10) {
+                    try {
+                        afficherMenuJouerQuitter();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
 				if (e.getKeyCode()==27) fermer();
+				if(e.getKeyCode()==0) fermer();
 			}
 
 			@Override
@@ -266,7 +275,6 @@ FenetreTest extends JFrame {
 	public void afficherJeu() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
 
-		jFrame.add(new JPanelPressStart(ImageIO.read(new File("img/Wood-Floor-Background.jpg"))));
 		afficherTuilleAuCentre();
 
 		afficherRoyaume();
@@ -274,13 +282,18 @@ FenetreTest extends JFrame {
 
 	}
 
-	public void afficherMenuJouerQuitter(){
+	public void afficherMenuJouerQuitter() throws IOException {
+
 			jFrame.remove(jPanelPressStart);
+			Image image = ImageIO.read(new File("img/kingdomino_fond.jpg"));
+            panelMenuJouerQuiter = new JPanelPressStart(image);
+
+
 			instruction.setText("Instruction");
 			boutonJouer.setText("Jouer");
-			instruction.setFont(new Font("Helvetica",Font.BOLD,40));
-			boutonJouer.setFont(new Font("Helvetica",Font.BOLD,40));
-			boutonQuitter.setFont(new Font("Helvetica", Font.BOLD, 40));
+			instruction.setFont(new Font("Helvetica",Font.BOLD,50));
+			boutonJouer.setFont(new Font("Helvetica",Font.BOLD,50));
+			boutonQuitter.setFont(new Font("Helvetica", Font.BOLD, 50));
 
 			boutonJouer.addActionListener(e -> {
 				try {
@@ -290,16 +303,18 @@ FenetreTest extends JFrame {
 				}
 			});
 
-			instruction.addActionListener(e ->{
+			instruction.addActionListener( e -> {
+			    instruction();
+        });
 
 
-			});
-
+			panelMenuJouerQuiter.setOpaque(true);
 			panelMenuJouerQuiter.add(boutonJouer);
 			panelMenuJouerQuiter.add(instruction);
 			panelMenuJouerQuiter.add(boutonQuitter);
-			jFrame.add(panelMenuJouerQuiter,BorderLayout.CENTER);
-			jFrame.revalidate();
+
+			jFrame.add(panelMenuJouerQuiter);
+
 	}
 
 
@@ -313,7 +328,6 @@ FenetreTest extends JFrame {
 	}
 
 	public void instruction(){
-
 	}
 
 	public void fermer() {
@@ -325,7 +339,7 @@ FenetreTest extends JFrame {
 				case JOptionPane.NO_OPTION:
 
 					break;
-			}
+		}
 	}
 
 
