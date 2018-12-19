@@ -12,8 +12,6 @@ public class Paquet {
 	public Paquet() {
 		initTuiles();
 		initDominos();
-
-
 	}
 
 	private void initDominos() {

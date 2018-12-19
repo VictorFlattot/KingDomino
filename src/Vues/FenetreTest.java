@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.util.Map;
 
 
-public class FenetreTest extends JFrame {
+public class
+FenetreTest extends JFrame {
 
 	private ModelTest model;
 	private JFrame jFrame;
@@ -32,11 +33,15 @@ public class FenetreTest extends JFrame {
 
 	private JPanel panelMenuJouerQuiter;
 
+	private JScrollPane panelInstruction ;
+
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
-	private JButton boutonJouer;
-	private JButton boutonQuitter;
+	private Bouton boutonJouer;
+	private Bouton boutonQuitter;
+	private Bouton instruction ;
     private ControlRotationTuile controlRotationTuile;
+    static GraphicsDevice device ;
 
 
     public FenetreTest(ModelTest model ) throws IOException {
@@ -50,6 +55,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	private void initAtribut() throws IOException {
+		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
 		setFullscreen();
 		jFrame.setLayout(new BorderLayout());
@@ -77,19 +83,28 @@ public class FenetreTest extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode()==10) afficherMenuJouerQuitter();
+				System.out.println(e.getKeyCode());
+				if (e.getKeyCode()==10) {
+                    try {
+                        afficherMenuJouerQuitter();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+				if (e.getKeyCode()==27) fermer();
+				if(e.getKeyCode()==0) fermer();
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-
 			}
 		});
 		Image image = ImageIO.read(new File("img/kingdomino_menu_press_start.png"));
 		jPanelPressStart = new JPanelPressStart(image);
 		panelMenuJouerQuiter = new JPanel();
-		boutonJouer = new JButton();
-		boutonQuitter = new JButton();
+		boutonJouer = new Bouton();
+		instruction = new Bouton();
+		boutonQuitter = new Bouton();
 		boutonQuitter.setText("Quitter");
 		boutonQuitter.addActionListener(e -> fermer());
 		jFrame.add(jPanelPressStart);
@@ -98,8 +113,8 @@ public class FenetreTest extends JFrame {
 	}
 
 	private void setFullscreen(){
-		jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		jFrame.setUndecorated(true);
+		device.setFullScreenWindow(jFrame);
+
 	}
 
 	private void initRoyaumeToutJoueur() throws IOException {
@@ -192,7 +207,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	public void changementJoueur() throws IOException {
-    	jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
+		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 	}
 
 	public void setActionListenerCaseRoyaume(ControlCaseRoyaume controlCaseRoyaume) {
@@ -227,10 +242,20 @@ public class FenetreTest extends JFrame {
     	bloquerBoutonDominoDejaPlacé();
     	jPanelTuileSelect.revalidate();
 		if (model.faireUnNouveauTour()) {
-			jPanelCentre.removeAll();
-			model.nouveauTour();
-			bloquerToutBoutonCentre(false);
-			afficherTuilleAuCentre();
+			if (model.isPartieFinie()){
+				jFrame.remove(jPanelCentre);
+				jFrame.repaint();
+
+				JOptionPane.showMessageDialog(jFrame,
+						"FIN DE PARTIE.");
+
+			}else{
+				jPanelCentre.removeAll();
+				model.nouveauTour();
+				bloquerToutBoutonCentre(false);
+				afficherTuilleAuCentre();
+			}
+
 		}
 		jFrame.repaint();
 	}
@@ -250,7 +275,6 @@ public class FenetreTest extends JFrame {
 	public void afficherJeu() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
 
-		jFrame.add(new JPanelPressStart(ImageIO.read(new File("img/Wood-Floor-Background.jpg"))));
 		afficherTuilleAuCentre();
 
 		afficherRoyaume();
@@ -258,25 +282,40 @@ public class FenetreTest extends JFrame {
 
 	}
 
-	public void afficherMenuJouerQuitter(){
-		jFrame.remove(jPanelPressStart);
-    	boutonJouer.setText("Jouer");
+	public void afficherMenuJouerQuitter() throws IOException {
 
-    	boutonJouer.addActionListener(e -> {
-			try {
-				afficherJeu();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
+			jFrame.remove(jPanelPressStart);
+			Image image = ImageIO.read(new File("img/kingdomino_fond.jpg"));
+            panelMenuJouerQuiter = new JPanelPressStart(image);
 
-    	panelMenuJouerQuiter.setLayout(new GridLayout(2,1));
-    	panelMenuJouerQuiter.add(boutonJouer);
-    	panelMenuJouerQuiter.add(boutonQuitter);
-    	jFrame.add(panelMenuJouerQuiter,BorderLayout.CENTER);
-    	jFrame.revalidate();
+
+			instruction.setText("Instruction");
+			boutonJouer.setText("Jouer");
+			instruction.setFont(new Font("Helvetica",Font.BOLD,50));
+			boutonJouer.setFont(new Font("Helvetica",Font.BOLD,50));
+			boutonQuitter.setFont(new Font("Helvetica", Font.BOLD, 50));
+
+			boutonJouer.addActionListener(e -> {
+				try {
+					afficherJeu();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
+
+			instruction.addActionListener( e -> {
+			    instruction();
+        });
+
+
+			panelMenuJouerQuiter.setOpaque(true);
+			panelMenuJouerQuiter.add(boutonJouer);
+			panelMenuJouerQuiter.add(instruction);
+			panelMenuJouerQuiter.add(boutonQuitter);
+
+			jFrame.add(panelMenuJouerQuiter);
+
 	}
-
 
 
 	private void afficherChoixNbJoueur() {
@@ -288,8 +327,19 @@ public class FenetreTest extends JFrame {
 		jFrame.revalidate();
 	}
 
+	public void instruction(){
+	}
+
 	public void fermer() {
-		jFrame.dispose();
+    	int res = JOptionPane.showConfirmDialog(null,"Vous ne voulez pas devenir roi ?","", JOptionPane.YES_NO_OPTION);
+		switch (res){
+				case JOptionPane.YES_OPTION:
+						jFrame.dispose();
+					break;
+				case JOptionPane.NO_OPTION:
+
+					break;
+		}
 	}
 
 
