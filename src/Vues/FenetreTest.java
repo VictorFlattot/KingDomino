@@ -51,7 +51,7 @@ public class FenetreTest extends JFrame {
 
 	private void initAtribut() throws IOException {
 		jFrame = new JFrame("KingDomino");
-		//setFullscreen();
+		setFullscreen();
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
