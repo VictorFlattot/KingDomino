@@ -34,9 +34,11 @@ public class FenetreTest extends JFrame {
 
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
-	private JButton boutonJouer;
-	private JButton boutonQuitter;
+	private Bouton boutonJouer;
+	private Bouton boutonQuitter;
+	private Bouton instruction ;
     private ControlRotationTuile controlRotationTuile;
+    static GraphicsDevice device ;
 
 
     public FenetreTest(ModelTest model ) throws IOException {
@@ -50,6 +52,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	private void initAtribut() throws IOException {
+		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
 		setFullscreen();
 		jFrame.setLayout(new BorderLayout());
@@ -77,19 +80,21 @@ public class FenetreTest extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				System.out.println(e.getKeyCode());
 				if (e.getKeyCode()==10) afficherMenuJouerQuitter();
+				if (e.getKeyCode()==27) fermer();
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-
 			}
 		});
 		Image image = ImageIO.read(new File("img/kingdomino_menu_press_start.png"));
 		jPanelPressStart = new JPanelPressStart(image);
 		panelMenuJouerQuiter = new JPanel();
-		boutonJouer = new JButton();
-		boutonQuitter = new JButton();
+		boutonJouer = new Bouton();
+		instruction = new Bouton();
+		boutonQuitter = new Bouton();
 		boutonQuitter.setText("Quitter");
 		boutonQuitter.addActionListener(e -> fermer());
 		jFrame.add(jPanelPressStart);
@@ -98,8 +103,8 @@ public class FenetreTest extends JFrame {
 	}
 
 	private void setFullscreen(){
-		jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		jFrame.setUndecorated(true);
+		device.setFullScreenWindow(jFrame);
+
 	}
 
 	private void initRoyaumeToutJoueur() throws IOException {
@@ -259,24 +264,32 @@ public class FenetreTest extends JFrame {
 	}
 
 	public void afficherMenuJouerQuitter(){
-		jFrame.remove(jPanelPressStart);
-    	boutonJouer.setText("Jouer");
+			jFrame.remove(jPanelPressStart);
+			instruction.setText("Instruction");
+			boutonJouer.setText("Jouer");
+			instruction.setFont(new Font("Helvetica",Font.BOLD,40));
+			boutonJouer.setFont(new Font("Helvetica",Font.BOLD,40));
+			boutonQuitter.setFont(new Font("Helvetica", Font.BOLD, 40));
 
-    	boutonJouer.addActionListener(e -> {
-			try {
-				afficherJeu();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
+			boutonJouer.addActionListener(e -> {
+				try {
+					afficherJeu();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
 
-    	panelMenuJouerQuiter.setLayout(new GridLayout(2,1));
-    	panelMenuJouerQuiter.add(boutonJouer);
-    	panelMenuJouerQuiter.add(boutonQuitter);
-    	jFrame.add(panelMenuJouerQuiter,BorderLayout.CENTER);
-    	jFrame.revalidate();
+			instruction.addActionListener(e ->{
+
+
+			});
+
+			panelMenuJouerQuiter.add(boutonJouer);
+			panelMenuJouerQuiter.add(instruction);
+			panelMenuJouerQuiter.add(boutonQuitter);
+			jFrame.add(panelMenuJouerQuiter,BorderLayout.CENTER);
+			jFrame.revalidate();
 	}
-
 
 
 	private void afficherChoixNbJoueur() {
@@ -288,8 +301,20 @@ public class FenetreTest extends JFrame {
 		jFrame.revalidate();
 	}
 
+	public void instruction(){
+
+	}
+
 	public void fermer() {
-		jFrame.dispose();
+    	int res = JOptionPane.showConfirmDialog(null,"Vous ne voulez pas devenir roi ?","", JOptionPane.YES_NO_OPTION);
+		switch (res){
+				case JOptionPane.YES_OPTION:
+						jFrame.dispose();
+					break;
+				case JOptionPane.NO_OPTION:
+
+					break;
+			}
 	}
 
 
