@@ -234,8 +234,12 @@ FenetreTest extends JFrame {
     	jPanelTuileSelect.revalidate();
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
+				jFrame.remove(jPanelCentre);
+				jFrame.repaint();
+
 				JOptionPane.showMessageDialog(jFrame,
 						"FIN DE PARTIE.");
+
 			}else{
 				jPanelCentre.removeAll();
 				model.nouveauTour();
