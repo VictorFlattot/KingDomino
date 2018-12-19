@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.util.Map;
 
 
-public class FenetreTest extends JFrame {
+public class
+FenetreTest extends JFrame {
 
 	private ModelTest model;
 	private JFrame jFrame;
@@ -197,7 +198,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	public void changementJoueur() throws IOException {
-    	jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
+		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 	}
 
 	public void setActionListenerCaseRoyaume(ControlCaseRoyaume controlCaseRoyaume) {
@@ -232,10 +233,16 @@ public class FenetreTest extends JFrame {
     	bloquerBoutonDominoDejaPlacé();
     	jPanelTuileSelect.revalidate();
 		if (model.faireUnNouveauTour()) {
-			jPanelCentre.removeAll();
-			model.nouveauTour();
-			bloquerToutBoutonCentre(false);
-			afficherTuilleAuCentre();
+			if (model.isPartieFinie()){
+				JOptionPane.showMessageDialog(jFrame,
+						"FIN DE PARTIE.");
+			}else{
+				jPanelCentre.removeAll();
+				model.nouveauTour();
+				bloquerToutBoutonCentre(false);
+				afficherTuilleAuCentre();
+			}
+
 		}
 		jFrame.repaint();
 	}
