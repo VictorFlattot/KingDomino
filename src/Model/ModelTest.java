@@ -27,6 +27,10 @@ public class ModelTest {
     public void setNbJoueur(int nbJoueur){
         this.nbJoueur = nbJoueur;
         joueurs = new Joueur[nbJoueur];
+        for (int i = 0; i < nbJoueur; i++) {
+            joueurs[i]=new Joueur("",i);
+        }
+        //showOrdreActuel();
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
         initOrdre();
@@ -42,7 +46,7 @@ public class ModelTest {
     }
 
     public void changementJoueur(){
-        if (getPosJoueurActuel() == 3){
+        if (getPosJoueurActuel() == nbJoueur-1){
             setJoueurActuel(0);
             faireUnNouveauTour = true;
         }
@@ -262,4 +266,8 @@ public class ModelTest {
     }
 
 
+    public void setNomJoueur(String nom,int i) {
+        joueurs[i].setNom(nom);
+        System.out.println(nom);
+    }
 }
