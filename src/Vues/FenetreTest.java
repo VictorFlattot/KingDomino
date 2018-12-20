@@ -70,10 +70,17 @@ FenetreTest extends JFrame {
 	private Bouton quatreJoueurs ;
 	private JLabel joueur ;
 
+	private Bouton valider ;
+
 	private JTextField j1 ;
 	private JTextField j2 ;
 	private JTextField j3;
 	private JTextField j4 ;
+
+	private JLabel tj1;
+	private JLabel tj2;
+	private JLabel tj3;
+	private JLabel tj4;
 
 
 	public FenetreTest(ModelTest model ) throws IOException {
@@ -112,9 +119,26 @@ FenetreTest extends JFrame {
 	}
 
 	private void initAtribut() throws IOException {
+		j1 = new JTextField(45);
+		j2 = new JTextField(45);
+		j3 = new JTextField(45);
+		j4 = new JTextField(45);
+
+		tj1 = new JLabel("Joueur 1");
+		tj2 = new JLabel("Joueur 2");
+		tj3 = new JLabel("Joueur 3");
+		tj4 = new JLabel("Joueur 4");
+
+		valider = new Bouton() ;
+		valider.setText("Jouer");
+
+
 		deuxJoueurs = new Bouton();
+		deuxJoueurs.setText("Deux Rois");
 		troisJoueurs = new Bouton();
+		troisJoueurs.setText("Trois Rois");
 		quatreJoueurs = new Bouton();
+		quatreJoueurs.setText("Quatre Rois");
 		joueur = new JLabel("Combien de roi sont présent !");
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
@@ -379,7 +403,6 @@ FenetreTest extends JFrame {
 	private void afficherChoixNbJoueur() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
 
-
 		deuxJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
 		troisJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
 		quatreJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
@@ -404,15 +427,27 @@ FenetreTest extends JFrame {
 		jFrame.revalidate();
 
 		deuxJoueurs.addActionListener(e ->{
-			choixNomJoueur(2);
+			try {
+				choixNomJoueur(2);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		troisJoueurs.addActionListener(e->{
-			choixNomJoueur(3);
+			try {
+				choixNomJoueur(3);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		quatreJoueurs.addActionListener(e->{
-			choixNomJoueur(4);
+			try {
+				choixNomJoueur(4);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 	}
 
@@ -438,8 +473,51 @@ FenetreTest extends JFrame {
 		}
 	}
 
-	public void choixNomJoueur(int nombreJoueur){
+	public void choixNomJoueur(int nombreJoueur) throws IOException {
 		jFrame.remove(jPanelNombreJoueur);
+
+		jpanelNomJoueur = new JPanelPressStart(fondKing);
+		j1.setFont(new Font("Helvetica",Font.BOLD,40));
+		j2.setFont(new Font("Helvetica",Font.BOLD,40));
+		j3.setFont(new Font("Helvetica",Font.BOLD,40));
+		j4.setFont(new Font("Helvetica",Font.BOLD,40));
+
+		tj1.setFont(new Font("Helvetica",Font.BOLD,70));
+		tj2.setFont(new Font("Helvetica",Font.BOLD,70));
+		tj3.setFont(new Font("Helvetica",Font.BOLD,70));
+		tj4.setFont(new Font("Helvetica",Font.BOLD,70));
+
+		valider.setFont(new Font("Helvetica",Font.BOLD,50));
+
+
+
+		jpanelNomJoueur.setOpaque(false);
+
+
+		if(nombreJoueur>=1){
+			jpanelNomJoueur.add(tj1);
+			jpanelNomJoueur.add(j1);
+		}
+		if(nombreJoueur>=2){
+			jpanelNomJoueur.add(tj2);
+			jpanelNomJoueur.add(j2);
+		}
+		if(nombreJoueur>=3) {
+			jpanelNomJoueur.add(tj3);
+			jpanelNomJoueur.add(j3);
+		}
+		if(nombreJoueur>=4) {
+			jpanelNomJoueur.add(tj2);
+			jpanelNomJoueur.add(j2);
+		}
+
+		valider.addActionListener(e->{
+
+		});
+
+		jpanelNomJoueur.add(valider);
+		jFrame.add(jpanelNomJoueur);
+		jFrame.revalidate();
 
 	}
 
