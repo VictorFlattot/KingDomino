@@ -135,4 +135,17 @@ public class Royaume {
 		return false;
 	}
 
+    public boolean isMemeTerrain(Tuile base, Tuile compare){
+	    if((base.getTerrain() == null)||(compare.getTerrain() == null)){
+            return false;
+        }
+	    if (base.getTerrain()==compare.getTerrain()) {
+           return true;
+        }
+        return false;
+    }
+
+
+
+
 }

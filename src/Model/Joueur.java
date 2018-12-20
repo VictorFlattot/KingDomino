@@ -5,12 +5,14 @@ public class Joueur {
     private String nom;
     private Royaume royaume;
     private boolean estJoueurActuel;
+    int score;
 
     public Joueur(String nom,int id) {
         this.id = id;
         this.nom = nom;
         estJoueurActuel = false;
         royaume = new Royaume(5);
+        score = 0;
     }
 
     public String getNom() {
@@ -43,5 +45,9 @@ public class Joueur {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

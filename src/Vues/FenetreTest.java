@@ -3,7 +3,6 @@ package Vues;
 
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
-import Control.ControlTuileCentre;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -54,41 +53,15 @@ FenetreTest extends JFrame {
 	private KeyListener keyListener;
 
 	private Image[] instructionTab ;
-	private ControlCaseRoyaume controlCaseRoyaume;
-	private ControlTuileCentre controlTuileCentre;
 
 
-
-	public FenetreTest(ModelTest model ) throws IOException {
+    public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
 		initAtribut();
-		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		jFrame.setVisible(true);
-
-	}
-
-	private void initAtributJeu() throws IOException {
-		jPanelCentre = new JPanel();
-		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
-		jPanelCentre.setOpaque(false);
-		jPanelEst = new JPanel();
-		jPanelEst.setLayout(new GridLayout(2,1));
-		jPanelEst.setOpaque(false);
-		jPanelOuest = new JPanel();
-		jPanelOuest.setLayout(new GridLayout(2,1));
-		jPanelOuest.setOpaque(false);
-		jButtonTuillesCentre = new Bouton[4];
-		jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
-		jPanelNord = new JPanel();
-		jPanelNord.setOpaque(false);
-		boutontuileSelect = new Bouton();
-		boutontuileSelect.addActionListener(controlRotationTuile);
 		initRoyaumeToutJoueur();
 		initBoutonCentre();
-		controlCaseRoyaume = new ControlCaseRoyaume(model,this);
-		setActionListenerCaseRoyaume(controlCaseRoyaume);
-		controlTuileCentre = new ControlTuileCentre(model,this);
-		setActionListenerTuileCentre(controlTuileCentre);
+		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		jFrame.setVisible(true);
 
 	}
 
@@ -102,9 +75,22 @@ FenetreTest extends JFrame {
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
 		setFullscreen();
 		jFrame.setLayout(new BorderLayout());
-
-
+		jPanelCentre = new JPanel();
+		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
+		jPanelCentre.setOpaque(false);
+		jPanelEst = new JPanel();
+		jPanelEst.setLayout(new GridLayout(2,1));
+		jPanelEst.setOpaque(false);
+		jPanelOuest = new JPanel();
+		jPanelOuest.setLayout(new GridLayout(2,1));
+		jPanelOuest.setOpaque(false);
+		jButtonTuillesCentre = new Bouton[4];
+		jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
+		jPanelNord = new JPanel();
+		jPanelNord.setOpaque(false);
 		controlRotationTuile = new ControlRotationTuile(model, this);
+		boutontuileSelect = new Bouton();
+		boutontuileSelect.addActionListener(controlRotationTuile);
 		keyListener = new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {}
@@ -299,9 +285,6 @@ FenetreTest extends JFrame {
 
 
 	public void afficherJeu() throws IOException {
-    	model.setNbJoueur(4);
-		initAtributJeu();
-
 		jFrame.remove(panelMenuJouerQuiter);
 
 		afficherTuilleAuCentre();
