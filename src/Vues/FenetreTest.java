@@ -22,6 +22,7 @@ FenetreTest extends JFrame {
 
 	private ModelTest model;
 	private JFrame jFrame;
+	private JPanel jPanelInstruction ;
 	private Bouton[] jButtonTuillesCentre;
 	private JPanel jPanelCentre;
 	private JPanel jPanelOuest;
@@ -42,6 +43,15 @@ FenetreTest extends JFrame {
 	private Bouton instruction ;
     private ControlRotationTuile controlRotationTuile;
     static GraphicsDevice device ;
+	private Image fondKing ;
+	private Image pressStart ;
+
+	private Image instruction_img ;
+	private Image instruction_img2 ;
+	private Image instruction_img3 ;
+	private KeyListener keyListener;
+
+	private Image[] instructionTab ;
 
 
     public FenetreTest(ModelTest model ) throws IOException {
@@ -57,7 +67,12 @@ FenetreTest extends JFrame {
 	private void initAtribut() throws IOException {
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
-		//setFullscreen();
+		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
+		instruction_img = ImageIO.read(new File("img/instruction_1.png"));
+		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
+		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
+		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
+		setFullscreen();
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
@@ -75,32 +90,28 @@ FenetreTest extends JFrame {
 		controlRotationTuile = new ControlRotationTuile(model, this);
 		boutontuileSelect = new Bouton();
 		boutontuileSelect.addActionListener(controlRotationTuile);
-		jFrame.addKeyListener(new KeyListener() {
+		keyListener = new KeyListener() {
 			@Override
-			public void keyTyped(KeyEvent e) {
-
-			}
-
+			public void keyTyped(KeyEvent e) {}
 			@Override
 			public void keyPressed(KeyEvent e) {
 				System.out.println(e.getKeyCode());
 				if (e.getKeyCode()==10) {
-                    try {
-                        afficherMenuJouerQuitter();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
+					try {
+						afficherMenuJouerQuitter();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
 				if (e.getKeyCode()==27) fermer();
-				if(e.getKeyCode()==0) fermer();
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-		});
-		Image image = ImageIO.read(new File("img/kingdomino_menu_press_start.png"));
-		jPanelPressStart = new JPanelPressStart(image);
+			public void keyReleased(KeyEvent e) {}
+		};
+		jFrame.addKeyListener(keyListener);
+		pressStart = ImageIO.read(new File("img/kingdomino_menu_press_start.png"));
+		jPanelPressStart = new JPanelPressStart(pressStart);
 		panelMenuJouerQuiter = new JPanel();
 		boutonJouer = new Bouton();
 		instruction = new Bouton();
@@ -285,9 +296,8 @@ FenetreTest extends JFrame {
 	public void afficherMenuJouerQuitter() throws IOException {
 
 			jFrame.remove(jPanelPressStart);
-			Image image = ImageIO.read(new File("img/kingdomino_fond.jpg"));
-           	panelMenuJouerQuiter = new JPanelPressStart(image);
 
+           	panelMenuJouerQuiter = new JPanelPressStart(fondKing);
 
 			instruction.setText("Instruction");
 			boutonJouer.setText("Jouer");
@@ -304,8 +314,12 @@ FenetreTest extends JFrame {
 			});
 
 			instruction.addActionListener( e -> {
-			    instruction();
-        });
+				try {
+					instruction();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
 
 
 			panelMenuJouerQuiter.setOpaque(true);
@@ -324,10 +338,21 @@ FenetreTest extends JFrame {
 		panelMenuJouerQuiter.add(boutonJouer);
 		panelMenuJouerQuiter.add(boutonQuitter);
 		jFrame.add(panelMenuJouerQuiter);
-		jFrame.revalidate();
 	}
 
-	public void instruction(){
+	public void instruction() throws IOException {
+    	jFrame.removeKeyListener(keyListener);
+    	jFrame.remove(panelMenuJouerQuiter);
+		int i = 0;
+    	jPanelInstruction = new JPanelPressStart(instructionTab[1]);
+    	jPanelInstruction.requestFocusInWindow();
+    	jFrame.add(jPanelInstruction);
+    	jFrame.revalidate();
+	}
+
+	public int incrementer(int i){
+    	i=i++ ;
+    	return i ;
 	}
 
 	public void fermer() {
