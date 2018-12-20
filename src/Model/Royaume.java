@@ -45,6 +45,9 @@ public class Royaume {
         }
 		boolean test1 = isConnectedTotuile(x,y);
 		boolean test2 = isConnectedTotuile(x2,y2);
+		//boolean test1 = isConnectedToTuile(x, y, domino.getRotation());
+        //boolean test2 = isConnectedToTuile(x2, y2, domino.getRotation());
+
 		if((test1)||(test2)){
 			if(x>=matrice().length || x<0 || y>=matrice().length || y<0 || x2>=matrice().length || x<0 || y2>=matrice().length||y2<0) {
 				throw new ArrayIndexOutOfBoundsException();
@@ -135,15 +138,15 @@ public class Royaume {
 		return false;
 	}
 
-	public boolean isConnectedToTuile(int x, int y){
+	public boolean isConnectedToTuile(int x, int y, int rotation){
 	    if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
-
+			checkConnection(x, y, rotation);
         }
         return false;
     }
 
     public boolean isMemeTerrain(Tuile base, Tuile compare){
-	    return (base.getTerrain()==compare.getTerrain());
+	    return (base.getTerrain()==compare.getTerrain()) || (compare.getTerrain() == Terrain.DEPART);
     }
 
 
@@ -156,8 +159,33 @@ public class Royaume {
                         isMemeTerrain(getTuile(x,y),getTuile((x+1),y+1)) ||
                         isMemeTerrain(getTuile(x,y),getTuile((x+1),y-1)) ||
                         isMemeTerrain(getTuile(x,y),getTuile((x+1)+1,y));
-            case 90:
 
+            case 90:
+            	return isMemeTerrain(getTuile(x,y),getTuile(x+1,(y-1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,(y-1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,(y-1)-1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x+1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y+1));
+
+			case 180:
+				return isMemeTerrain(getTuile(x,y),getTuile((x+1)+1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile((x+1),y+1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile((x+1),y-1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y+1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y-1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,y));
+
+			case 270:
+				return isMemeTerrain(getTuile(x,y),getTuile(x+1,(y+1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,(y+1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,(y+1)+1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x+1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y+1));
+
+			default:
+				return false;
         }
     }
 
