@@ -26,10 +26,13 @@ public class JPanelRoyaume extends JPanel {
         royaume = joueur.getRoyaume();
         initAtribut();
         setLayout(new BorderLayout());
-        this.add(new JLabel(joueur.getNom()),BorderLayout.NORTH);
+        JLabel nomJoueur = new JLabel(joueur.getNom());
+        nomJoueur.setFont(new Font("Helvetica",Font.PLAIN,20));
+        nomJoueur.setBorder(new EmptyBorder(0,130,5,0));
+        this.add(nomJoueur,BorderLayout.NORTH);
         this.add(panelRoyaume);
         setOpaque(false);
-        setBorder(new EmptyBorder(22,40,150,40));
+        setBorder(new EmptyBorder(15,40,150,40));
 
     }
 
