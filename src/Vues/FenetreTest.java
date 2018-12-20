@@ -285,8 +285,8 @@ FenetreTest extends JFrame {
 	public void afficherMenuJouerQuitter() throws IOException {
 
 			jFrame.remove(jPanelPressStart);
-			//Image image = ImageIO.read(new File("img/kingdomino_fond.jpg"));
-           // panelMenuJouerQuiter = new JPanelPressStart(image);
+			Image image = ImageIO.read(new File("img/kingdomino_fond.jpg"));
+           	panelMenuJouerQuiter = new JPanelPressStart(image);
 
 
 			instruction.setText("Instruction");
