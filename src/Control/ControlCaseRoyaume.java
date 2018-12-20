@@ -15,10 +15,9 @@ public class ControlCaseRoyaume implements ActionListener {
     private FenetreTest fenetre;
 
 
-    ControlCaseRoyaume(ModelTest model, FenetreTest fenetre) {
+    public ControlCaseRoyaume(ModelTest model, FenetreTest fenetre) {
         this.model = model;
         this.fenetre = fenetre;
-        fenetre.setActionListenerCaseRoyaume(this);
     }
 
     @Override

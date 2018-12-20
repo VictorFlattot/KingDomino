@@ -13,30 +13,34 @@ public class ModelTest {
 
 
     public ModelTest() {
-        nbJoueur = 4;
         paquet = new Paquet();
         paquet.shuffle();
         tuilesAuCentre = new TuilesAuCentre(paquet);
+        dominoDejaPlace = new boolean[4];
+        faireUnNouveauTour = false;
+
+        //showOrdreActuel();
+
+
+    }
+
+    public void setNbJoueur(int nbJoueur){
+        this.nbJoueur = nbJoueur;
         joueurs = new Joueur[nbJoueur];
         joueurs[0] = new Joueur("Victor",0);
         joueurs[1] = new Joueur("Pierre",1);
         joueurs[2] = new Joueur("Paul",2);
         joueurs[3] = new Joueur("Jacques",3);
-        dominoDejaPlace = new boolean[4];
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
-        faireUnNouveauTour = false;
         initOrdre();
-        setJoueurActuel(0);
-        //showOrdreActuel();
-
-
     }
 
     private void initOrdre(){
         for (int i = 0; i < nbJoueur; i++) {
             ordreJoueurTourActuel[i] = joueurs[i];
         }
+        setJoueurActuel(0);
 
     }
 
@@ -165,10 +169,6 @@ public class ModelTest {
 
     public int getNbJoueur() {
         return nbJoueur;
-    }
-
-    public void setNbJoueur(int nbJoueur) {
-        this.nbJoueur = nbJoueur;
     }
 
     public boolean faireUnNouveauTour() {

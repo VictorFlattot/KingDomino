@@ -14,7 +14,6 @@ public class JPanelPressStart extends JPanel {
     JPanelPressStart(Image image) throws IOException {
         super();
         this.image = image ;
-
     }
 
     @Override

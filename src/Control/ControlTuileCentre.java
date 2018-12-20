@@ -16,13 +16,11 @@ public class ControlTuileCentre implements ActionListener {
 	private FenetreTest fenetre;
 	private int idDom;
 	private int posDom;
-	private BufferedImage image
-			;
+	private BufferedImage image;
 
 	public ControlTuileCentre(ModelTest model, FenetreTest fenetre) {
 		this.model = model;
 		this.fenetre = fenetre;
-		fenetre.setActionListenerTuileCentre(this);
 	}
 
 	@Override
