@@ -1,7 +1,7 @@
 package Model;
 
 
-
+import java.util.ArrayList;
 
 public class Royaume {
 	private int taille;
@@ -13,8 +13,6 @@ public class Royaume {
 		this.taille=taille;
 		initRoyaume();
 		//showRoyaume();
-
-
 
 	}
 
@@ -101,17 +99,38 @@ public class Royaume {
 	}
 
 	private boolean isConnectedTotuile(int x, int y){
-		if(getTuile(x-1,y).getTerrain() != null){
-			return true;
+		ArrayList<Integer> coordX = new ArrayList<Integer>();
+		ArrayList<Integer> coordY = new ArrayList<Integer>();
+		System.out.println(x-1);
+		System.out.println(x+1);
+		System.out.println(y-1);
+		System.out.println(y+1);
+		System.out.println("taille:"+taille);
+		if(x-1>0){
+			coordX.add(x-1);
 		}
-		if(getTuile(x+1,y).getTerrain() != null){
-			return  true;
+		if(x+1<taille){
+			System.out.println("sout je ne passe pas la ");
+			coordX.add(x+1);
 		}
-		if(getTuile(x,y-1).getTerrain() != null){
-			return  true;
+		if(y-1>0){
+			coordY.add(y-1);
 		}
-		if(getTuile(x,y+1).getTerrain() != null){
-			return  true;
+		if(y+1<taille){
+			coordY.add(y+1);
+		}
+
+		for(int i=0; i<coordX.size();i++){
+			System.out.println("boucle 1:"+coordX.get(i));
+			if(getTuile(coordX.get(i),y).getTerrain() != null){
+				return  true;
+			}
+		}
+		for(int i=0; i<coordY.size();i++){
+			System.out.println("boucle 1:"+coordY.get(i));
+			if(getTuile(x,coordY.get(i)).getTerrain() != null){
+				return  true;
+			}
 		}
 		return false;
 	}
