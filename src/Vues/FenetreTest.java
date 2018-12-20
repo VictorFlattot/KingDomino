@@ -3,6 +3,7 @@ package Vues;
 
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
+import Model.Joueur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -255,6 +256,9 @@ FenetreTest extends JFrame {
     	jPanelTuileSelect.revalidate();
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
+				model.calculScore(model.getJoueurActuel()); //peut etre pas le mettre la
+				// Ensuite afficher score et vainqueur
+
 				jFrame.remove(jPanelCentre);
 				jFrame.repaint();
 
@@ -286,6 +290,7 @@ FenetreTest extends JFrame {
 
 	public void afficherJeu() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
+		model.calculScore(model.getJoueurActuel());
 
 		afficherTuilleAuCentre();
 
