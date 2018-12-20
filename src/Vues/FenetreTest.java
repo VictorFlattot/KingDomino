@@ -3,6 +3,7 @@ package Vues;
 
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
+import Control.ControlTuileCentre;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -53,28 +54,20 @@ FenetreTest extends JFrame {
 	private KeyListener keyListener;
 
 	private Image[] instructionTab ;
+	private ControlCaseRoyaume controlCaseRoyaume;
+	private ControlTuileCentre controlTuileCentre;
 
 
-    public FenetreTest(ModelTest model ) throws IOException {
+
+	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
 		initAtribut();
-		initRoyaumeToutJoueur();
-		initBoutonCentre();
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.setVisible(true);
 
 	}
 
-	private void initAtribut() throws IOException {
-		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-		jFrame = new JFrame("KingDomino");
-		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
-		instruction_img = ImageIO.read(new File("img/instruction_1.png"));
-		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
-		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
-		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
-		setFullscreen();
-		jFrame.setLayout(new BorderLayout());
+	private void initAtributJeu() throws IOException {
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
 		jPanelCentre.setOpaque(false);
@@ -88,9 +81,30 @@ FenetreTest extends JFrame {
 		jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
 		jPanelNord = new JPanel();
 		jPanelNord.setOpaque(false);
-		controlRotationTuile = new ControlRotationTuile(model, this);
 		boutontuileSelect = new Bouton();
 		boutontuileSelect.addActionListener(controlRotationTuile);
+		initRoyaumeToutJoueur();
+		initBoutonCentre();
+		controlCaseRoyaume = new ControlCaseRoyaume(model,this);
+		setActionListenerCaseRoyaume(controlCaseRoyaume);
+		controlTuileCentre = new ControlTuileCentre(model,this);
+		setActionListenerTuileCentre(controlTuileCentre);
+
+	}
+
+	private void initAtribut() throws IOException {
+		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+		jFrame = new JFrame("KingDomino");
+		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
+		instruction_img = ImageIO.read(new File("img/instruction_1.png"));
+		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
+		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
+		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
+		setFullscreen();
+		jFrame.setLayout(new BorderLayout());
+
+
+		controlRotationTuile = new ControlRotationTuile(model, this);
 		keyListener = new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {}
@@ -180,8 +194,10 @@ FenetreTest extends JFrame {
 
 
 		if (model.getNbJoueur() == 2){
-			jFrame.add(jPanelRoyaumes[1], BorderLayout.EAST);
-			jFrame.add(jPanelRoyaumes[0],BorderLayout.WEST);
+			jPanelEst.add(new JPanel());
+			jPanelOuest.add(new JPanel());
+			jPanelEst.add(jPanelRoyaumes[1]);
+			jPanelOuest.add(jPanelRoyaumes[0]);
 		}
 		if (model.getNbJoueur() == 3){
 			jFrame.add(jPanelRoyaumes[2],BorderLayout.SOUTH);
@@ -191,9 +207,11 @@ FenetreTest extends JFrame {
 			jPanelEst.add(jPanelRoyaumes[3]);
 			jPanelOuest.add(jPanelRoyaumes[0]);
 			jPanelOuest.add(jPanelRoyaumes[2]);
-			jFrame.add(jPanelEst,BorderLayout.EAST);
-			jFrame.add(jPanelOuest,BorderLayout.WEST);
+
 		}
+
+		jFrame.add(jPanelEst,BorderLayout.EAST);
+		jFrame.add(jPanelOuest,BorderLayout.WEST);
 
 		bloquerToutRoyaumes(true);
 
@@ -285,6 +303,9 @@ FenetreTest extends JFrame {
 
 
 	public void afficherJeu() throws IOException {
+    	model.setNbJoueur(2);
+		initAtributJeu();
+
 		jFrame.remove(panelMenuJouerQuiter);
 
 		afficherTuilleAuCentre();

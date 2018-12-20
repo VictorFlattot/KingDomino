@@ -29,8 +29,8 @@ public class ModelTest {
         joueurs = new Joueur[nbJoueur];
         joueurs[0] = new Joueur("Victor",0);
         joueurs[1] = new Joueur("Pierre",1);
-        joueurs[2] = new Joueur("Paul",2);
-        joueurs[3] = new Joueur("Jacques",3);
+        if (nbJoueur==3)joueurs[2] = new Joueur("Paul",2);
+        if (nbJoueur==4)joueurs[3] = new Joueur("Jacques",3);
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
         initOrdre();
