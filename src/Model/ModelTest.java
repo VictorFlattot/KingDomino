@@ -218,32 +218,44 @@ public class ModelTest {
 
     public int calculScore(Joueur joueur){ //renvoie le score d'dun joueur
         int score=0;
+        boolean memeTerrain;
         Royaume royaumeJoueur = joueur.getRoyaume();
         Royaume test = new Royaume(5);
         for (int i =0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 test.addTuille(new Tuile(Terrain.FORET,1),i,j);
-                if(i < 4) { //sinon ça fait OutOfBoundsException
-                    if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i + 1, j))) {
-                        System.out.println("Les tuiles ont le même terrain");
-                    }
-                }
-                if(j < 4) { //sinon ça fait OutOfBoundsException
-                    if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j + 1))) {
-                        System.out.println("Les tuiles ont le même terrain");
-                    }
-                }
-                if(i > 0) { //sinon ça fait OutOfBoundsException
-                    if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i - 1, j))) {
-                        System.out.println("Les tuiles ont le même terrain");
-                    }
-                }
-                if( j > 0) { //sinon ça fait OutOfBoundsException
-                    if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j - 1))) {
-                        System.out.println("Les tuiles ont le même terrain");
-                    }
-                }
+                if(royaumeJoueur.getTuile(i,j).getCouronne()==1) {
+                    score = 1;
 
+                    if (i < 4) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i + 1, j))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                        }
+                    }
+                    if (j < 4) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j + 1))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                        }
+                    }
+                    if (i > 0) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i - 1, j))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                        }
+                    }
+                    if (j > 0) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j - 1))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                        }
+                    }
+
+
+
+
+                }
 
             }
         }
