@@ -57,7 +57,7 @@ FenetreTest extends JFrame {
 	private void initAtribut() throws IOException {
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
-		setFullscreen();
+		//setFullscreen();
 		jFrame.setLayout(new BorderLayout());
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
@@ -285,8 +285,8 @@ FenetreTest extends JFrame {
 	public void afficherMenuJouerQuitter() throws IOException {
 
 			jFrame.remove(jPanelPressStart);
-			Image image = ImageIO.read(new File("img/kingdomino_fond.jpg"));
-            panelMenuJouerQuiter = new JPanelPressStart(image);
+			//Image image = ImageIO.read(new File("img/kingdomino_fond.jpg"));
+           // panelMenuJouerQuiter = new JPanelPressStart(image);
 
 
 			instruction.setText("Instruction");

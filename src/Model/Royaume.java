@@ -39,6 +39,12 @@ public class Royaume {
 	}
 
 	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2)throws UnconnectedException {
+	    if(isTuileDejaPlace(x,y)){
+	        throw new UnconnectedException();
+        }
+        if (isTuileDejaPlace(x2, y2)) {
+            throw new UnconnectedException();
+        }
 		boolean test1 = isConnectedTotuile(x,y);
 		boolean test2 = isConnectedTotuile(x2,y2);
 		if((test1 == true)||(test2==true)){
@@ -56,6 +62,13 @@ public class Royaume {
 
 
 	}
+
+	public boolean isTuileDejaPlace(int x, int y){
+        if(getTuile(x,y).getTerrain() != null){
+            return true;
+        }
+        return false;
+    }
 
 	void addTuille(Tuile tuile,int x,int y){
 		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)
