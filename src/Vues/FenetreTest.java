@@ -8,6 +8,7 @@ import Model.ModelTest;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,6 +31,14 @@ FenetreTest extends JFrame {
 	private JPanel jPanelEst;
 	private JPanel jPanelNord;
 	private JPanelPressStart jPanelPressStart;
+
+	private JPanel jpanelNomJoueur ;
+
+	private JPanel jPanelNombreJoueur ;
+
+	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	int height = (int)dimension.getHeight();
+	int width  = (int)dimension.getWidth();
 
 	private JPanelRoyaume[] jPanelRoyaumes;
 
@@ -56,7 +65,15 @@ FenetreTest extends JFrame {
 	private Image[] instructionTab ;
 	private ControlCaseRoyaume controlCaseRoyaume;
 	private ControlTuileCentre controlTuileCentre;
+	private Bouton deuxJoueurs;
+	private Bouton troisJoueurs;
+	private Bouton quatreJoueurs ;
+	private JLabel joueur ;
 
+	private JTextField j1 ;
+	private JTextField j2 ;
+	private JTextField j3;
+	private JTextField j4 ;
 
 
 	public FenetreTest(ModelTest model ) throws IOException {
@@ -68,6 +85,8 @@ FenetreTest extends JFrame {
 	}
 
 	private void initAtributJeu() throws IOException {
+		jpanelNomJoueur = new JPanel();
+		jPanelNombreJoueur = new JPanel();
 		jPanelCentre = new JPanel();
 		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
 		jPanelCentre.setOpaque(false);
@@ -93,6 +112,10 @@ FenetreTest extends JFrame {
 	}
 
 	private void initAtribut() throws IOException {
+		deuxJoueurs = new Bouton();
+		troisJoueurs = new Bouton();
+		quatreJoueurs = new Bouton();
+		joueur = new JLabel("Combien de roi sont présent !");
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
 		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
@@ -336,7 +359,7 @@ FenetreTest extends JFrame {
 
 			boutonJouer.addActionListener(e -> {
 				try {
-					afficherJeu();
+					afficherChoixNbJoueur();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -353,12 +376,44 @@ FenetreTest extends JFrame {
 	}
 
 
-	private void afficherChoixNbJoueur() {
+	private void afficherChoixNbJoueur() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
-		panelMenuJouerQuiter.setLayout(new BoxLayout(panelMenuJouerQuiter,BoxLayout.PAGE_AXIS));
-		panelMenuJouerQuiter.add(boutonJouer);
-		panelMenuJouerQuiter.add(boutonQuitter);
-		jFrame.add(panelMenuJouerQuiter);
+
+
+		deuxJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
+		troisJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
+		quatreJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
+		joueur.setFont(new Font("Helvetica",Font.BOLD,70));
+
+
+		JPanel joueurBox = new JPanel();
+		joueurBox.setLayout(new BoxLayout(joueurBox,BoxLayout.Y_AXIS));
+		joueurBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		joueurBox.setBorder(new EmptyBorder(height/8,height/4,0,height/4));
+
+		joueurBox.setOpaque(false);
+		jPanelNombreJoueur = new JPanelPressStart(fondKing);
+		joueurBox.add(joueur);
+		joueurBox.add(deuxJoueurs);
+		joueurBox.add(troisJoueurs);
+		joueurBox.add(quatreJoueurs);
+		jPanelNombreJoueur.add(joueurBox);
+		jFrame.add(jPanelNombreJoueur);
+
+		jFrame.revalidate();
+
+		deuxJoueurs.addActionListener(e ->{
+			choixNomJoueur(2);
+		});
+
+		troisJoueurs.addActionListener(e->{
+			choixNomJoueur(3);
+		});
+
+		quatreJoueurs.addActionListener(e->{
+			choixNomJoueur(4);
+		});
 	}
 
 	public void instruction() throws IOException {
@@ -381,6 +436,11 @@ FenetreTest extends JFrame {
 
 					break;
 		}
+	}
+
+	public void choixNomJoueur(int nombreJoueur){
+		jFrame.remove(jPanelNombreJoueur);
+
 	}
 
 
