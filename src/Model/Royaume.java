@@ -45,7 +45,7 @@ public class Royaume {
         }
 		boolean test1 = isConnectedTotuile(x,y);
 		boolean test2 = isConnectedTotuile(x2,y2);
-		if((test1 == true)||(test2==true)){
+		if((test1)||(test2)){
 			if(x>=matrice().length || x<0 || y>=matrice().length || y<0 || x2>=matrice().length || x<0 || y2>=matrice().length||y2<0) {
 				throw new ArrayIndexOutOfBoundsException();
 			}else{
@@ -135,17 +135,30 @@ public class Royaume {
 		return false;
 	}
 
-    public boolean isMemeTerrain(Tuile base, Tuile compare){
-	    if((base.getTerrain() == null)||(compare.getTerrain() == null)){
-            return false;
-        }
-	    if (base.getTerrain()==compare.getTerrain()) {
-           return true;
+	public boolean isConnectedToTuile(int x, int y){
+	    if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
+
         }
         return false;
     }
 
+    public boolean isMemeTerrain(Tuile base, Tuile compare){
+	    return (base.getTerrain()==compare.getTerrain());
+    }
 
 
+    private boolean checkConnection(int x, int y, int rotation){
+	    switch (rotation){
+            case 0:
+                return isMemeTerrain(getTuile(x,y),getTuile(x,y+1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile(x,y-1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile((x+1),y+1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile((x+1),y-1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile((x+1)+1,y));
+            case 90:
+
+        }
+    }
 
 }
