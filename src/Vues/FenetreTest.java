@@ -40,6 +40,7 @@ FenetreTest extends JFrame {
 	private JButton boutontuileSelect;
 	private Bouton boutonJouer;
 	private Bouton boutonQuitter;
+	private Bouton boutonRetour ;
 	private Bouton instruction ;
     private ControlRotationTuile controlRotationTuile;
     static GraphicsDevice device ;
@@ -296,8 +297,15 @@ FenetreTest extends JFrame {
 	public void afficherMenuJouerQuitter() throws IOException {
 
 			jFrame.remove(jPanelPressStart);
+			panelMenuJouerQuiter = new JPanelPressStart(fondKing);
+			panelMenuJouerQuiter.setOpaque(true);
+			panelMenuJouerQuiter.add(boutonJouer);
+			panelMenuJouerQuiter.add(instruction);
+			panelMenuJouerQuiter.add(boutonQuitter);
+			jFrame.repaint();
+			jFrame.add(panelMenuJouerQuiter);
+			jFrame.removeKeyListener(keyListener);
 
-           	panelMenuJouerQuiter = new JPanelPressStart(fondKing);
 
 			instruction.setText("Instruction");
 			boutonJouer.setText("Jouer");
@@ -321,14 +329,6 @@ FenetreTest extends JFrame {
 				}
 			});
 
-
-			panelMenuJouerQuiter.setOpaque(true);
-			panelMenuJouerQuiter.add(boutonJouer);
-			panelMenuJouerQuiter.add(instruction);
-			panelMenuJouerQuiter.add(boutonQuitter);
-
-			jFrame.add(panelMenuJouerQuiter);
-
 	}
 
 
@@ -343,16 +343,11 @@ FenetreTest extends JFrame {
 	public void instruction() throws IOException {
     	jFrame.removeKeyListener(keyListener);
     	jFrame.remove(panelMenuJouerQuiter);
-		int i = 0;
+
     	jPanelInstruction = new JPanelPressStart(instructionTab[1]);
-    	jPanelInstruction.requestFocusInWindow();
+    	jPanelInstruction.add(boutonQuitter);
     	jFrame.add(jPanelInstruction);
     	jFrame.revalidate();
-	}
-
-	public int incrementer(int i){
-    	i=i++ ;
-    	return i ;
 	}
 
 	public void fermer() {
