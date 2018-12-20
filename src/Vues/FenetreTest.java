@@ -3,13 +3,11 @@ package Vues;
 
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
-import Model.Joueur;
+import Control.ControlTuileCentre;
 import Model.ModelTest;
-import javafx.geometry.VerticalDirection;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -19,8 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import static javax.swing.BoxLayout.*;
-
 
 public class
 FenetreTest extends JFrame {
@@ -28,20 +24,12 @@ FenetreTest extends JFrame {
 	private ModelTest model;
 	private JFrame jFrame;
 	private JPanel jPanelInstruction ;
-	private JPanel jPanelNombreJoueur;
 	private Bouton[] jButtonTuillesCentre;
 	private JPanel jPanelCentre;
 	private JPanel jPanelOuest;
 	private JPanel jPanelEst;
 	private JPanel jPanelNord;
 	private JPanelPressStart jPanelPressStart;
-	private JLabel joueur ;
-
-	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-	int height = (int)dimension.getHeight();
-	int width  = (int)dimension.getWidth();
-
-	private int appeler ;
 
 	private JPanelRoyaume[] jPanelRoyaumes;
 
@@ -66,43 +54,22 @@ FenetreTest extends JFrame {
 	private KeyListener keyListener;
 
 	private Image[] instructionTab ;
+	private ControlCaseRoyaume controlCaseRoyaume;
+	private ControlTuileCentre controlTuileCentre;
 
-	private Bouton deuxJoueurs ;
-	private Bouton troisJoueurs ;
-	private Bouton quatreJoueurs ;
 
-    public FenetreTest(ModelTest model ) throws IOException {
+
+	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
 		initAtribut();
-		initRoyaumeToutJoueur();
-		initBoutonCentre();
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.setVisible(true);
 
 	}
 
-	private void initAtribut() throws IOException {
-		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-		jFrame = new JFrame("KingDomino");
-		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
-		instruction_img = ImageIO.read(new File("img/instruction_1.png"));
-		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
-		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
-		jPanelNombreJoueur = new JPanel();
-		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
-		setFullscreen();
-
-		deuxJoueurs = new Bouton();
-		troisJoueurs = new Bouton();
-		quatreJoueurs = new Bouton();
-		deuxJoueurs.setText("Partie 2 Joueurs");
-		troisJoueurs.setText("Partie 3 Joueurs");
-		quatreJoueurs.setText("Partie 4 Joueurs");
-		joueur = new JLabel("Choissisez le nombre de joueurs !");
-
-		jFrame.setLayout(new BorderLayout());
+	private void initAtributJeu() throws IOException {
 		jPanelCentre = new JPanel();
-		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,Y_AXIS));
+		jPanelCentre.setLayout(new BoxLayout(jPanelCentre,BoxLayout.Y_AXIS));
 		jPanelCentre.setOpaque(false);
 		jPanelEst = new JPanel();
 		jPanelEst.setLayout(new GridLayout(2,1));
@@ -114,9 +81,30 @@ FenetreTest extends JFrame {
 		jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
 		jPanelNord = new JPanel();
 		jPanelNord.setOpaque(false);
-		controlRotationTuile = new ControlRotationTuile(model, this);
 		boutontuileSelect = new Bouton();
 		boutontuileSelect.addActionListener(controlRotationTuile);
+		initRoyaumeToutJoueur();
+		initBoutonCentre();
+		controlCaseRoyaume = new ControlCaseRoyaume(model,this);
+		setActionListenerCaseRoyaume(controlCaseRoyaume);
+		controlTuileCentre = new ControlTuileCentre(model,this);
+		setActionListenerTuileCentre(controlTuileCentre);
+
+	}
+
+	private void initAtribut() throws IOException {
+		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+		jFrame = new JFrame("KingDomino");
+		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
+		instruction_img = ImageIO.read(new File("img/instruction_1.png"));
+		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
+		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
+		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
+		setFullscreen();
+		jFrame.setLayout(new BorderLayout());
+
+
+		controlRotationTuile = new ControlRotationTuile(model, this);
 		keyListener = new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {}
@@ -125,7 +113,6 @@ FenetreTest extends JFrame {
 				System.out.println(e.getKeyCode());
 				if (e.getKeyCode()==10) {
 					try {
-						appeler = 0 ;
 						afficherMenuJouerQuitter();
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -144,8 +131,6 @@ FenetreTest extends JFrame {
 		boutonJouer = new Bouton();
 		instruction = new Bouton();
 		boutonQuitter = new Bouton();
-		boutonRetour = new Bouton();
-		boutonRetour.setText("Retour");
 		boutonQuitter.setText("Quitter");
 		boutonQuitter.addActionListener(e -> fermer());
 		jFrame.add(jPanelPressStart);
@@ -209,8 +194,10 @@ FenetreTest extends JFrame {
 
 
 		if (model.getNbJoueur() == 2){
-			jFrame.add(jPanelRoyaumes[1], BorderLayout.EAST);
-			jFrame.add(jPanelRoyaumes[0],BorderLayout.WEST);
+			jPanelEst.add(new JPanel());
+			jPanelOuest.add(new JPanel());
+			jPanelEst.add(jPanelRoyaumes[1]);
+			jPanelOuest.add(jPanelRoyaumes[0]);
 		}
 		if (model.getNbJoueur() == 3){
 			jFrame.add(jPanelRoyaumes[2],BorderLayout.SOUTH);
@@ -220,9 +207,11 @@ FenetreTest extends JFrame {
 			jPanelEst.add(jPanelRoyaumes[3]);
 			jPanelOuest.add(jPanelRoyaumes[0]);
 			jPanelOuest.add(jPanelRoyaumes[2]);
-			jFrame.add(jPanelEst,BorderLayout.EAST);
-			jFrame.add(jPanelOuest,BorderLayout.WEST);
+
 		}
+
+		jFrame.add(jPanelEst,BorderLayout.EAST);
+		jFrame.add(jPanelOuest,BorderLayout.WEST);
 
 		bloquerToutRoyaumes(true);
 
@@ -284,9 +273,6 @@ FenetreTest extends JFrame {
     	jPanelTuileSelect.revalidate();
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
-				model.calculScore(model.getJoueurActuel()); //peut etre pas le mettre la
-				// Ensuite afficher score et vainqueur
-
 				jFrame.remove(jPanelCentre);
 				jFrame.repaint();
 
@@ -317,8 +303,10 @@ FenetreTest extends JFrame {
 
 
 	public void afficherJeu() throws IOException {
+    	model.setNbJoueur(2);
+		initAtributJeu();
+
 		jFrame.remove(panelMenuJouerQuiter);
-		model.calculScore(model.getJoueurActuel());
 
 		afficherTuilleAuCentre();
 
@@ -329,13 +317,7 @@ FenetreTest extends JFrame {
 
 	public void afficherMenuJouerQuitter() throws IOException {
 
-    		if (appeler == 0){
-				jFrame.remove(jPanelPressStart);
-			}
-			if (appeler == 1){
-				jFrame.remove(jPanelInstruction);
-			}
-			System.out.println(appeler);
+			jFrame.remove(jPanelPressStart);
 			panelMenuJouerQuiter = new JPanelPressStart(fondKing);
 			panelMenuJouerQuiter.setOpaque(true);
 			panelMenuJouerQuiter.add(boutonJouer);
@@ -354,7 +336,7 @@ FenetreTest extends JFrame {
 
 			boutonJouer.addActionListener(e -> {
 				try {
-					afficherChoixNbJoueur();
+					afficherJeu();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -371,64 +353,22 @@ FenetreTest extends JFrame {
 	}
 
 
-	private void afficherChoixNbJoueur() throws IOException {
+	private void afficherChoixNbJoueur() {
 		jFrame.remove(panelMenuJouerQuiter);
-
-		deuxJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
-		troisJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
-		quatreJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
-		joueur.setFont(new Font("Helvetica",Font.BOLD,70));
-
-
-		JPanel joueurBox = new JPanel();
-		joueurBox.setLayout(new BoxLayout(joueurBox,BoxLayout.Y_AXIS));
-		joueurBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		joueurBox.setBorder(new EmptyBorder(height/8,height/4,0,height/4));
-
-		joueurBox.setOpaque(false);
-		jPanelNombreJoueur = new JPanelPressStart(fondKing);
-		joueurBox.add(joueur);
-		joueurBox.add(deuxJoueurs);
-		joueurBox.add(troisJoueurs);
-		joueurBox.add(quatreJoueurs);
-		jPanelNombreJoueur.add(joueurBox);
-		jFrame.add(jPanelNombreJoueur);
-
-		jFrame.revalidate();
-
-		deuxJoueurs.addActionListener(e ->{
-
-		});
-
-		troisJoueurs.addActionListener(e->{
-
-		});
-
-		quatreJoueurs.addActionListener(e->{
-
-		});
+		panelMenuJouerQuiter.setLayout(new BoxLayout(panelMenuJouerQuiter,BoxLayout.PAGE_AXIS));
+		panelMenuJouerQuiter.add(boutonJouer);
+		panelMenuJouerQuiter.add(boutonQuitter);
+		jFrame.add(panelMenuJouerQuiter);
 	}
 
 	public void instruction() throws IOException {
-    	appeler = 1 ;
+    	jFrame.removeKeyListener(keyListener);
     	jFrame.remove(panelMenuJouerQuiter);
-		jPanelInstruction = new JPanelPressStart(instructionTab[1]);
-		jPanelInstruction.add(boutonRetour);
-		jFrame.add(jPanelInstruction);
 
-		jFrame.revalidate();
-
-    	boutonRetour.addActionListener(e -> {
-			try {
-				jFrame.remove(jPanelInstruction);
-				afficherMenuJouerQuitter();
-
-				jFrame.revalidate();
-				} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
+    	jPanelInstruction = new JPanelPressStart(instructionTab[1]);
+    	jPanelInstruction.add(boutonQuitter);
+    	jFrame.add(jPanelInstruction);
+    	jFrame.revalidate();
 	}
 
 	public void fermer() {
