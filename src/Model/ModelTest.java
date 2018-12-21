@@ -151,7 +151,7 @@ public class ModelTest {
     }
 
 
-        public Joueur getJoueurActuel(){
+    public Joueur getJoueurActuel(){
         for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
             if (ordreJoueurTourActuel[i].isEstJoueurActuel())
                 return ordreJoueurTourActuel[i];

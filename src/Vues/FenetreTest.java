@@ -153,7 +153,7 @@ FenetreTest extends JFrame {
 		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
 
-		setFullscreen(jFrame);
+		//setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
 
 
@@ -293,7 +293,6 @@ FenetreTest extends JFrame {
 	}
 
 	public void changementJoueur() throws IOException {
-		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		jFrame.revalidate();
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 	}
@@ -325,6 +324,8 @@ FenetreTest extends JFrame {
 	}
 
 	public void nouvelleSelectionDomino() throws IOException {
+		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
+		System.out.println("JA : " + model.getJoueurActuel().getNom());
     	jPanelTuileSelect.remove(boutontuileSelect);
     	bloquerToutBoutonRoyaume(true,model.getJoueurActuel().getId());
     	bloquerBoutonDominoDejaPlacé();
@@ -340,6 +341,8 @@ FenetreTest extends JFrame {
 			}else{
 				jPanelCentre.removeAll();
 				model.nouveauTour();
+				nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
+				System.out.println("JA : " + model.getJoueurActuel().getNom());
 				bloquerToutBoutonCentre(false);
 				afficherTuilleAuCentre();
 			}
