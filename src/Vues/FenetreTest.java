@@ -4,6 +4,7 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileCentre;
+import Model.Domino;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -82,6 +83,7 @@ FenetreTest extends JFrame {
 	private JLabel tj3;
 	private JLabel tj4;
 
+	private JLabel dominoLabel ;
 
 	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
@@ -206,15 +208,20 @@ FenetreTest extends JFrame {
 
 	private void afficherTuilleAuCentre() throws IOException {
 		JPanel jPanelTuileAuCentre = new JPanel();
+		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
 		jPanelTuileSelect = new JPanel();
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			int idDom = model.getTuilesAuCentre().getDominoTab()[i].getId();
 			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
-			final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
-
 			jButtonTuillesCentre[i].setIcon(new ImageIcon(bi));
 			jButtonTuillesCentre[i].setActionCommand(""+idDom+"/"+i);
 			jPanelTuileAuCentre.add(jButtonTuillesCentre[i]);
+		}
+		for (int j=0; j<model.getNbDominoCentre();j++){
+			dominoLabel = new JLabel(String.valueOf(model.getTuilesAuCentre().getDominoTab()[j].getId()));
+			dominoLabel.setFont(new Font("Helvetica", Font.BOLD, 15));
+			dominoLabel.setHorizontalAlignment(JLabel.CENTER);
+			jPanelTuileAuCentre.add(dominoLabel);
 		}
 		jPanelCentre.add(jPanelTuileAuCentre);
 		jPanelCentre.add(jPanelTuileSelect);
