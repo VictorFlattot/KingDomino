@@ -202,7 +202,7 @@ FenetreTest extends JFrame {
 	private void afficherTuilleAuCentre() throws IOException {
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileSelect = new JPanel();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			int idDom = model.getTuilesAuCentre().getDominoTab()[i].getId();
 			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
 			final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
@@ -340,15 +340,10 @@ FenetreTest extends JFrame {
 		}
 	}
 
-	public void afficheErrPlacement(){
-		JOptionPane.showMessageDialog(jFrame,
-				"Eggs are not supposed to be green.");
-	}
 
 
 	public void afficherJeu() throws IOException {
 		initAtributJeu();
-
 		jFrame.remove(panelMenuJouerQuiter);
 		afficherTuilleAuCentre();
 		afficherRoyaume();
