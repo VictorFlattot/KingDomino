@@ -5,6 +5,7 @@ import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileCentre;
 import Model.Domino;
+import Model.Joueur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -84,6 +85,7 @@ FenetreTest extends JFrame {
 	private JLabel tj4;
 
 	private JLabel dominoLabel ;
+	private JLabel nomJoueurActif;
 
 	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
@@ -247,13 +249,12 @@ FenetreTest extends JFrame {
     }
 
 	private void afficherRoyaume() throws IOException {
-
-
 		if (model.getNbJoueur() == 2){
 			jPanelEst.add(new JPanel());
 			jPanelOuest.add(new JPanel());
 			jPanelEst.add(jPanelRoyaumes[1]);
 			jPanelOuest.add(jPanelRoyaumes[0]);
+
 		}
 		if (model.getNbJoueur() == 3){
 			jFrame.add(jPanelRoyaumes[2],BorderLayout.SOUTH);
@@ -265,7 +266,6 @@ FenetreTest extends JFrame {
 			jPanelOuest.add(jPanelRoyaumes[2]);
 
 		}
-
 		jFrame.add(jPanelEst,BorderLayout.EAST);
 		jFrame.add(jPanelOuest,BorderLayout.WEST);
 
@@ -293,6 +293,8 @@ FenetreTest extends JFrame {
 	}
 
 	public void changementJoueur() throws IOException {
+		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
+		jFrame.revalidate();
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 	}
 
@@ -355,6 +357,9 @@ FenetreTest extends JFrame {
 
 
 	public void afficherJeu() throws IOException {
+		nomJoueurActif = new JLabel("C'est au tour du joueur d : " + model.getJoueurActuel().getNom());
+		nomJoueurActif.setFont(new Font("Helvetica", Font.BOLD, 30));
+		jFrame.add(nomJoueurActif,BorderLayout.NORTH);
 		initAtributJeu();
 		jFrame.remove(panelMenuJouerQuiter);
 		afficherTuilleAuCentre();

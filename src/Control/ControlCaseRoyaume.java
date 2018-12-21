@@ -33,11 +33,12 @@ public class ControlCaseRoyaume implements ActionListener {
         if (rotation==90 || rotation==270) x2-=1;
         if(model.addDominoRoyaume(domino, model.getJoueurActuel().getId(), x, y, x2, y2)){
             try {
+                model.changementJoueur();
                 fenetre.changementJoueur();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            model.changementJoueur();
+
             try {
                 fenetre.nouvelleSelectionDomino();
                 fenetre.bloquerToutRoyaumes(true);
