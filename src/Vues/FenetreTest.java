@@ -514,11 +514,12 @@ FenetreTest extends JFrame {
 		}
 
 		valider.addActionListener(e->{
+			model.setNbJoueur(nombreJoueur);
 			for (int i = 0; i < model.getNbJoueur(); i++) {
 				model.setNomJoueur(jTextField[i].getText(),i);
 			}
 			try {
-				model.setNbJoueur(nombreJoueur);
+
 				jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
 				initRoyaumeToutJoueur();
 				jFrame.remove(jpanelNomJoueur);
