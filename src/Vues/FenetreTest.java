@@ -24,13 +24,14 @@ FenetreTest extends JFrame {
 
 	private ModelTest model;
 	private JFrame jFrame;
-	private JPanel jPanelInstruction ;
 	private Bouton[] jButtonTuillesCentre;
 	private JPanel jPanelCentre;
 	private JPanel jPanelOuest;
 	private JPanel jPanelEst;
 	private JPanel jPanelNord;
 	private JPanelPressStart jPanelPressStart;
+	private JFrame JFrameInstruction ;
+	private JPanel JPanelInsctruction ;
 
 	private JPanel jpanelNomJoueur ;
 
@@ -43,8 +44,6 @@ FenetreTest extends JFrame {
 	private JPanelRoyaume[] jPanelRoyaumes;
 
 	private JPanel panelMenuJouerQuiter;
-
-	private JScrollPane panelInstruction ;
 
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
@@ -71,6 +70,7 @@ FenetreTest extends JFrame {
 	private JLabel joueur ;
 
 	private Bouton valider ;
+	private Bouton BoutonRetour ;
 
 	private JTextField j1 ;
 	private JTextField j2 ;
@@ -115,7 +115,6 @@ FenetreTest extends JFrame {
 		setActionListenerCaseRoyaume(controlCaseRoyaume);
 		controlTuileCentre = new ControlTuileCentre(model,this);
 		setActionListenerTuileCentre(controlTuileCentre);
-
 	}
 
 	private void initAtribut() throws IOException {
@@ -129,6 +128,11 @@ FenetreTest extends JFrame {
 		valider = new Bouton() ;
 		valider.setText("Jouer");
 
+		boutonRetour = new Bouton();
+		boutonRetour.setText("Retour");
+
+		JFrameInstruction = new JFrame("Instruction");
+		JFrameInstruction.setSize(777,773);
 
 		deuxJoueurs = new Bouton();
 		deuxJoueurs.setText("Deux Rois");
@@ -144,7 +148,8 @@ FenetreTest extends JFrame {
 		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
 		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
-		setFullscreen();
+
+		setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
 
 
@@ -182,8 +187,8 @@ FenetreTest extends JFrame {
 
 	}
 
-	private void setFullscreen(){
-		device.setFullScreenWindow(jFrame);
+	private void setFullscreen(JFrame JFrame){
+		device.setFullScreenWindow(JFrame);
 
 	}
 
@@ -352,7 +357,6 @@ FenetreTest extends JFrame {
 	}
 
 	public void afficherMenuJouerQuitter() throws IOException {
-
 			jFrame.remove(jPanelPressStart);
 			panelMenuJouerQuiter = new JPanelPressStart(fondKing);
 			panelMenuJouerQuiter.setOpaque(true);
@@ -381,6 +385,8 @@ FenetreTest extends JFrame {
 			instruction.addActionListener( e -> {
 				try {
 					instruction();
+					jFrame.repaint();
+
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -445,12 +451,18 @@ FenetreTest extends JFrame {
 
 	public void instruction() throws IOException {
     	jFrame.removeKeyListener(keyListener);
-    	jFrame.remove(panelMenuJouerQuiter);
+		boutonRetour.setFont(new Font("Helvetica", Font.BOLD, 40));
+		JPanelInsctruction = new JPanelPressStart(ImageIO.read(new File("img/instruction_2.png")));
+		JPanelInsctruction.add(boutonRetour);
+    	JFrameInstruction.add(JPanelInsctruction);
+    	JFrameInstruction.setVisible(true);
+    	setFullscreen(JFrameInstruction);
 
-    	jPanelInstruction = new JPanelPressStart(instructionTab[1]);
-    	jPanelInstruction.add(boutonQuitter);
-    	jFrame.add(jPanelInstruction);
-    	jFrame.revalidate();
+    	JFrameInstruction.revalidate();
+		boutonRetour.addActionListener(e->{
+			JFrameInstruction.dispose();
+			setFullscreen(jFrame);
+		});
 	}
 
 	public void fermer() {
@@ -485,8 +497,6 @@ FenetreTest extends JFrame {
 		tj4.setFont(new Font("Helvetica",Font.BOLD,80));
 
 		valider.setFont(new Font("Helvetica",Font.BOLD,100));
-
-
 
 		jpanelNomJoueur.setOpaque(false);
 
