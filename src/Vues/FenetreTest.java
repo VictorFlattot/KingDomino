@@ -72,7 +72,7 @@ FenetreTest extends JFrame {
 	private JLabel joueur ;
 
 	private Bouton valider ;
-	private Bouton BoutonRetour ;
+	public Bouton boutonTour ;
 
 	private JTextField j1 ;
 	private JTextField j2 ;
@@ -83,6 +83,8 @@ FenetreTest extends JFrame {
 	private JLabel tj2;
 	private JLabel tj3;
 	private JLabel tj4;
+
+	private JPanel jPanelSouth ;
 
 	private JLabel dominoLabel ;
 	private JLabel nomJoueurActif;
@@ -108,6 +110,10 @@ FenetreTest extends JFrame {
 		jPanelOuest.setLayout(new GridLayout(2,1));
 		jPanelOuest.setOpaque(false);
 		jButtonTuillesCentre = new Bouton[4];
+
+		boutonTour = new Bouton();
+
+		jPanelSouth = new JPanel(new FlowLayout());
 
 		jPanelNord = new JPanel();
 		jPanelNord.setOpaque(false);
@@ -153,7 +159,7 @@ FenetreTest extends JFrame {
 		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
 
-		//setFullscreen(jFrame);
+		setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
 
 
@@ -266,8 +272,30 @@ FenetreTest extends JFrame {
 			jPanelOuest.add(jPanelRoyaumes[2]);
 
 		}
+
+
 		jFrame.add(jPanelEst,BorderLayout.EAST);
 		jFrame.add(jPanelOuest,BorderLayout.WEST);
+		boutonTour.setText("Passer mon tour");
+		boutonQuitter.setFont(new Font("Helvetica", Font.BOLD, 20));
+		boutonTour.setFont(new Font("Helvetica", Font.BOLD, 20));
+		jPanelSouth.add(boutonQuitter);
+		jPanelSouth.add(boutonTour);
+		boutonTour.setEnabled(false);
+		boutonTour.addActionListener(e->{
+			try {
+				changementJoueur();
+				model.changementJoueur();
+				nouvelleSelectionDomino();
+				bloquerToutRoyaumes(true);
+				jFrame.revalidate();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
+
+		jFrame.add(jPanelSouth, BorderLayout.SOUTH);
+
 
 		bloquerToutRoyaumes(true);
 
