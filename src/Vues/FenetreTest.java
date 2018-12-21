@@ -454,7 +454,7 @@ FenetreTest extends JFrame {
 	}
 
 	public void fermer() {
-    	int res = JOptionPane.showConfirmDialog(null,"Vous ne voulez pas devenir roi ?","", JOptionPane.YES_NO_OPTION);
+    	int res = JOptionPane.showConfirmDialog(null,"Voulez-vous abandonner votre royaume ?","", JOptionPane.YES_NO_OPTION);
 		switch (res){
 				case JOptionPane.YES_OPTION:
 						jFrame.dispose();
@@ -509,11 +509,12 @@ FenetreTest extends JFrame {
 		}
 
 		valider.addActionListener(e->{
+			model.setNbJoueur(nombreJoueur);
 			for (int i = 0; i < model.getNbJoueur(); i++) {
 				model.setNomJoueur(jTextField[i].getText(),i);
 			}
 			try {
-				model.setNbJoueur(nombreJoueur);
+
 				jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
 				initRoyaumeToutJoueur();
 				jFrame.remove(jpanelNomJoueur);
