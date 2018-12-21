@@ -27,6 +27,7 @@ public class JPanelRoyaume extends JPanel {
         initAtribut();
         setLayout(new BorderLayout());
         JLabel nomJoueur = new JLabel(joueur.getNom());
+        nomJoueur.setForeground (Color.blue);
         nomJoueur.setFont(new Font("Helvetica",Font.PLAIN,20));
         nomJoueur.setBorder(new EmptyBorder(0,130,5,0));
         this.add(nomJoueur,BorderLayout.NORTH);
