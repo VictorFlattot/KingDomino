@@ -4,10 +4,10 @@ public class TuilesAuCentre {
 	Domino[] dominoTab;
 	Paquet paquet;
 
-	public TuilesAuCentre(Paquet paquet) {
-		dominoTab = new Domino[4];
+	public TuilesAuCentre(Paquet paquet,int nbDomino) {
+		dominoTab = new Domino[nbDomino];
 		this.paquet = paquet;
-		for (int i = 0; i <4; i++) {
+		for (int i = 0; i <nbDomino; i++) {
 			dominoTab[i]= paquet.takeFirst();
 		}
 

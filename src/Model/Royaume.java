@@ -1,5 +1,8 @@
 package Model;
 
+
+import java.util.ArrayList;
+
 public class Royaume {
 	private int taille;
 	private Tuile[][] tuiles;
@@ -9,9 +12,7 @@ public class Royaume {
 	public Royaume(int taille) {
 		this.taille=taille;
 		initRoyaume();
-		showRoyaume();
-
-
+		//showRoyaume();
 
 	}
 
@@ -35,20 +36,47 @@ public class Royaume {
 		return tuiles;
 	}
 
-	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2){
-		Tuile[] tuilesDomino = domino.getTuiles();
-		addTuille(tuilesDomino[0],x,y);
-		addTuille(tuilesDomino[1],x2,y2);
-		showRoyaume();
+	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2)throws UnconnectedException {
+	    if(isTuileDejaPlace(x,y)){
+	        throw new UnconnectedException();
+        }
+        if (isTuileDejaPlace(x2, y2)) {
+            throw new UnconnectedException();
+        }
+		boolean test1 = isConnectedTotuile(x,y);
+		boolean test2 = isConnectedTotuile(x2,y2);
+		//boolean test1 = isConnectedToTuile(x, y, domino.getRotation());
+        //boolean test2 = isConnectedToTuile(x2, y2, domino.getRotation());
+
+		if((test1)||(test2)){
+			if(x>=matrice().length || x<0 || y>=matrice().length || y<0 || x2>=matrice().length || x<0 || y2>=matrice().length||y2<0) {
+				throw new ArrayIndexOutOfBoundsException();
+			}else{
+				Tuile[] tuilesDomino = domino.getTuiles();
+				addTuille(tuilesDomino[0], x, y);
+				addTuille(tuilesDomino[1], x2, y2);
+				//showRoyaume();
+			}
+		}else {
+			throw new UnconnectedException();
+		}
+
 
 	}
+
+	public boolean isTuileDejaPlace(int x, int y){
+        if(getTuile(x,y).getTerrain() != null){
+            return true;
+        }
+        return false;
+    }
 
 	void addTuille(Tuile tuile,int x,int y){
 		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)
-		tuiles[x][y] = tuile;
+			tuiles[x][y] = tuile;
 	}
 
-	Tuile getTuile(int x,int y){
+	public Tuile getTuile(int x,int y){
 		return tuiles[x][y];
 	}
 
@@ -68,9 +96,97 @@ public class Royaume {
 	void showRoyaume(){
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-				System.out.println(tuiles[i][j]);
+				System.out.println(i +"/" + j +":"+tuiles[i][j]);
 			}
 		}
 	}
+
+	private boolean isConnectedTotuile(int x, int y){
+		ArrayList<Integer> coordX = new ArrayList<Integer>();
+		ArrayList<Integer> coordY = new ArrayList<Integer>();
+		System.out.println(x-1);
+		System.out.println(x+1);
+		System.out.println(y-1);
+		System.out.println(y+1);
+		System.out.println("taille:"+taille);
+		if(x-1>0){
+			coordX.add(x-1);
+		}
+		if(x+1<taille){
+			System.out.println("sout je ne passe pas la ");
+			coordX.add(x+1);
+		}
+		if(y-1>0){
+			coordY.add(y-1);
+		}
+		if(y+1<taille){
+			coordY.add(y+1);
+		}
+
+		for(int i=0; i<coordX.size();i++){
+			System.out.println("boucle 1:"+coordX.get(i));
+			if(getTuile(coordX.get(i),y).getTerrain() != null){
+				return  true;
+			}
+		}
+		for(int i=0; i<coordY.size();i++){
+			System.out.println("boucle 1:"+coordY.get(i));
+			if(getTuile(x,coordY.get(i)).getTerrain() != null){
+				return  true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isConnectedToTuile(int x, int y, int rotation){
+	    if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
+			checkConnection(x, y, rotation);
+        }
+        return false;
+    }
+
+    public boolean isMemeTerrain(Tuile base, Tuile compare){
+	    return (base.getTerrain()==compare.getTerrain()) || (compare.getTerrain() == Terrain.DEPART);
+    }
+
+
+    private boolean checkConnection(int x, int y, int rotation){
+	    switch (rotation){
+            case 0:
+                return isMemeTerrain(getTuile(x,y),getTuile(x,y+1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile(x,y-1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile((x+1),y+1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile((x+1),y-1)) ||
+                        isMemeTerrain(getTuile(x,y),getTuile((x+1)+1,y));
+
+            case 90:
+            	return isMemeTerrain(getTuile(x,y),getTuile(x+1,(y-1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,(y-1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,(y-1)-1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x+1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y+1));
+
+			case 180:
+				return isMemeTerrain(getTuile(x,y),getTuile((x+1)+1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile((x+1),y+1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile((x+1),y-1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y+1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y-1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,y));
+
+			case 270:
+				return isMemeTerrain(getTuile(x,y),getTuile(x+1,(y+1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,(y+1))) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,(y+1)+1)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x+1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
+						isMemeTerrain(getTuile(x,y),getTuile(x,y+1));
+
+			default:
+				return false;
+        }
+    }
 
 }

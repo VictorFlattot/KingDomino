@@ -4,20 +4,76 @@ public class ModelTest {
     private Paquet paquet;
     private TuilesAuCentre tuilesAuCentre;
     private Joueur[] joueurs;
-    private int rotDominoSelect;
     private Domino dominoSelect;
-    private boolean[] dominoDejaPlacé;
+    private boolean[] dominoDejaPlace;
+    private int nbJoueur;
+    private Joueur[] ordreJoueurTourActuel;
+    private Joueur[] ordreJoueurTourSuivant;
+    private boolean faireUnNouveauTour;
+    private int nbChangementJoueur;
+    private int nbDominoCentre;
 
 
     public ModelTest() {
         paquet = new Paquet();
         paquet.shuffle();
-        tuilesAuCentre = new TuilesAuCentre(paquet);
-        joueurs = new Joueur[4];
-        joueurs[0] = new Joueur("J1");
-        joueurs[0].setEstJoueurActuel(true);
-        dominoDejaPlacé = new boolean[4];
+        dominoDejaPlace = new boolean[4];
+        faireUnNouveauTour = false;
 
+
+
+    }
+
+    public void setNbJoueur(int nbJoueur){
+        this.nbJoueur = nbJoueur;
+        joueurs = new Joueur[nbJoueur];
+        if (nbJoueur == 3) nbDominoCentre = 3;
+        else nbDominoCentre = 4;
+        tuilesAuCentre = new TuilesAuCentre(paquet,nbDominoCentre);
+        for (int i = 0; i < nbJoueur; i++) {
+            joueurs[i]=new Joueur("",i);
+        }
+        ordreJoueurTourActuel = new Joueur[nbJoueur];
+        ordreJoueurTourSuivant = new Joueur[nbJoueur];
+        initOrdre();
+    }
+
+
+    private void initOrdre(){
+        for (int i = 0; i < nbJoueur; i++) {
+            ordreJoueurTourActuel[i] = joueurs[i];
+        }
+        setJoueurActuel(0);
+
+    }
+
+    public void changementJoueur(){
+        if (getPosJoueurActuel() == nbJoueur-1){
+            setJoueurActuel(0);
+            nbChangementJoueur=0;
+            faireUnNouveauTour = true;
+        }
+        else{
+            setJoueurActuel(getPosJoueurActuel()+1);
+            faireUnNouveauTour = false;
+            nbChangementJoueur ++;
+        }
+
+    }
+
+    public void nouveauIndextourSuivant(int posDom){
+        ordreJoueurTourSuivant[posDom]=getJoueurActuel();
+    }
+
+    public void nouveauTour(){
+        System.out.println("nex turn");
+	    setFaireUnNouveauTour(false);
+	    dominoDejaPlace = new boolean[4];
+        for (int i = 0; i < nbJoueur; i++) {
+            ordreJoueurTourActuel[i] = ordreJoueurTourSuivant[i];
+        }
+        tuilesAuCentre = new TuilesAuCentre(paquet,nbDominoCentre);
+        setJoueurActuel(0);
     }
 
 
@@ -61,28 +117,173 @@ public class ModelTest {
         this.dominoSelect = dominoSelect;
     }
 
-    public void addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
-        joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino,x,y,x2,y2);
+    public boolean addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
+        try {
+            joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino, x, y, x2, y2);
+        }catch (ArrayIndexOutOfBoundsException | UnconnectedException e1){
+            return false;
+        }
+        return  true;
     }
 
     public void setJoueurActuel(int index){
-        joueurs[index].setEstJoueurActuel(true);
+        for (Joueur joueur :
+                ordreJoueurTourActuel) {
+            joueur.setEstJoueurActuel(false);
+        }
+        ordreJoueurTourActuel[index].setEstJoueurActuel(true);
     }
 
-    public int getJoueurActuel(){
-        for (int i = 0; i < joueurs.length; i++) {
-            if (joueurs[i].isEstJoueurActuel())
+    public int getPosJoueurActuel(){
+        for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
+            if (ordreJoueurTourActuel[i].isEstJoueurActuel())
                 return i;
         }
         return -1;
     }
 
+    public Joueur getJoueur(int id) {
+        for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
+            if (ordreJoueurTourActuel[i].getId() == id)
+                return ordreJoueurTourActuel[i];
+        }
+        return null;
+    }
+
+
+    public Joueur getJoueurActuel(){
+        for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
+            if (ordreJoueurTourActuel[i].isEstJoueurActuel())
+                return ordreJoueurTourActuel[i];
+        }
+        return null;
+    }
+
     public void setDominoDejaPlacé(int index,boolean b){
-        dominoDejaPlacé[index]=b;
+        nouveauIndextourSuivant(index);
+        dominoDejaPlace[index]=b;
     }
 
-    public boolean[] getDominoDejaPlacé() {
-        return dominoDejaPlacé;
+    public boolean[] getDominoDejaPlace() {
+        return dominoDejaPlace;
     }
 
+    public int getNbJoueur() {
+        return nbJoueur;
+    }
+
+    public boolean faireUnNouveauTour() {
+        return faireUnNouveauTour;
+    }
+
+    public void setFaireUnNouveauTour(boolean faireUnNouveauTour) {
+        this.faireUnNouveauTour = faireUnNouveauTour;
+
+    }
+
+    private void showOrdreActuel(){
+        for (Joueur joueur:
+                ordreJoueurTourActuel) {
+            if (joueur !=null){
+                System.out.println(joueur.getNom());
+            }else
+                System.out.println("\"");
+        }
+    }
+
+    private void showOrdreNext(){
+        for (Joueur joueur:
+                ordreJoueurTourSuivant) {
+            if (joueur !=null){
+                System.out.println(joueur.getNom());
+            }else
+                System.out.println("\"");
+
+        }
+    }
+
+    public boolean isPartieFinie(){
+        boolean fin =false;
+        if (paquet.isEmpty()){
+            fin = true;
+            for (int i = 0; i>dominoDejaPlace.length; i++){
+                if(dominoDejaPlace[i]){
+                    fin = true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return fin;
+    }
+
+    public int calculScore(Joueur joueur){ //renvoie le score d'dun joueur
+        int score=0;
+        boolean memeTerrain = false;
+        Royaume royaumeJoueur = joueur.getRoyaume();
+        Royaume test = new Royaume(5); //TEST
+        for (int i =0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                test.addTuille(new Tuile(Terrain.FORET,1),i,j); //TEST
+                if(royaumeJoueur.getTuile(i,j).getCouronne()==1) {
+                    score = 1;
+
+                }
+                    int nbTuilleSame =0;
+
+
+                    if (i < 4) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i + 1, j))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                            nbTuilleSame++;
+                        }
+                    }
+                    if (j < 4) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j + 1))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                            nbTuilleSame++;
+                        }
+                    }
+                    if (i > 0) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i - 1, j))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                            nbTuilleSame++;
+                        }
+                    }
+                    if (j > 0) { //sinon ça fait OutOfBoundsException
+                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j - 1))) {
+                            System.out.println("Les tuiles ont le même terrain");
+                            memeTerrain = true;
+                            nbTuilleSame++;
+                        }
+                    }
+
+                score = score * nbTuilleSame;
+
+
+
+
+            }
+        }
+
+        joueur.setScore(score);
+        return score;
+    }
+
+
+    public void setNomJoueur(String nom,int i) {
+        joueurs[i].setNom(nom);
+        System.out.println(nom);
+    }
+
+    public int getNbDominoCentre() {
+        return nbDominoCentre;
+    }
+
+    public void setNbDominoCentre(int nbDominoCentre) {
+        this.nbDominoCentre = nbDominoCentre;
+    }
 }

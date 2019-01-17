@@ -16,17 +16,16 @@ public class ControlTuileCentre implements ActionListener {
 	private FenetreTest fenetre;
 	private int idDom;
 	private int posDom;
-	private BufferedImage image
-			;
+	private BufferedImage image;
 
 	public ControlTuileCentre(ModelTest model, FenetreTest fenetre) {
 		this.model = model;
 		this.fenetre = fenetre;
-		fenetre.setActionListenerTuileCentre(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent a) {
+		//System.out.println("Joueur actuel : " + model.getJoueurActuel().getNom());
 		String actionCommandSplit[] = a.getActionCommand().split("/");
 		idDom = Integer.valueOf(actionCommandSplit[0]);
 		posDom = Integer.valueOf(actionCommandSplit[1]);
@@ -38,11 +37,12 @@ public class ControlTuileCentre implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		fenetre.boutonTour.setEnabled(true);
 		fenetre.afficheTuileSelect(new ImageIcon(image),idDom);
 		fenetre.bloquerToutBoutonCentre(true);
-		fenetre.bloquerToutBoutonRoyaume(false);
+		fenetre.bloquerToutBoutonRoyaume(false,model.getJoueurActuel().getId());
 		model.setDominoDejaPlacé(posDom,true);
-		System.out.println(model.getDominoSelect().getRotation());
+
 
 
 	}

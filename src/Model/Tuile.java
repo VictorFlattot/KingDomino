@@ -8,6 +8,8 @@ public class Tuile {
 	public Tuile(Terrain terrain, int nbCouronne) {
 		this.terrain = terrain;
 		this.nbCouronne=nbCouronne;
+		if (terrain != null) setId();
+		else id=-1;
 	}
 
 	public Terrain getTerrain() {
@@ -32,7 +34,15 @@ public class Tuile {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId() {
+		switch (terrain){
+			case DEPART: id = 16; break;
+			case CHAMPS: id=nbCouronne; break;
+			case FORET: id=nbCouronne+2; break;
+			case LAC: id=nbCouronne+4; break;
+			case PRAIRIE: id=nbCouronne+6;break;
+			case MARAIS: id=nbCouronne+9; break;
+			case MONTAGNES: id=nbCouronne+12;break;
+		}
 	}
 }
