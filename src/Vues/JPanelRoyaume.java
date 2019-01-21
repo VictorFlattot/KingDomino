@@ -27,12 +27,13 @@ public class JPanelRoyaume extends JPanel {
         initAtribut();
         setLayout(new BorderLayout());
         JLabel nomJoueur = new JLabel(joueur.getNom());
+        nomJoueur.setForeground (Color.blue);
         nomJoueur.setFont(new Font("Helvetica",Font.PLAIN,20));
         nomJoueur.setBorder(new EmptyBorder(0,130,5,0));
         this.add(nomJoueur,BorderLayout.NORTH);
         this.add(panelRoyaume);
         setOpaque(false);
-        setBorder(new EmptyBorder(15,40,150,40));
+        setBorder(new EmptyBorder(20,40,170,40));
 
     }
 
@@ -40,7 +41,7 @@ public class JPanelRoyaume extends JPanel {
         boutons = new Bouton[5][5];
         panelRoyaume = new JPanel();
         panelRoyaume.setLayout(new GridLayout(5,5));
-        panelRoyaume.setPreferredSize(new Dimension(320,200));
+        panelRoyaume.setPreferredSize(new Dimension(320,320));
         panelRoyaume.setSize(panelRoyaume.getPreferredSize());
         panelRoyaume.setOpaque(false);
         initBoutonPanel();

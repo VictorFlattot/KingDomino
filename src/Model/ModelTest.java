@@ -10,16 +10,16 @@ public class ModelTest {
     private Joueur[] ordreJoueurTourActuel;
     private Joueur[] ordreJoueurTourSuivant;
     private boolean faireUnNouveauTour;
+    private int nbChangementJoueur;
+    private int nbDominoCentre;
 
 
     public ModelTest() {
         paquet = new Paquet();
         paquet.shuffle();
-        tuilesAuCentre = new TuilesAuCentre(paquet);
         dominoDejaPlace = new boolean[4];
         faireUnNouveauTour = false;
 
-        //showOrdreActuel();
 
 
     }
@@ -27,10 +27,12 @@ public class ModelTest {
     public void setNbJoueur(int nbJoueur){
         this.nbJoueur = nbJoueur;
         joueurs = new Joueur[nbJoueur];
+        if (nbJoueur == 3) nbDominoCentre = 3;
+        else nbDominoCentre = 4;
+        tuilesAuCentre = new TuilesAuCentre(paquet,nbDominoCentre);
         for (int i = 0; i < nbJoueur; i++) {
             joueurs[i]=new Joueur("",i);
         }
-        //showOrdreActuel();
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
         initOrdre();
@@ -48,19 +50,19 @@ public class ModelTest {
     public void changementJoueur(){
         if (getPosJoueurActuel() == nbJoueur-1){
             setJoueurActuel(0);
+            nbChangementJoueur=0;
             faireUnNouveauTour = true;
         }
         else{
             setJoueurActuel(getPosJoueurActuel()+1);
             faireUnNouveauTour = false;
+            nbChangementJoueur ++;
         }
 
     }
 
     public void nouveauIndextourSuivant(int posDom){
         ordreJoueurTourSuivant[posDom]=getJoueurActuel();
-        /*System.out.println("\nnouvel ordre\n");
-        showOrdreNext();*/
     }
 
     public void nouveauTour(){
@@ -70,10 +72,8 @@ public class ModelTest {
         for (int i = 0; i < nbJoueur; i++) {
             ordreJoueurTourActuel[i] = ordreJoueurTourSuivant[i];
         }
-        tuilesAuCentre = new TuilesAuCentre(paquet);
+        tuilesAuCentre = new TuilesAuCentre(paquet,nbDominoCentre);
         setJoueurActuel(0);
-        /*System.out.println();
-        showOrdreActuel();*/
     }
 
 
@@ -151,7 +151,7 @@ public class ModelTest {
     }
 
 
-        public Joueur getJoueurActuel(){
+    public Joueur getJoueurActuel(){
         for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
             if (ordreJoueurTourActuel[i].isEstJoueurActuel())
                 return ordreJoueurTourActuel[i];
@@ -219,44 +219,52 @@ public class ModelTest {
 
     public int calculScore(Joueur joueur){ //renvoie le score d'dun joueur
         int score=0;
-        boolean memeTerrain;
+        boolean memeTerrain = false;
         Royaume royaumeJoueur = joueur.getRoyaume();
-        Royaume test = new Royaume(5);
+        Royaume test = new Royaume(5); //TEST
         for (int i =0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                test.addTuille(new Tuile(Terrain.FORET,1),i,j);
+                test.addTuille(new Tuile(Terrain.FORET,1),i,j); //TEST
                 if(royaumeJoueur.getTuile(i,j).getCouronne()==1) {
                     score = 1;
+
+                }
+                    int nbTuilleSame =0;
+
 
                     if (i < 4) { //sinon ça fait OutOfBoundsException
                         if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i + 1, j))) {
                             System.out.println("Les tuiles ont le même terrain");
                             memeTerrain = true;
+                            nbTuilleSame++;
                         }
                     }
                     if (j < 4) { //sinon ça fait OutOfBoundsException
                         if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j + 1))) {
                             System.out.println("Les tuiles ont le même terrain");
                             memeTerrain = true;
+                            nbTuilleSame++;
                         }
                     }
                     if (i > 0) { //sinon ça fait OutOfBoundsException
                         if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i - 1, j))) {
                             System.out.println("Les tuiles ont le même terrain");
                             memeTerrain = true;
+                            nbTuilleSame++;
                         }
                     }
                     if (j > 0) { //sinon ça fait OutOfBoundsException
                         if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j - 1))) {
                             System.out.println("Les tuiles ont le même terrain");
                             memeTerrain = true;
+                            nbTuilleSame++;
                         }
                     }
 
+                score = score * nbTuilleSame;
 
 
 
-                }
 
             }
         }
@@ -269,5 +277,13 @@ public class ModelTest {
     public void setNomJoueur(String nom,int i) {
         joueurs[i].setNom(nom);
         System.out.println(nom);
+    }
+
+    public int getNbDominoCentre() {
+        return nbDominoCentre;
+    }
+
+    public void setNbDominoCentre(int nbDominoCentre) {
+        this.nbDominoCentre = nbDominoCentre;
     }
 }

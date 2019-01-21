@@ -4,6 +4,8 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileCentre;
+import Model.Domino;
+import Model.Joueur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -24,13 +26,14 @@ FenetreTest extends JFrame {
 
 	private ModelTest model;
 	private JFrame jFrame;
-	private JPanel jPanelInstruction ;
 	private Bouton[] jButtonTuillesCentre;
 	private JPanel jPanelCentre;
 	private JPanel jPanelOuest;
 	private JPanel jPanelEst;
 	private JPanel jPanelNord;
 	private JPanelPressStart jPanelPressStart;
+	private JFrame JFrameInstruction ;
+	private JPanel JPanelInsctruction ;
 
 	private JPanel jpanelNomJoueur ;
 
@@ -43,8 +46,6 @@ FenetreTest extends JFrame {
 	private JPanelRoyaume[] jPanelRoyaumes;
 
 	private JPanel panelMenuJouerQuiter;
-
-	private JScrollPane panelInstruction ;
 
 	private JPanel jPanelTuileSelect;
 	private JButton boutontuileSelect;
@@ -71,6 +72,7 @@ FenetreTest extends JFrame {
 	private JLabel joueur ;
 
 	private Bouton valider ;
+	public Bouton boutonTour ;
 
 	private JTextField j1 ;
 	private JTextField j2 ;
@@ -82,6 +84,10 @@ FenetreTest extends JFrame {
 	private JLabel tj3;
 	private JLabel tj4;
 
+	private JPanel jPanelSouth ;
+
+	private JLabel dominoLabel ;
+	private JLabel nomJoueurActif;
 
 	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
@@ -105,6 +111,10 @@ FenetreTest extends JFrame {
 		jPanelOuest.setOpaque(false);
 		jButtonTuillesCentre = new Bouton[4];
 
+		boutonTour = new Bouton();
+
+		jPanelSouth = new JPanel(new FlowLayout());
+
 		jPanelNord = new JPanel();
 		jPanelNord.setOpaque(false);
 		boutontuileSelect = new Bouton();
@@ -115,7 +125,6 @@ FenetreTest extends JFrame {
 		setActionListenerCaseRoyaume(controlCaseRoyaume);
 		controlTuileCentre = new ControlTuileCentre(model,this);
 		setActionListenerTuileCentre(controlTuileCentre);
-
 	}
 
 	private void initAtribut() throws IOException {
@@ -129,6 +138,11 @@ FenetreTest extends JFrame {
 		valider = new Bouton() ;
 		valider.setText("Jouer");
 
+		boutonRetour = new Bouton();
+		boutonRetour.setText("Retour");
+
+		JFrameInstruction = new JFrame("Instruction");
+		JFrameInstruction.setSize(777,773);
 
 		deuxJoueurs = new Bouton();
 		deuxJoueurs.setText("Deux Rois");
@@ -144,7 +158,8 @@ FenetreTest extends JFrame {
 		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
 		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
-		//setFullscreen();
+
+		setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
 
 
@@ -182,8 +197,8 @@ FenetreTest extends JFrame {
 
 	}
 
-	private void setFullscreen(){
-		device.setFullScreenWindow(jFrame);
+	private void setFullscreen(JFrame JFrame){
+		device.setFullScreenWindow(JFrame);
 
 	}
 
@@ -201,15 +216,20 @@ FenetreTest extends JFrame {
 
 	private void afficherTuilleAuCentre() throws IOException {
 		JPanel jPanelTuileAuCentre = new JPanel();
+		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
 		jPanelTuileSelect = new JPanel();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			int idDom = model.getTuilesAuCentre().getDominoTab()[i].getId();
 			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
-			final BufferedImage croix = ImageIO.read(new File("img/croix.png"));
-
 			jButtonTuillesCentre[i].setIcon(new ImageIcon(bi));
 			jButtonTuillesCentre[i].setActionCommand(""+idDom+"/"+i);
 			jPanelTuileAuCentre.add(jButtonTuillesCentre[i]);
+		}
+		for (int j=0; j<model.getNbDominoCentre();j++){
+			dominoLabel = new JLabel(String.valueOf(model.getTuilesAuCentre().getDominoTab()[j].getId()));
+			dominoLabel.setFont(new Font("Helvetica", Font.BOLD, 15));
+			dominoLabel.setHorizontalAlignment(JLabel.CENTER);
+			jPanelTuileAuCentre.add(dominoLabel);
 		}
 		jPanelCentre.add(jPanelTuileAuCentre);
 		jPanelCentre.add(jPanelTuileSelect);
@@ -235,13 +255,12 @@ FenetreTest extends JFrame {
     }
 
 	private void afficherRoyaume() throws IOException {
-
-
 		if (model.getNbJoueur() == 2){
 			jPanelEst.add(new JPanel());
 			jPanelOuest.add(new JPanel());
 			jPanelEst.add(jPanelRoyaumes[1]);
 			jPanelOuest.add(jPanelRoyaumes[0]);
+
 		}
 		if (model.getNbJoueur() == 3){
 			jFrame.add(jPanelRoyaumes[2],BorderLayout.SOUTH);
@@ -254,8 +273,29 @@ FenetreTest extends JFrame {
 
 		}
 
+
 		jFrame.add(jPanelEst,BorderLayout.EAST);
 		jFrame.add(jPanelOuest,BorderLayout.WEST);
+		boutonTour.setText("Passer mon tour");
+		boutonQuitter.setFont(new Font("Helvetica", Font.BOLD, 20));
+		boutonTour.setFont(new Font("Helvetica", Font.BOLD, 20));
+		jPanelSouth.add(boutonQuitter);
+		jPanelSouth.add(boutonTour);
+		boutonTour.setEnabled(false);
+		boutonTour.addActionListener(e->{
+			try {
+				changementJoueur();
+				model.changementJoueur();
+				nouvelleSelectionDomino();
+				bloquerToutRoyaumes(true);
+				jFrame.revalidate();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
+
+		jFrame.add(jPanelSouth, BorderLayout.SOUTH);
+
 
 		bloquerToutRoyaumes(true);
 
@@ -281,6 +321,7 @@ FenetreTest extends JFrame {
 	}
 
 	public void changementJoueur() throws IOException {
+		jFrame.revalidate();
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 	}
 
@@ -311,6 +352,8 @@ FenetreTest extends JFrame {
 	}
 
 	public void nouvelleSelectionDomino() throws IOException {
+		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
+		System.out.println("JA : " + model.getJoueurActuel().getNom());
     	jPanelTuileSelect.remove(boutontuileSelect);
     	bloquerToutBoutonRoyaume(true,model.getJoueurActuel().getId());
     	bloquerBoutonDominoDejaPlacé();
@@ -326,6 +369,8 @@ FenetreTest extends JFrame {
 			}else{
 				jPanelCentre.removeAll();
 				model.nouveauTour();
+				nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
+				System.out.println("JA : " + model.getJoueurActuel().getNom());
 				bloquerToutBoutonCentre(false);
 				afficherTuilleAuCentre();
 			}
@@ -340,15 +385,13 @@ FenetreTest extends JFrame {
 		}
 	}
 
-	public void afficheErrPlacement(){
-		JOptionPane.showMessageDialog(jFrame,
-				"Eggs are not supposed to be green.");
-	}
 
 
 	public void afficherJeu() throws IOException {
+		nomJoueurActif = new JLabel("C'est au tour du joueur d : " + model.getJoueurActuel().getNom());
+		nomJoueurActif.setFont(new Font("Helvetica", Font.BOLD, 30));
+		jFrame.add(nomJoueurActif,BorderLayout.NORTH);
 		initAtributJeu();
-
 		jFrame.remove(panelMenuJouerQuiter);
 		afficherTuilleAuCentre();
 		afficherRoyaume();
@@ -357,7 +400,6 @@ FenetreTest extends JFrame {
 	}
 
 	public void afficherMenuJouerQuitter() throws IOException {
-
 			jFrame.remove(jPanelPressStart);
 			panelMenuJouerQuiter = new JPanelPressStart(fondKing);
 			panelMenuJouerQuiter.setOpaque(true);
@@ -386,6 +428,8 @@ FenetreTest extends JFrame {
 			instruction.addActionListener( e -> {
 				try {
 					instruction();
+					jFrame.repaint();
+
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -450,16 +494,22 @@ FenetreTest extends JFrame {
 
 	public void instruction() throws IOException {
     	jFrame.removeKeyListener(keyListener);
-    	jFrame.remove(panelMenuJouerQuiter);
+		boutonRetour.setFont(new Font("Helvetica", Font.BOLD, 40));
+		JPanelInsctruction = new JPanelPressStart(ImageIO.read(new File("img/instruction_2.png")));
+		JPanelInsctruction.add(boutonRetour);
+    	JFrameInstruction.add(JPanelInsctruction);
+    	JFrameInstruction.setVisible(true);
+    	setFullscreen(JFrameInstruction);
 
-    	jPanelInstruction = new JPanelPressStart(instructionTab[1]);
-    	jPanelInstruction.add(boutonQuitter);
-    	jFrame.add(jPanelInstruction);
-    	jFrame.revalidate();
+    	JFrameInstruction.revalidate();
+		boutonRetour.addActionListener(e->{
+			JFrameInstruction.dispose();
+			setFullscreen(jFrame);
+		});
 	}
 
 	public void fermer() {
-    	int res = JOptionPane.showConfirmDialog(null,"Vous ne voulez pas devenir roi ?","", JOptionPane.YES_NO_OPTION);
+    	int res = JOptionPane.showConfirmDialog(jFrame,"Voulez-vous abandonner votre royaume ?","", JOptionPane.YES_NO_OPTION);
 		switch (res){
 				case JOptionPane.YES_OPTION:
 						jFrame.dispose();
@@ -491,8 +541,6 @@ FenetreTest extends JFrame {
 
 		valider.setFont(new Font("Helvetica",Font.BOLD,100));
 
-
-
 		jpanelNomJoueur.setOpaque(false);
 
 
@@ -514,11 +562,12 @@ FenetreTest extends JFrame {
 		}
 
 		valider.addActionListener(e->{
+			model.setNbJoueur(nombreJoueur);
 			for (int i = 0; i < model.getNbJoueur(); i++) {
 				model.setNomJoueur(jTextField[i].getText(),i);
 			}
 			try {
-				model.setNbJoueur(nombreJoueur);
+
 				jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];
 				initRoyaumeToutJoueur();
 				jFrame.remove(jpanelNomJoueur);

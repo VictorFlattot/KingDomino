@@ -38,6 +38,7 @@ public class ControlCaseRoyaume implements ActionListener {
                 e1.printStackTrace();
             }
             model.changementJoueur();
+
             try {
                 fenetre.nouvelleSelectionDomino();
                 fenetre.bloquerToutRoyaumes(true);

@@ -37,6 +37,7 @@ public class ControlTuileCentre implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		fenetre.boutonTour.setEnabled(true);
 		fenetre.afficheTuileSelect(new ImageIcon(image),idDom);
 		fenetre.bloquerToutBoutonCentre(true);
 		fenetre.bloquerToutBoutonRoyaume(false,model.getJoueurActuel().getId());
