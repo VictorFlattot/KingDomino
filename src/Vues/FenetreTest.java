@@ -4,8 +4,6 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileCentre;
-import Model.Domino;
-import Model.Joueur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -18,7 +16,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 
 public class
@@ -26,7 +23,8 @@ FenetreTest extends JFrame {
 
 	private ModelTest model;
 	private JFrame jFrame;
-	private Bouton[] jButtonTuillesCentre;
+	private Bouton[] jButtonTuilleCentreAPlacer;
+	private Bouton[] jButtonTuilleCentreAChoisir;
 	private JPanel jPanelCentre;
 	private JPanel jPanelOuest;
 	private JPanel jPanelEst;
@@ -109,7 +107,8 @@ FenetreTest extends JFrame {
 		jPanelOuest = new JPanel();
 		jPanelOuest.setLayout(new GridLayout(2,1));
 		jPanelOuest.setOpaque(false);
-		jButtonTuillesCentre = new Bouton[4];
+		jButtonTuilleCentreAPlacer = new Bouton[4];
+		jButtonTuilleCentreAChoisir = new Bouton[4];
 
 		boutonTour = new Bouton();
 
@@ -210,7 +209,8 @@ FenetreTest extends JFrame {
 
 	private void initBoutonCentre(){
 		for (int i = 0; i < 4; i++) {
-			jButtonTuillesCentre[i] = new Bouton();
+			jButtonTuilleCentreAPlacer[i] = new Bouton();
+			jButtonTuilleCentreAChoisir[i] = new Bouton();
 		}
 	}
 
@@ -218,24 +218,29 @@ FenetreTest extends JFrame {
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
 		jPanelTuileSelect = new JPanel();
+		int idDom;
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
-			int idDom = model.getTuilesAuCentre().getDominoTab()[i].getId();
-			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
-			jButtonTuillesCentre[i].setIcon(new ImageIcon(bi));
-			jButtonTuillesCentre[i].setActionCommand(""+idDom+"/"+i);
-			jPanelTuileAuCentre.add(jButtonTuillesCentre[i]);
+			idDom = model.getTuilleCentreAChoisir().getDominoTab()[i].getId();
+			rowOfTuile(jPanelTuileAuCentre, idDom, i, jButtonTuilleCentreAChoisir);
+
 		}
-		for (int j=0; j<model.getNbDominoCentre();j++){
-			dominoLabel = new JLabel(String.valueOf(model.getTuilesAuCentre().getDominoTab()[j].getId()));
-			dominoLabel.setFont(new Font("Helvetica", Font.BOLD, 15));
-			dominoLabel.setHorizontalAlignment(JLabel.CENTER);
-			jPanelTuileAuCentre.add(dominoLabel);
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+			idDom = model.getTuilesCentreAPLacer().getDominoTab()[i].getId();
+			rowOfTuile(jPanelTuileAuCentre, idDom, i, jButtonTuilleCentreAPlacer);
 		}
 		jPanelCentre.add(jPanelTuileAuCentre);
 		jPanelCentre.add(jPanelTuileSelect);
 		jFrame.add(jPanelCentre,BorderLayout.CENTER);
 		jFrame.revalidate();
 
+	}
+
+	private void rowOfTuile(JPanel jPanelTuileAuCentre, int idDom, int i, Bouton[] jButtonTuilleCentreAPlacer) throws IOException {
+		final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
+
+		jButtonTuilleCentreAPlacer[i].setIcon(new ImageIcon(bi));
+		jButtonTuilleCentreAPlacer[i].setActionCommand(""+idDom+"/"+i);
+		jPanelTuileAuCentre.add(jButtonTuilleCentreAPlacer[i]);
 	}
 
 	public void afficheTuileSelect(Icon icon,int id){
@@ -316,7 +321,7 @@ FenetreTest extends JFrame {
 
 	public void setActionListenerTuileCentre(ActionListener actionListener){
 		for (int i = 0; i < 4; i++) {
-			jButtonTuillesCentre[i].addActionListener(actionListener);
+			jButtonTuilleCentreAPlacer[i].addActionListener(actionListener);
 		}
 	}
 
@@ -333,7 +338,7 @@ FenetreTest extends JFrame {
 
 	public void bloquerToutBoutonCentre(boolean b){
 		for (int i = 0; i < 4; i++) {
-		    jButtonTuillesCentre[i].setEnabled(!b);
+		    jButtonTuilleCentreAPlacer[i].setEnabled(!b);
 		}
 	}
 
@@ -348,7 +353,7 @@ FenetreTest extends JFrame {
 	}
 
 	private void bloquerBoutonCentre(int index,boolean b){
-		jButtonTuillesCentre[index].setEnabled(b);
+		jButtonTuilleCentreAPlacer[index].setEnabled(b);
 	}
 
 	public void nouvelleSelectionDomino() throws IOException {
@@ -583,5 +588,7 @@ FenetreTest extends JFrame {
 
 	}
 
-
+	public JFrame getjFrame() {
+		return jFrame;
+	}
 }

@@ -2,7 +2,8 @@ package Model;
 
 public class ModelTest {
     private Paquet paquet;
-    private TuilesAuCentre tuilesAuCentre;
+    private TuilesAuCentre tuilesCentreAPLacer;
+    private TuilesAuCentre tuilleCentreAChoisir;
     private Joueur[] joueurs;
     private Domino dominoSelect;
     private boolean[] dominoDejaPlace;
@@ -10,8 +11,9 @@ public class ModelTest {
     private Joueur[] ordreJoueurTourActuel;
     private Joueur[] ordreJoueurTourSuivant;
     private boolean faireUnNouveauTour;
-    private int nbChangementJoueur;
     private int nbDominoCentre;
+    private int nbTour;
+    private int nbTourMax;
 
 
     public ModelTest() {
@@ -29,7 +31,8 @@ public class ModelTest {
         joueurs = new Joueur[nbJoueur];
         if (nbJoueur == 3) nbDominoCentre = 3;
         else nbDominoCentre = 4;
-        tuilesAuCentre = new TuilesAuCentre(paquet,nbDominoCentre);
+        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
+        tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
         for (int i = 0; i < nbJoueur; i++) {
             joueurs[i]=new Joueur("",i);
         }
@@ -50,13 +53,11 @@ public class ModelTest {
     public void changementJoueur(){
         if (getPosJoueurActuel() == nbJoueur-1){
             setJoueurActuel(0);
-            nbChangementJoueur=0;
             faireUnNouveauTour = true;
         }
         else{
             setJoueurActuel(getPosJoueurActuel()+1);
             faireUnNouveauTour = false;
-            nbChangementJoueur ++;
         }
 
     }
@@ -72,7 +73,8 @@ public class ModelTest {
         for (int i = 0; i < nbJoueur; i++) {
             ordreJoueurTourActuel[i] = ordreJoueurTourSuivant[i];
         }
-        tuilesAuCentre = new TuilesAuCentre(paquet,nbDominoCentre);
+        tuilesCentreAPLacer = tuilleCentreAChoisir;
+        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
         setJoueurActuel(0);
     }
 
@@ -85,12 +87,12 @@ public class ModelTest {
         this.paquet = paquet;
     }
 
-    public TuilesAuCentre getTuilesAuCentre() {
-        return tuilesAuCentre;
+    public TuilesAuCentre getTuilesCentreAPLacer() {
+        return tuilesCentreAPLacer;
     }
 
-    public void setTuilesAuCentre(TuilesAuCentre tuilesAuCentre) {
-        this.tuilesAuCentre = tuilesAuCentre;
+    public void setTuilesCentreAPLacer(TuilesAuCentre tuilesCentreAPLacer) {
+        this.tuilesCentreAPLacer = tuilesCentreAPLacer;
     }
 
     public Joueur[] getJoueurs() {
@@ -285,5 +287,13 @@ public class ModelTest {
 
     public void setNbDominoCentre(int nbDominoCentre) {
         this.nbDominoCentre = nbDominoCentre;
+    }
+
+    public TuilesAuCentre getTuilleCentreAChoisir() {
+        return tuilleCentreAChoisir;
+    }
+
+    public void setTuilleCentreAChoisir(TuilesAuCentre tuilleCentreAChoisir) {
+        this.tuilleCentreAChoisir = tuilleCentreAChoisir;
     }
 }
