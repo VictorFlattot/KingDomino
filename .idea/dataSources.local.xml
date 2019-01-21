@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="dataSourceStorageLocal">
-    <data-source name="KingDomino@localhost" uuid="9da05cac-0cc5-4866-9cbc-0777de80bb57">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
-      <introspection-schemas>*:@</introspection-schemas>
-    </data-source>
-  </component>
-</project>
