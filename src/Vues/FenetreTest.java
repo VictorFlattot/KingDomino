@@ -508,8 +508,8 @@ FenetreTest extends JFrame {
 		});
 	}
 
-	public void fermer() {
-    	int res = JOptionPane.showConfirmDialog(null,"Voulez-vous abandonner votre royaume ?","", JOptionPane.YES_NO_OPTION);
+	public void fermer(){
+    	int res = JOptionPane.showConfirmDialog(jFrame,"Voulez-vous abandonner votre royaume ?","Quitter", JOptionPane.YES_NO_OPTION);
 		switch (res){
 				case JOptionPane.YES_OPTION:
 						jFrame.dispose();
