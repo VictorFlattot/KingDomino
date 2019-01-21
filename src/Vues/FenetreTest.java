@@ -144,7 +144,7 @@ FenetreTest extends JFrame {
 		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
 		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
-		setFullscreen();
+		//setFullscreen();
 		jFrame.setLayout(new BorderLayout());
 
 

@@ -43,20 +43,20 @@ public class Royaume {
         if (isTuileDejaPlace(x2, y2)) {
             throw new UnconnectedException();
         }
-		boolean test1 = isConnectedTotuile(x,y);
-		boolean test2 = isConnectedTotuile(x2,y2);
-		//boolean test1 = isConnectedToTuile(x, y, domino.getRotation());
+		//boolean test1 = isConnectedTotuile(x,y);
+		//boolean test2 = isConnectedTotuile(x2,y2);
+		boolean test1 = isConnectedToTuile(domino ,x, y);
         //boolean test2 = isConnectedToTuile(x2, y2, domino.getRotation());
 
-		if((test1)||(test2)){
-			if(x>=matrice().length || x<0 || y>=matrice().length || y<0 || x2>=matrice().length || x<0 || y2>=matrice().length||y2<0) {
+		if((test1)/*||(test2)*/){
+			/*if(x>=matrice().length || x<0 || y>=matrice().length || y<0 || x2>=matrice().length || x<0 || y2>=matrice().length||y2<0) {
 				throw new ArrayIndexOutOfBoundsException();
-			}else{
+			}else{*/
 				Tuile[] tuilesDomino = domino.getTuiles();
 				addTuille(tuilesDomino[0], x, y);
 				addTuille(tuilesDomino[1], x2, y2);
 				//showRoyaume();
-			}
+			//}
 		}else {
 			throw new UnconnectedException();
 		}
@@ -138,51 +138,86 @@ public class Royaume {
 		return false;
 	}
 
-	public boolean isConnectedToTuile(int x, int y, int rotation){
-	    if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
-			checkConnection(x, y, rotation);
-        }
+	public boolean isConnectedToTuile(Domino domino, int x, int y){
+	    //if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
+			if (checkConnection(domino, x, y)){
+				System.out.println("Fonction OK");
+				return true;
+			}
+        //}
         return false;
     }
 
     public boolean isMemeTerrain(Tuile base, Tuile compare){
+		System.out.println("Domino : " + base.getTerrain() + " | Royaume : " + compare.getTerrain());
 	    return (base.getTerrain()==compare.getTerrain()) || (compare.getTerrain() == Terrain.DEPART);
     }
 
+    private boolean checkConnection(Domino domino, int x, int y){
+		System.out.println("Terrain Nord : " + domino.getTuileNord());
+		System.out.println("Terrain Ouest : " + domino.getTuileOuest());
+		System.out.println("Terrain Est : " + domino.getTuileEst());
+		System.out.println("Terrain Sud : " + domino.getTuileSud());
+		System.out.println("x: " + x + " | y: " + y);
 
-    private boolean checkConnection(int x, int y, int rotation){
-	    switch (rotation){
+	    switch (domino.getRotation()){
             case 0:
-                return isMemeTerrain(getTuile(x,y),getTuile(x,y+1)) ||
-                        isMemeTerrain(getTuile(x,y),getTuile(x,y-1)) ||
-                        isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
-                        isMemeTerrain(getTuile(x,y),getTuile((x+1),y+1)) ||
-                        isMemeTerrain(getTuile(x,y),getTuile((x+1),y-1)) ||
-                        isMemeTerrain(getTuile(x,y),getTuile((x+1)+1,y));
+			case 180:
+				System.out.println("=== Rotation  0/180 ===");
+            	if (y-1 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x,y-1)))
+					return true;
+				if (x-1 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x-1,y)))
+					return true;
+				if (x+1 < 5 && isMemeTerrain(domino.getTuileOuest(),getTuile(x+1,y)))
+					return true;
+				if (y+2 < 5 && isMemeTerrain(domino.getTuileEst(),getTuile(x,(y+1)+1)))
+					return true;
+				if (x-1 > -1 && y+1 < 5 && isMemeTerrain(domino.getTuileEst(),getTuile(x-1,(y+1))))
+					return true;
+				return (x+1 < 5 && y+1 < 5 && isMemeTerrain(domino.getTuileEst(),getTuile(x+1,(y+1))));
 
             case 90:
-            	return isMemeTerrain(getTuile(x,y),getTuile(x+1,(y-1))) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x-1,(y-1))) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x,(y-1)-1)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x+1,y)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x,y+1));
-
+			case 270:
+				System.out.println("=== Rotation 90/270 ===");
+				if (y-1 > -1 && isMemeTerrain(domino.getTuileSud(),getTuile(x,y-1)))
+					return true;
+				if (y+1 < 5 && isMemeTerrain(domino.getTuileSud(),getTuile(x,y+1)))
+					return true;
+				if (x+1 < 5 && isMemeTerrain(domino.getTuileSud(),getTuile(x+1,y)))
+					return true;
+				if (x-2 > -1 && isMemeTerrain(domino.getTuileNord(),getTuile((x-1)-1,y)))
+					return true;
+				if (x-1 > -1 && y-1 > -1 &&isMemeTerrain(domino.getTuileNord(),getTuile((x-1),y-1)))
+					return true;
+				return (x-1 > -1 && y-1 > -1 && isMemeTerrain(domino.getTuileNord(),getTuile((x-1),y+1)));
+/*
 			case 180:
-				return isMemeTerrain(getTuile(x,y),getTuile((x+1)+1,y)) ||
-						isMemeTerrain(getTuile(x,y),getTuile((x+1),y+1)) ||
-						isMemeTerrain(getTuile(x,y),getTuile((x+1),y-1)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x,y+1)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x,y-1)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x-1,y));
+				System.out.println("=== Rotation 180 ===");
+				if (y+1 < 5 && isMemeTerrain(domino.getTuileEst(),getTuile(x,y+1)))
+					return true;
+				if (x-1 > -1 && isMemeTerrain(domino.getTuileEst(),getTuile(x-1,y)))
+					return true;
+				if (x+1 < 5 && isMemeTerrain(domino.getTuileEst(),getTuile(x+1,y)))
+					return true;
+				if (y-2 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x,(y-1)-1)))
+					return true;
+				if (x-1 > -1 && y-1 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x-1,(y-1))))
+					return true;
+				return (x+1 < 5 && y-1 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x+1,(y-1))));
 
 			case 270:
-				return isMemeTerrain(getTuile(x,y),getTuile(x+1,(y+1))) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x-1,(y+1))) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x,(y+1)+1)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x+1,y)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x-1,y)) ||
-						isMemeTerrain(getTuile(x,y),getTuile(x,y+1));
+				System.out.println("=== Rotation 270 ===");
+				if (y-1 > -1 && isMemeTerrain(domino.getTuileSud(),getTuile(x,y-1)))
+					return true;
+				if (y+1 < 5 && isMemeTerrain(domino.getTuileSud(),getTuile(x,y+1)))
+					return true;
+				if (x+1 < 5 && isMemeTerrain(domino.getTuileSud(),getTuile(x+1,y)))
+					return true;
+				if (x-2 > -1 && isMemeTerrain(domino.getTuileNord(),getTuile((x-1)-1,y)))
+					return true;
+				if (x-1 > -1 && y-1 > -1 &&isMemeTerrain(domino.getTuileNord(),getTuile((x-1),y-1)))
+					return true;
+				return (x-1 > -1 && y-1 > -1 && isMemeTerrain(domino.getTuileNord(),getTuile((x-1),y+1)));*/
 
 			default:
 				return false;
