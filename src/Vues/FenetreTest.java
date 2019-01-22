@@ -3,9 +3,8 @@ package Vues;
 
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
+import Control.ControlTuileAChoisir;
 import Control.ControlTuileCentre;
-import Model.Domino;
-import Model.Joueur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -18,7 +17,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 
 public class
@@ -26,7 +24,9 @@ FenetreTest extends JFrame {
 
 	private ModelTest model;
 	private JFrame jFrame;
-	private Bouton[] jButtonTuillesCentre;
+	private Bouton[] jButtonTuilleCentreAPlacer;
+	private Bouton[] jButtonTuilleCentreAChoisir;
+	private Bouton[] jButtonTuilleCentreVide;
 	private JPanel jPanelCentre;
 	private JPanel jPanelOuest;
 	private JPanel jPanelEst;
@@ -34,6 +34,8 @@ FenetreTest extends JFrame {
 	private JPanelPressStart jPanelPressStart;
 	private JFrame JFrameInstruction ;
 	private JPanel JPanelInsctruction ;
+	private JLabel[] jLabelsDomSelectByPlayer;
+
 
 	private JPanel jpanelNomJoueur ;
 
@@ -54,6 +56,7 @@ FenetreTest extends JFrame {
 	private Bouton boutonRetour ;
 	private Bouton instruction ;
     private ControlRotationTuile controlRotationTuile;
+    private ControlTuileAChoisir controlTuileAChoisir;
     static GraphicsDevice device ;
 	private Image fondKing ;
 	private Image pressStart ;
@@ -88,6 +91,7 @@ FenetreTest extends JFrame {
 
 	private JLabel dominoLabel ;
 	private JLabel nomJoueurActif;
+	private JPanel[] jPanel2PartTuileAChoisir;
 
 	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
@@ -98,6 +102,7 @@ FenetreTest extends JFrame {
 	}
 
 	private void initAtributJeu() throws IOException {
+
 		jpanelNomJoueur = new JPanel();
 		jPanelNombreJoueur = new JPanel();
 		jPanelCentre = new JPanel();
@@ -109,7 +114,11 @@ FenetreTest extends JFrame {
 		jPanelOuest = new JPanel();
 		jPanelOuest.setLayout(new GridLayout(2,1));
 		jPanelOuest.setOpaque(false);
-		jButtonTuillesCentre = new Bouton[4];
+		jButtonTuilleCentreAPlacer = new Bouton[4];
+		jButtonTuilleCentreAChoisir = new Bouton[4];
+		jButtonTuilleCentreVide = new Bouton[4];
+		jLabelsDomSelectByPlayer = new JLabel[model.getNbJoueur()];
+
 
 		boutonTour = new Bouton();
 
@@ -124,7 +133,10 @@ FenetreTest extends JFrame {
 		controlCaseRoyaume = new ControlCaseRoyaume(model,this);
 		setActionListenerCaseRoyaume(controlCaseRoyaume);
 		controlTuileCentre = new ControlTuileCentre(model,this);
-		setActionListenerTuileCentre(controlTuileCentre);
+		setActionListenerTuileCentreAPlacer(controlTuileCentre);
+		controlTuileAChoisir = new ControlTuileAChoisir(model,this);
+		setActionListenerTuileCentreAChoisir(controlTuileAChoisir);
+
 	}
 
 	private void initAtribut() throws IOException {
@@ -192,6 +204,7 @@ FenetreTest extends JFrame {
 		boutonQuitter = new Bouton();
 		boutonQuitter.setText("Quitter");
 		boutonQuitter.addActionListener(e -> fermer());
+
 		jFrame.add(jPanelPressStart);
 
 
@@ -210,27 +223,52 @@ FenetreTest extends JFrame {
 
 	private void initBoutonCentre(){
 		for (int i = 0; i < 4; i++) {
-			jButtonTuillesCentre[i] = new Bouton();
+			jButtonTuilleCentreAPlacer[i] = new Bouton();
+			jButtonTuilleCentreAChoisir[i] = new Bouton();
+			jLabelsDomSelectByPlayer[i] = new JLabel(""+i);
 		}
 	}
 
 	private void afficherTuilleAuCentre() throws IOException {
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
-		jPanelTuileSelect = new JPanel();
+		jPanel2PartTuileAChoisir = new JPanel[model.getNbDominoCentre()];
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
-			int idDom = model.getTuilesAuCentre().getDominoTab()[i].getId();
+			jPanel2PartTuileAChoisir[i] = new JPanel();
+			jPanel2PartTuileAChoisir[i].setLayout(new GridLayout(2,1));
+		}
+
+		jPanelTuileSelect = new JPanel();
+		int idDom;
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+			idDom = model.getTuilleCentreAChoisir().getDominoTab()[i].getId();
 			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
-			jButtonTuillesCentre[i].setIcon(new ImageIcon(bi));
-			jButtonTuillesCentre[i].setActionCommand(""+idDom+"/"+i);
-			jPanelTuileAuCentre.add(jButtonTuillesCentre[i]);
+
+			jButtonTuilleCentreAChoisir[i].setIcon(new ImageIcon(bi));
+			jButtonTuilleCentreAChoisir[i].setActionCommand(""+ idDom +"/"+ i);
+			jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
+			jPanel2PartTuileAChoisir[i].add(jLabelsDomSelectByPlayer[i]);
+			jPanelTuileAuCentre.add(jPanel2PartTuileAChoisir[i]);
+
 		}
-		for (int j=0; j<model.getNbDominoCentre();j++){
-			dominoLabel = new JLabel(String.valueOf(model.getTuilesAuCentre().getDominoTab()[j].getId()));
-			dominoLabel.setFont(new Font("Helvetica", Font.BOLD, 15));
-			dominoLabel.setHorizontalAlignment(JLabel.CENTER);
-			jPanelTuileAuCentre.add(dominoLabel);
+
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+			if (model.getNbTour() !=1){
+				idDom = model.getTuilesCentreAPLacer().getDominoTab()[i].getId();
+				final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
+
+				jButtonTuilleCentreAPlacer[i].setIcon(new ImageIcon(bi));
+				jButtonTuilleCentreAPlacer[i].setActionCommand(""+ idDom +"/"+ i);
+				jPanelTuileAuCentre.add(jButtonTuilleCentreAPlacer[i]);
+
+			}else{
+				jPanelTuileAuCentre.add(jButtonTuilleCentreAPlacer[i]);
+				jButtonTuilleCentreAPlacer[i].setActionCommand(""+0+"/"+i);
+			}
 		}
+
+
+
 		jPanelCentre.add(jPanelTuileAuCentre);
 		jPanelCentre.add(jPanelTuileSelect);
 		jFrame.add(jPanelCentre,BorderLayout.CENTER);
@@ -314,9 +352,15 @@ FenetreTest extends JFrame {
 
 	}
 
-	public void setActionListenerTuileCentre(ActionListener actionListener){
+	public void setActionListenerTuileCentreAPlacer(ActionListener actionListener){
 		for (int i = 0; i < 4; i++) {
-			jButtonTuillesCentre[i].addActionListener(actionListener);
+			jButtonTuilleCentreAPlacer[i].addActionListener(actionListener);
+		}
+	}
+
+	public void setActionListenerTuileCentreAChoisir(ActionListener actionListener){
+		for (int i = 0; i < 4; i++) {
+			jButtonTuilleCentreAChoisir[i].addActionListener(actionListener);
 		}
 	}
 
@@ -333,7 +377,7 @@ FenetreTest extends JFrame {
 
 	public void bloquerToutBoutonCentre(boolean b){
 		for (int i = 0; i < 4; i++) {
-		    jButtonTuillesCentre[i].setEnabled(!b);
+		    jButtonTuilleCentreAPlacer[i].setEnabled(!b);
 		}
 	}
 
@@ -348,7 +392,7 @@ FenetreTest extends JFrame {
 	}
 
 	private void bloquerBoutonCentre(int index,boolean b){
-		jButtonTuillesCentre[index].setEnabled(b);
+		jButtonTuilleCentreAPlacer[index].setEnabled(b);
 	}
 
 	public void nouvelleSelectionDomino() throws IOException {
@@ -395,6 +439,7 @@ FenetreTest extends JFrame {
 		jFrame.remove(panelMenuJouerQuiter);
 		afficherTuilleAuCentre();
 		afficherRoyaume();
+
 		jFrame.revalidate();
 
 	}
@@ -583,5 +628,11 @@ FenetreTest extends JFrame {
 
 	}
 
+	public JFrame getjFrame() {
+		return jFrame;
+	}
 
+	public void changeLabelPlayer(int posDom) {
+		jLabelsDomSelectByPlayer[posDom].setText(model.getJoueurActuel().getNom());
+	}
 }

@@ -46,7 +46,7 @@ public class ControlCaseRoyaume implements ActionListener {
                 e1.printStackTrace();
             }
         }else{
-            JOptionPane.showMessageDialog(fenetre,"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

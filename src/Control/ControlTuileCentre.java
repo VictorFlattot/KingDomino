@@ -30,7 +30,7 @@ public class ControlTuileCentre implements ActionListener {
 		idDom = Integer.valueOf(actionCommandSplit[0]);
 		posDom = Integer.valueOf(actionCommandSplit[1]);
 
-		model.setDominoSelect(model.getTuilesAuCentre().getDominoTab()[posDom]);
+		model.setDominoSelect(model.getTuilesCentreAPLacer().getDominoTab()[posDom]);
 
 		try {
 			image = ImageIO.read(new File(fenetre.donneCheminDomino(idDom,0)));
