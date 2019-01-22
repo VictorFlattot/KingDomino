@@ -33,6 +33,7 @@ FenetreTest extends JFrame {
 	private JFrame JFrameInstruction ;
 	private JPanel JPanelInsctruction ;
 
+
 	private JPanel jpanelNomJoueur ;
 
 	private JPanel jPanelNombreJoueur ;
