@@ -21,9 +21,8 @@ public class ModelTest {
         paquet.shuffle();
         dominoDejaPlace = new boolean[4];
         faireUnNouveauTour = false;
-
-
-
+        nbTour = 1;
+        nbTourMax = 12;
     }
 
     public void setNbJoueur(int nbJoueur){
@@ -31,18 +30,24 @@ public class ModelTest {
         joueurs = new Joueur[nbJoueur];
         if (nbJoueur == 3) nbDominoCentre = 3;
         else nbDominoCentre = 4;
-        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
-        tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
         for (int i = 0; i < nbJoueur; i++) {
             joueurs[i]=new Joueur("",i);
         }
-        ordreJoueurTourActuel = new Joueur[nbJoueur];
-        ordreJoueurTourSuivant = new Joueur[nbJoueur];
-        initOrdre();
+
+
+        initTuileCentre();
+        initOrdre(nbJoueur);
+    }
+
+    private void initTuileCentre() {
+        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
+        tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
     }
 
 
-    private void initOrdre(){
+    private void initOrdre(int nbJoueur){
+        ordreJoueurTourActuel = new Joueur[nbJoueur];
+        ordreJoueurTourSuivant = new Joueur[nbJoueur];
         for (int i = 0; i < nbJoueur; i++) {
             ordreJoueurTourActuel[i] = joueurs[i];
         }
@@ -68,6 +73,8 @@ public class ModelTest {
 
     public void nouveauTour(){
         System.out.println("nex turn");
+        nbTour++;
+        System.out.println(nbTour);
 	    setFaireUnNouveauTour(false);
 	    dominoDejaPlace = new boolean[4];
         for (int i = 0; i < nbJoueur; i++) {
@@ -205,18 +212,7 @@ public class ModelTest {
     }
 
     public boolean isPartieFinie(){
-        boolean fin =false;
-        if (paquet.isEmpty()){
-            fin = true;
-            for (int i = 0; i>dominoDejaPlace.length; i++){
-                if(dominoDejaPlace[i]){
-                    fin = true;
-                }else{
-                    return false;
-                }
-            }
-        }
-        return fin;
+        return nbTour > nbTourMax;
     }
 
     public int calculScore(Joueur joueur){ //renvoie le score d'dun joueur
@@ -234,34 +230,10 @@ public class ModelTest {
                     int nbTuilleSame =0;
 
 
-                    if (i < 4) { //sinon ça fait OutOfBoundsException
-                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i + 1, j))) {
-                            System.out.println("Les tuiles ont le même terrain");
-                            memeTerrain = true;
-                            nbTuilleSame++;
-                        }
-                    }
-                    if (j < 4) { //sinon ça fait OutOfBoundsException
-                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j + 1))) {
-                            System.out.println("Les tuiles ont le même terrain");
-                            memeTerrain = true;
-                            nbTuilleSame++;
-                        }
-                    }
-                    if (i > 0) { //sinon ça fait OutOfBoundsException
-                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i - 1, j))) {
-                            System.out.println("Les tuiles ont le même terrain");
-                            memeTerrain = true;
-                            nbTuilleSame++;
-                        }
-                    }
-                    if (j > 0) { //sinon ça fait OutOfBoundsException
-                        if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(i, j), royaumeJoueur.getTuile(i, j - 1))) {
-                            System.out.println("Les tuiles ont le même terrain");
-                            memeTerrain = true;
-                            nbTuilleSame++;
-                        }
-                    }
+                nbTuilleSame = getNbTuilleSame(royaumeJoueur, i, nbTuilleSame, royaumeJoueur.getTuile(i, j), i + 1, j, i);
+                nbTuilleSame = getNbTuilleSame(royaumeJoueur, j, nbTuilleSame, royaumeJoueur.getTuile(i, j), i, j + 1, i);
+                nbTuilleSame = getNbTuilleSame(royaumeJoueur, i, j, nbTuilleSame, royaumeJoueur.getTuile(i, j), i - 1);
+                nbTuilleSame = getNbTuilleSame(royaumeJoueur, j, j - 1, nbTuilleSame, royaumeJoueur.getTuile(i, j), i);
 
                 score = score * nbTuilleSame;
 
@@ -273,6 +245,30 @@ public class ModelTest {
 
         joueur.setScore(score);
         return score;
+    }
+
+    private int getNbTuilleSame(Royaume royaumeJoueur, int i, int j, int nbTuilleSame, Tuile tuile, int i2) {
+        boolean memeTerrain;
+        if (i > 0) { //sinon ça fait OutOfBoundsException
+                if (royaumeJoueur.isMemeTerrain(tuile, royaumeJoueur.getTuile(i2, j))) {
+                    System.out.println("Les tuiles ont le même terrain");
+                    memeTerrain = true;
+                    nbTuilleSame++;
+                }
+            }
+        return nbTuilleSame;
+    }
+
+    private int getNbTuilleSame(Royaume royaumeJoueur, int j, int nbTuilleSame, Tuile tuile, int i2, int i3, int i) {
+        boolean memeTerrain;
+        if (j < 4) { //sinon ça fait OutOfBoundsException
+            if (royaumeJoueur.isMemeTerrain(tuile, royaumeJoueur.getTuile(i2, i3))) {
+                System.out.println("Les tuiles ont le même terrain");
+                memeTerrain = true;
+                nbTuilleSame++;
+            }
+        }
+        return nbTuilleSame;
     }
 
 
@@ -295,5 +291,21 @@ public class ModelTest {
 
     public void setTuilleCentreAChoisir(TuilesAuCentre tuilleCentreAChoisir) {
         this.tuilleCentreAChoisir = tuilleCentreAChoisir;
+    }
+
+    public int getNbTourMax() {
+        return nbTourMax;
+    }
+
+    public void setNbTourMax(int nbTourMax) {
+        this.nbTourMax = nbTourMax;
+    }
+
+    public int getNbTour() {
+        return nbTour;
+    }
+
+    public void setNbTour(int nbTour) {
+        this.nbTour = nbTour;
     }
 }
