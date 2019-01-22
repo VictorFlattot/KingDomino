@@ -4,7 +4,6 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileAChoisir;
-import Control.ControlTuileCentre;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -35,6 +34,7 @@ FenetreTest extends JFrame {
 	private JFrame JFrameInstruction ;
 	private JPanel JPanelInsctruction ;
 	private JLabel[] jLabelsDomSelectByPlayer;
+	private JLabel[] jLabelsDomPreviousSelectByPlayer;
 
 
 	private JPanel jpanelNomJoueur ;
@@ -68,7 +68,6 @@ FenetreTest extends JFrame {
 
 	private Image[] instructionTab ;
 	private ControlCaseRoyaume controlCaseRoyaume;
-	private ControlTuileCentre controlTuileCentre;
 	private Bouton deuxJoueurs;
 	private Bouton troisJoueurs;
 	private Bouton quatreJoueurs ;
@@ -92,6 +91,7 @@ FenetreTest extends JFrame {
 	private JLabel dominoLabel ;
 	private JLabel nomJoueurActif;
 	private JPanel[] jPanel2PartTuileAChoisir;
+	private JPanel[] jPanel2PartTuileAPlacer;
 
 	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
@@ -118,6 +118,7 @@ FenetreTest extends JFrame {
 		jButtonTuilleCentreAChoisir = new Bouton[4];
 		jButtonTuilleCentreVide = new Bouton[4];
 		jLabelsDomSelectByPlayer = new JLabel[model.getNbJoueur()];
+		jLabelsDomPreviousSelectByPlayer = new JLabel[model.getNbJoueur()];
 
 
 		boutonTour = new Bouton();
@@ -133,8 +134,6 @@ FenetreTest extends JFrame {
 		initJLabelCouronne();
 		controlCaseRoyaume = new ControlCaseRoyaume(model,this);
 		setActionListenerCaseRoyaume();
-		controlTuileCentre = new ControlTuileCentre(model,this);
-		setActionListenerTuileCentreAPlacer();
 		controlTuileAChoisir = new ControlTuileAChoisir(model,this);
 		setActionListenerTuileCentreAChoisir();
 
@@ -218,6 +217,7 @@ FenetreTest extends JFrame {
 	private void initRoyaumeToutJoueur() throws IOException {
 		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jPanelRoyaumes[i] = new JPanelRoyaume(model,model.getJoueurs()[i].getId());
+
 		}
 	}
 
@@ -231,6 +231,7 @@ FenetreTest extends JFrame {
 	private void initJLabelCouronne(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			jLabelsDomSelectByPlayer[i] = new JLabel();
+			jLabelsDomPreviousSelectByPlayer[i] = new JLabel();
 		}
 	}
 
@@ -239,9 +240,11 @@ FenetreTest extends JFrame {
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
 		jPanel2PartTuileAChoisir = new JPanel[model.getNbDominoCentre()];
+		jPanel2PartTuileAPlacer = new JPanel[model.getNbDominoCentre()];
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			jPanel2PartTuileAChoisir[i] = new JPanel();
 			jPanel2PartTuileAChoisir[i].setLayout(new GridLayout(2,1));
+			//jPanel2PartTuileAPlacer[i].setLayout(new GridLayout(2,1));
 		}
 
 		jPanelTuileSelect = new JPanel();
@@ -265,6 +268,8 @@ FenetreTest extends JFrame {
 
 				jButtonTuilleCentreAPlacer[i].setIcon(new ImageIcon(bi));
 				jButtonTuilleCentreAPlacer[i].setActionCommand(""+ idDom +"/"+ i);
+				jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
+				jPanel2PartTuileAChoisir[i].add(jLabelsDomSelectByPlayer[i]);
 				jPanelTuileAuCentre.add(jButtonTuilleCentreAPlacer[i]);
 
 			}else{
@@ -282,6 +287,10 @@ FenetreTest extends JFrame {
 
 	}
 
+
+
+
+
 	public void afficheTuileSelect(Icon icon,int id){
 
 	    boutontuileSelect.setIcon(icon);
@@ -296,6 +305,11 @@ FenetreTest extends JFrame {
         BufferedImage image = ImageIO.read(new File(donneCheminDomino(idDom,rot)));
         jPanelTuileSelect.remove(boutontuileSelect);
         afficheTuileSelect(new ImageIcon(image),idDom);
+    }
+    public void updateAllRoyaume() throws IOException {
+	    for (int i = 0; i < model.getNbJoueur(); i++) {
+		    jPanelRoyaumes[model.getJoueur(i).getId()].updateRoyaume();
+	    }
     }
 
 	private void afficherRoyaume() throws IOException {
@@ -358,11 +372,7 @@ FenetreTest extends JFrame {
 
 	}
 
-	public void setActionListenerTuileCentreAPlacer(){
-		for (int i = 0; i < model.getNbJoueur(); i++) {
-			jButtonTuilleCentreAPlacer[i].addActionListener(controlTuileCentre);
-		}
-	}
+
 
 	public void setActionListenerTuileCentreAChoisir(){
 		for (int i = 0; i < model.getNbJoueur(); i++) {
@@ -370,14 +380,19 @@ FenetreTest extends JFrame {
 		}
 	}
 
+	public void unTruc() throws IOException {
+		model.setDominoSelect(model.getTuilesCentreAPLacer().getDominoTab()[model.getPosJoueurActuel()]);
+		int id = model.getDominoSelect().getId();
+		BufferedImage image = ImageIO.read(new File(donneCheminDomino(id,0)));
+		boutonTour.setEnabled(true);
+		afficheTuileSelect(new ImageIcon(image),id);
+		bloquerRoyaumeJoueur(false,model.getJoueurActuel().getId());
+	}
+
 	public void changementJoueur() throws IOException {
-		for (int i = 0; i < model.getNbJoueur(); i++) {
-			jPanelRoyaumes[i].revalidate();
-		}
-		jFrame.revalidate();
-		jFrame.repaint();
 		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
+
 	}
 
 	public void setActionListenerCaseRoyaume() {
@@ -392,11 +407,7 @@ FenetreTest extends JFrame {
 		}
 	}
 
-	public void removeAllControlerAPlacerCentre(){
-		for (int i = 0; i < model.getNbDominoCentre(); i++) {
-			jButtonTuilleCentreAPlacer[i].removeActionListener(controlTuileCentre);
-		}
-	}
+
 
 	public void removeAllControlerAChoisirCentre(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {

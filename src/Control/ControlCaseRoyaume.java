@@ -38,14 +38,16 @@ public class ControlCaseRoyaume implements ActionListener {
 
 
             try {
+
                 fenetre.nouvelleSelectionDomino();
                 fenetre.bloquerToutRoyaumes(true);
                 fenetre.setActionListenerTuileCentreAChoisir();
+                fenetre.updateAllRoyaume();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }else{
-                JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

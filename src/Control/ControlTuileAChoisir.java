@@ -35,6 +35,14 @@ public class ControlTuileAChoisir implements ActionListener {
             }
 
         }
+        if (model.getNbTour()>1){
+            System.out.println("KAAAAAAAAAAAAAA");
+            try {
+                fenetre.unTruc();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
         if (autorisation){
             fenetre.changeLabelPlayer(posDom);
                 try {
@@ -44,8 +52,16 @@ public class ControlTuileAChoisir implements ActionListener {
                 fenetre.changementTour();
                 if (model.getNbTour()!=1) {
                     fenetre.removeAllControlerAChoisirCentre();
-                    fenetre.setActionListenerTuileCentreAPlacer();
+                    //fenetre.setActionListenerTuileCentreAPlacer();
                 }
+                    if (model.getNbTour()>1){
+                        System.out.println("KAAAAAAAAAAAAAA");
+                        try {
+                            fenetre.unTruc();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
             } catch (IOException e1) {}
 
         }else{

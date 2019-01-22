@@ -30,19 +30,11 @@ public class ControlTuileCentre implements ActionListener {
 		idDom = Integer.valueOf(actionCommandSplit[0]);
 		posDom = Integer.valueOf(actionCommandSplit[1]);
 
-		model.setDominoSelect(model.getTuilesCentreAPLacer().getDominoTab()[posDom]);
-
 		try {
-			image = ImageIO.read(new File(fenetre.donneCheminDomino(idDom,0)));
+			fenetre.unTruc();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		fenetre.boutonTour.setEnabled(true);
-		fenetre.afficheTuileSelect(new ImageIcon(image),idDom);
-		fenetre.removeAllControlerAPlacerCentre();
-		fenetre.bloquerRoyaumeJoueur(false,model.getJoueurActuel().getId());
-		model.setDominoDejaPlacé(posDom,true);
-
 
 
 	}
