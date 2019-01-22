@@ -15,13 +15,16 @@ public class ModelTest {
     private int tailleRoyaume;
     private int nbTour;
     private int nbTourMax;
+    private boolean[] dominoDejaChoisi;
 
 
     public ModelTest() {
         paquet = new Paquet();
         paquet.shuffle();
-        dominoDejaPlace = new boolean[4];
         faireUnNouveauTour = false;
+        nbTour=1;
+        nbTourMax=12;
+
 
 
 
@@ -37,6 +40,8 @@ public class ModelTest {
         for (int i = 0; i < nbJoueur; i++) {
             joueurs[i]=new Joueur("",i,tailleRoyaume);
         }
+        dominoDejaPlace = new boolean[nbDominoCentre];
+        dominoDejaChoisi = new boolean[nbDominoCentre];
 
 
         initTuileCentre();
@@ -60,6 +65,8 @@ public class ModelTest {
     }
 
     public void changementJoueur(){
+
+
         if (getPosJoueurActuel() == nbJoueur-1){
             setJoueurActuel(0);
             faireUnNouveauTour = true;
@@ -76,12 +83,12 @@ public class ModelTest {
     }
 
     public void nouveauTour(){
-        System.out.println("nex turn");
         nbTour++;
-        System.out.println(nbTour);
 	    setFaireUnNouveauTour(false);
-	    dominoDejaPlace = new boolean[4];
+	    dominoDejaPlace = new boolean[nbDominoCentre];
+	    dominoDejaChoisi = new boolean[nbDominoCentre];
         for (int i = 0; i < nbJoueur; i++) {
+
             ordreJoueurTourActuel[i] = ordreJoueurTourSuivant[i];
         }
         tuilesCentreAPLacer = tuilleCentreAChoisir;
@@ -173,8 +180,14 @@ public class ModelTest {
     }
 
     public void setDominoDejaPlacé(int index,boolean b){
-        nouveauIndextourSuivant(index);
         dominoDejaPlace[index]=b;
+    }
+
+    public void setDominoDejaChoisi(int index,boolean b){
+        nouveauIndextourSuivant(index);
+        dominoDejaChoisi[index]=b;
+
+
     }
 
     public boolean[] getDominoDejaPlace() {
@@ -194,6 +207,10 @@ public class ModelTest {
 
     }
 
+    public boolean isDejaChoisit(int index){
+           return dominoDejaChoisi[index];
+    }
+
     private void showOrdreActuel(){
         for (Joueur joueur:
                 ordreJoueurTourActuel) {
@@ -209,6 +226,17 @@ public class ModelTest {
                 ordreJoueurTourSuivant) {
             if (joueur !=null){
                 System.out.println(joueur.getNom());
+            }else
+                System.out.println("\"");
+
+        }
+    }
+
+    public void showDomDejaChoisi(){
+        for (Boolean b:
+                dominoDejaChoisi) {
+            if (b !=null){
+                System.out.println(b);
             }else
                 System.out.println("\"");
 

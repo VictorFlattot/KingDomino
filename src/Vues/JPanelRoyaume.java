@@ -20,6 +20,7 @@ public class JPanelRoyaume extends JPanel {
     private BufferedImage croix;
     private ModelTest modelTest;
     private int tailleRoyaume;
+    private ControlCaseRoyaume actionListener;
 
 
     JPanelRoyaume(ModelTest modelTest, int idJoueur) throws IOException {
@@ -82,6 +83,7 @@ public class JPanelRoyaume extends JPanel {
         revalidate();
     }
     public void setActionListener(ControlCaseRoyaume listener){
+        actionListener = listener;
         for (int i = 0; i < tailleRoyaume; i++) {
             for (int j = 0; j < tailleRoyaume; j++) {
                 boutons[i][j].setActionCommand("" + i + "/"+ j);
@@ -97,7 +99,8 @@ public class JPanelRoyaume extends JPanel {
     public void bloquerRoyaume(boolean b){
         for (int i = 0; i < tailleRoyaume; i++) {
             for (int j = 0; j < tailleRoyaume; j++) {
-                boutons[i][j].setEnabled(!b);
+                if (b) boutons[i][j].removeActionListener(actionListener);
+                else boutons[i][j].addActionListener(actionListener);
             }
         }
     }

@@ -56,11 +56,8 @@ public class Royaume {
 	}
 
 	public boolean isTuileDejaPlace(int x, int y){
-        if(getTuile(x,y).getTerrain() != null){
-            return true;
-        }
-        return false;
-    }
+		return getTuile(x, y).getTerrain() != null;
+	}
 
 	void addTuille(Tuile tuile,int x,int y){
 		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)

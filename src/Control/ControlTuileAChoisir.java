@@ -3,6 +3,7 @@ package Control;
 import Model.ModelTest;
 import Vues.FenetreTest;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -21,17 +22,34 @@ public class ControlTuileAChoisir implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("ok");
-        String actionCommandSplit[] = e.getActionCommand().split("/");
+        model.showDomDejaChoisi();
+        boolean autorisation = true;
+        String[] actionCommandSplit = e.getActionCommand().split("/");
         int idDom = Integer.valueOf(actionCommandSplit[0]);
         int posDom = Integer.valueOf(actionCommandSplit[1]);
-        fenetre.changeLabelPlayer(posDom);
-        try {
-            fenetre.changementJoueur();
-            model.changementJoueur();
 
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        for (int i = 0; i < model.getNbDominoCentre(); i++) {
+            if (model.isDejaChoisit(i)){
+               fenetre.removeControlerBoutonAChoisrCentre(i);
+                if (i == posDom) autorisation = false;
+            }
+
+        }
+        if (autorisation){
+            fenetre.changeLabelPlayer(posDom);
+                try {
+                    model.setDominoDejaChoisi(posDom,true);
+                    model.changementJoueur();
+                fenetre.changementJoueur();
+                fenetre.changementTour();
+                if (model.getNbTour()!=1) {
+                    fenetre.removeAllControlerAChoisirCentre();
+                    fenetre.setActionListenerTuileCentreAPlacer();
+                }
+            } catch (IOException e1) {}
+
+        }else{
+            JOptionPane.showMessageDialog(fenetre.getjFrame(),"Ce domino est déjà résérvé par un autre joueur","Attention", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

@@ -130,12 +130,13 @@ FenetreTest extends JFrame {
 		boutontuileSelect.addActionListener(controlRotationTuile);
 
 		initBoutonCentre();
+		initJLabelCouronne();
 		controlCaseRoyaume = new ControlCaseRoyaume(model,this);
-		setActionListenerCaseRoyaume(controlCaseRoyaume);
+		setActionListenerCaseRoyaume();
 		controlTuileCentre = new ControlTuileCentre(model,this);
-		setActionListenerTuileCentreAPlacer(controlTuileCentre);
+		setActionListenerTuileCentreAPlacer();
 		controlTuileAChoisir = new ControlTuileAChoisir(model,this);
-		setActionListenerTuileCentreAChoisir(controlTuileAChoisir);
+		setActionListenerTuileCentreAChoisir();
 
 	}
 
@@ -181,7 +182,6 @@ FenetreTest extends JFrame {
 			public void keyTyped(KeyEvent e) {}
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println(e.getKeyCode());
 				if (e.getKeyCode()==10) {
 					try {
 						afficherMenuJouerQuitter();
@@ -222,14 +222,20 @@ FenetreTest extends JFrame {
 	}
 
 	private void initBoutonCentre(){
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jButtonTuilleCentreAPlacer[i] = new Bouton();
 			jButtonTuilleCentreAChoisir[i] = new Bouton();
-			jLabelsDomSelectByPlayer[i] = new JLabel(""+i);
+
+		}
+	}
+	private void initJLabelCouronne(){
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+			jLabelsDomSelectByPlayer[i] = new JLabel();
 		}
 	}
 
 	private void afficherTuilleAuCentre() throws IOException {
+		model.showDomDejaChoisi();
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
 		jPanel2PartTuileAChoisir = new JPanel[model.getNbDominoCentre()];
@@ -352,36 +358,53 @@ FenetreTest extends JFrame {
 
 	}
 
-	public void setActionListenerTuileCentreAPlacer(ActionListener actionListener){
-		for (int i = 0; i < 4; i++) {
-			jButtonTuilleCentreAPlacer[i].addActionListener(actionListener);
+	public void setActionListenerTuileCentreAPlacer(){
+		for (int i = 0; i < model.getNbJoueur(); i++) {
+			jButtonTuilleCentreAPlacer[i].addActionListener(controlTuileCentre);
 		}
 	}
 
-	public void setActionListenerTuileCentreAChoisir(ActionListener actionListener){
-		for (int i = 0; i < 4; i++) {
-			jButtonTuilleCentreAChoisir[i].addActionListener(actionListener);
+	public void setActionListenerTuileCentreAChoisir(){
+		for (int i = 0; i < model.getNbJoueur(); i++) {
+			jButtonTuilleCentreAChoisir[i].addActionListener(controlTuileAChoisir);
 		}
 	}
 
 	public void changementJoueur() throws IOException {
+		for (int i = 0; i < model.getNbJoueur(); i++) {
+			jPanelRoyaumes[i].revalidate();
+		}
 		jFrame.revalidate();
+		jFrame.repaint();
+		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 	}
 
-	public void setActionListenerCaseRoyaume(ControlCaseRoyaume controlCaseRoyaume) {
+	public void setActionListenerCaseRoyaume() {
 		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jPanelRoyaumes[i].setActionListener(controlCaseRoyaume);
 		}
 	}
 
-	public void bloquerToutBoutonCentre(boolean b){
-		for (int i = 0; i < 4; i++) {
+	public void bloquerToutBoutonAPlacerCentre(boolean b){
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 		    jButtonTuilleCentreAPlacer[i].setEnabled(!b);
 		}
 	}
 
-	public void bloquerToutBoutonRoyaume(boolean b,int joueur){
+	public void removeAllControlerAPlacerCentre(){
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+			jButtonTuilleCentreAPlacer[i].removeActionListener(controlTuileCentre);
+		}
+	}
+
+	public void removeAllControlerAChoisirCentre(){
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+		jButtonTuilleCentreAChoisir[i].removeActionListener(controlTuileAChoisir);
+		}
+	}
+
+	public void bloquerRoyaumeJoueur(boolean b, int joueur){
 		jPanelRoyaumes[joueur].bloquerRoyaume(b);
 	}
 
@@ -391,17 +414,30 @@ FenetreTest extends JFrame {
 		}
 	}
 
-	private void bloquerBoutonCentre(int index,boolean b){
+
+	private void bloquerBoutonAPlacerCentre(int index, boolean b){
 		jButtonTuilleCentreAPlacer[index].setEnabled(b);
+	}
+
+	public void removeControlerBoutonAChoisrCentre(int index){
+		jButtonTuilleCentreAChoisir[index].removeActionListener(controlTuileAChoisir);
+	}
+
+	public void addControlerBoutonAChoisrCentre(int index){
+		jButtonTuilleCentreAChoisir[index].addActionListener(controlTuileAChoisir);
 	}
 
 	public void nouvelleSelectionDomino() throws IOException {
 		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
-		System.out.println("JA : " + model.getJoueurActuel().getNom());
     	jPanelTuileSelect.remove(boutontuileSelect);
-    	bloquerToutBoutonRoyaume(true,model.getJoueurActuel().getId());
+    	bloquerRoyaumeJoueur(true,model.getJoueurActuel().getId());
     	bloquerBoutonDominoDejaPlacé();
     	jPanelTuileSelect.revalidate();
+		jFrame.repaint();
+		jFrame.revalidate();
+	}
+
+	public void changementTour() throws IOException {
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
 				jFrame.remove(jPanelCentre);
@@ -413,19 +449,19 @@ FenetreTest extends JFrame {
 			}else{
 				jPanelCentre.removeAll();
 				model.nouveauTour();
-				nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
-				System.out.println("JA : " + model.getJoueurActuel().getNom());
-				bloquerToutBoutonCentre(false);
+				jLabelsDomSelectByPlayer = new JLabel[4];
+				initJLabelCouronne();
+				bloquerToutBoutonAPlacerCentre(false);
+				removeAllControlerAChoisirCentre();
 				afficherTuilleAuCentre();
 			}
 
 		}
-		jFrame.repaint();
 	}
 
 	private void bloquerBoutonDominoDejaPlacé(){
-		for (int i = 0; i < 4; i++) {
-				bloquerBoutonCentre(i,!model.getDominoDejaPlace()[i]);
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+				bloquerBoutonAPlacerCentre(i,!model.getDominoDejaPlace()[i]);
 		}
 	}
 
@@ -570,8 +606,10 @@ FenetreTest extends JFrame {
 
 		JTextField[] jTextField = new JTextField[nombreJoueur];
 		for (int i = 0; i < nombreJoueur; i++) {
+
 			jTextField[i] = new JTextField(30);
 			jTextField[i].setFont(new Font("Helvetica",Font.BOLD,40));
+			jTextField[i].setText("J"+(i+1));
 		}
 
 		jFrame.remove(jPanelNombreJoueur);

@@ -31,22 +31,21 @@ public class ControlCaseRoyaume implements ActionListener {
         int rotation = domino.getRotation();
         if (rotation==0 || rotation==180) y2+=1;
         if (rotation==90 || rotation==270) x2-=1;
+        System.out.println("JA");
+        System.out.println(model.getJoueurActuel().getNom());
+        System.out.println();
         if(model.addDominoRoyaume(domino, model.getJoueurActuel().getId(), x, y, x2, y2)){
-            try {
-                fenetre.changementJoueur();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            model.changementJoueur();
+
 
             try {
                 fenetre.nouvelleSelectionDomino();
                 fenetre.bloquerToutRoyaumes(true);
+                fenetre.setActionListenerTuileCentreAChoisir();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }else{
-            JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
