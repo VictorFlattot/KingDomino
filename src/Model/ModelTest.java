@@ -12,6 +12,7 @@ public class ModelTest {
     private boolean faireUnNouveauTour;
     private int nbChangementJoueur;
     private int nbDominoCentre;
+    private int tailleRoyaume;
 
 
     public ModelTest() {
@@ -30,8 +31,10 @@ public class ModelTest {
         if (nbJoueur == 3) nbDominoCentre = 3;
         else nbDominoCentre = 4;
         tuilesAuCentre = new TuilesAuCentre(paquet,nbDominoCentre);
+        if (nbJoueur > 2) tailleRoyaume = 5;
+        else tailleRoyaume = 7;
         for (int i = 0; i < nbJoueur; i++) {
-            joueurs[i]=new Joueur("",i);
+            joueurs[i]=new Joueur("",i, tailleRoyaume);
         }
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
@@ -285,5 +288,13 @@ public class ModelTest {
 
     public void setNbDominoCentre(int nbDominoCentre) {
         this.nbDominoCentre = nbDominoCentre;
+    }
+
+    public int getTailleRoyaume() {
+        return tailleRoyaume;
+    }
+
+    public void setTailleRoyaume(int tailleRoyaume) {
+        this.tailleRoyaume = tailleRoyaume;
     }
 }

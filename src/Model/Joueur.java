@@ -7,11 +7,11 @@ public class Joueur {
     private boolean estJoueurActuel;
     int score;
 
-    public Joueur(String nom,int id) {
+    public Joueur(String nom, int id, int taille) {
         this.id = id;
         this.nom = nom;
         estJoueurActuel = false;
-        royaume = new Royaume(5);
+        royaume = new Royaume(taille);
         score = 0;
     }
 

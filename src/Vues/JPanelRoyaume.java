@@ -18,10 +18,13 @@ public class JPanelRoyaume extends JPanel {
     private Bouton[][] boutons;
     private Royaume royaume;
     private BufferedImage croix;
+    private ModelTest modelTest;
+    private int tailleRoyaume;
 
 
     JPanelRoyaume(ModelTest modelTest, int idJoueur) throws IOException {
         super();
+        tailleRoyaume = modelTest.getTailleRoyaume();
         Joueur joueur = modelTest.getJoueur(idJoueur);
         royaume = joueur.getRoyaume();
         initAtribut();
@@ -38,10 +41,10 @@ public class JPanelRoyaume extends JPanel {
     }
 
     private void initAtribut() throws IOException {
-        boutons = new Bouton[5][5];
+        boutons = new Bouton[tailleRoyaume][tailleRoyaume];
         panelRoyaume = new JPanel();
-        panelRoyaume.setLayout(new GridLayout(5,5));
-        panelRoyaume.setPreferredSize(new Dimension(320,320));
+        panelRoyaume.setLayout(new GridLayout(tailleRoyaume,tailleRoyaume));
+        panelRoyaume.setPreferredSize(new Dimension(64*tailleRoyaume,64*tailleRoyaume));
         panelRoyaume.setSize(panelRoyaume.getPreferredSize());
         panelRoyaume.setOpaque(false);
         initBoutonPanel();
@@ -52,8 +55,8 @@ public class JPanelRoyaume extends JPanel {
         croix = ImageIO.read(new File("img/croix.png"));
         final BufferedImage depart = ImageIO.read(new File("img/Tuile16.jpg"));
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < tailleRoyaume; i++) {
+            for (int j = 0; j < tailleRoyaume; j++) {
                 boutons[i][j] = new Bouton();
 
                 panelRoyaume.add(boutons[i][j]);
@@ -64,8 +67,8 @@ public class JPanelRoyaume extends JPanel {
     }
 
     public void updateRoyaume() throws IOException {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < tailleRoyaume; i++) {
+            for (int j = 0; j < tailleRoyaume; j++) {
                 if (royaume.getTuile(i,j).getTerrain()!=null){
                     afficherTuileRoyaume(new ImageIcon(
                             ImageIO.read(new File("img/Tuile" +
@@ -79,8 +82,8 @@ public class JPanelRoyaume extends JPanel {
         revalidate();
     }
     public void setActionListener(ControlCaseRoyaume listener){
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < tailleRoyaume; i++) {
+            for (int j = 0; j < tailleRoyaume; j++) {
                 boutons[i][j].setActionCommand("" + i + "/"+ j);
                 boutons[i][j].addActionListener(listener);
             }
@@ -92,8 +95,8 @@ public class JPanelRoyaume extends JPanel {
     }
 
     public void bloquerRoyaume(boolean b){
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < tailleRoyaume; i++) {
+            for (int j = 0; j < tailleRoyaume; j++) {
                 boutons[i][j].setEnabled(!b);
             }
         }
