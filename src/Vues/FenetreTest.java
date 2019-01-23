@@ -386,6 +386,7 @@ FenetreTest extends JFrame {
 		BufferedImage image = ImageIO.read(new File(donneCheminDomino(id,0)));
 		boutonTour.setEnabled(true);
 		afficheTuileSelect(new ImageIcon(image),id);
+		bloquerToutRoyaumes(true);
 		bloquerRoyaumeJoueur(false,model.getJoueurActuel().getId());
 	}
 
