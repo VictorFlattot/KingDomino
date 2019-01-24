@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * The type Domino.
+ */
 public class Domino {
 	private int id;
 	private Tuile tuileNord;
@@ -8,10 +11,23 @@ public class Domino {
 	private Tuile tuileOuest;
 	private int rotation;
 
+	/**
+	 * Instantiates a new Domino.
+	 *
+	 * @param tuile1 the tuile 1
+	 * @param tuile2 the tuile 2
+	 */
 	public Domino(Tuile tuile1,Tuile tuile2){
 		this(0,tuile1,tuile2);
 	}
 
+	/**
+	 * Instantiates a new Domino.
+	 *
+	 * @param id     the id
+	 * @param tuile1 the tuile 1
+	 * @param tuile2 the tuile 2
+	 */
 	public Domino(int id, Tuile tuile1,Tuile tuile2) {
 		this.id = id;
 		this.tuileNord = null;
@@ -22,56 +38,120 @@ public class Domino {
 	}
 
 
+	/**
+	 * Gets id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets id.
+	 *
+	 * @param id the id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
 
-
+	/**
+	 * Gets tuile nord.
+	 *
+	 * @return the tuile nord
+	 */
 	public Tuile getTuileNord() {
 		return tuileNord;
 	}
 
+	/**
+	 * Sets tuile nord.
+	 *
+	 * @param tuileNord the tuile nord
+	 */
 	public void setTuileNord(Tuile tuileNord) {
 		this.tuileNord = tuileNord;
 	}
 
+	/**
+	 * Gets tuile sud.
+	 *
+	 * @return the tuile sud
+	 */
 	public Tuile getTuileSud() {
 		return tuileSud;
 	}
 
+	/**
+	 * Sets tuile sud.
+	 *
+	 * @param tuileSud the tuile sud
+	 */
 	public void setTuileSud(Tuile tuileSud) {
 		this.tuileSud = tuileSud;
 	}
 
+	/**
+	 * Gets tuile est.
+	 *
+	 * @return the tuile est
+	 */
 	public Tuile getTuileEst() {
 		return tuileEst;
 	}
 
+	/**
+	 * Sets tuile est.
+	 *
+	 * @param tuileEst the tuile est
+	 */
 	public void setTuileEst(Tuile tuileEst) {
 		this.tuileEst = tuileEst;
 	}
 
+	/**
+	 * Gets tuile ouest.
+	 *
+	 * @return the tuile ouest
+	 */
 	public Tuile getTuileOuest() {
 		return tuileOuest;
 	}
 
+	/**
+	 * Sets tuile ouest.
+	 *
+	 * @param tuileOuest the tuile ouest
+	 */
 	public void setTuileOuest(Tuile tuileOuest) {
 		this.tuileOuest = tuileOuest;
 	}
 
+	/**
+	 * Gets rotation.
+	 *
+	 * @return the rotation
+	 */
 	public int getRotation() {
 		return rotation;
 	}
 
+	/**
+	 * Sets rotation.
+	 *
+	 * @param rotation the rotation
+	 */
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 	}
 
+	/**
+	 * Get tuiles tuile [ ].
+	 *
+	 * @return the tuile [ ]
+	 */
 	public Tuile[] getTuiles(){
 
         Tuile[] tuiles = new Tuile[2];

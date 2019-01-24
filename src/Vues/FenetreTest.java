@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.IOException;
 
 
+/**
+ * The type Fenetre test.
+ */
 public class
 FenetreTest extends JFrame {
 
@@ -41,8 +44,17 @@ FenetreTest extends JFrame {
 
 	private JPanel jPanelNombreJoueur ;
 
+	/**
+	 * The Dimension.
+	 */
 	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	/**
+	 * The Height.
+	 */
 	int height = (int)dimension.getHeight();
+	/**
+	 * The Width.
+	 */
 	int width  = (int)dimension.getWidth();
 
 	private JPanelRoyaume[] jPanelRoyaumes;
@@ -57,7 +69,10 @@ FenetreTest extends JFrame {
 	private Bouton instruction ;
     private ControlRotationTuile controlRotationTuile;
     private ControlTuileAChoisir controlTuileAChoisir;
-    static GraphicsDevice device ;
+	/**
+	 * The Device.
+	 */
+	static GraphicsDevice device ;
 	private Image fondKing ;
 	private Image pressStart ;
 
@@ -74,6 +89,9 @@ FenetreTest extends JFrame {
 	private JLabel joueur ;
 
 	private Bouton valider ;
+	/**
+	 * The Bouton tour.
+	 */
 	public Bouton boutonTour ;
 
 	private JTextField j1 ;
@@ -93,6 +111,12 @@ FenetreTest extends JFrame {
 	private JPanel[] jPanel2PartTuileAChoisir;
 	private JPanel[] jPanel2PartTuileAPlacer;
 
+	/**
+	 * Instantiates a new Fenetre test.
+	 *
+	 * @param model the model
+	 * @throws IOException the io exception
+	 */
 	public FenetreTest(ModelTest model ) throws IOException {
 		this.model=model;
 		initAtribut();
@@ -288,9 +312,12 @@ FenetreTest extends JFrame {
 	}
 
 
-
-
-
+	/**
+	 * Affiche tuile select.
+	 *
+	 * @param icon the icon
+	 * @param id   the id
+	 */
 	public void afficheTuileSelect(Icon icon,int id){
 
 	    boutontuileSelect.setIcon(icon);
@@ -300,13 +327,26 @@ FenetreTest extends JFrame {
 		jFrame.repaint();
 	}
 
+	/**
+	 * Tourner tuile select.
+	 *
+	 * @param rot   the rot
+	 * @param idDom the id dom
+	 * @throws IOException the io exception
+	 */
 	public void tournerTuileSelect(int rot,int idDom) throws IOException {
 
         BufferedImage image = ImageIO.read(new File(donneCheminDomino(idDom,rot)));
         jPanelTuileSelect.remove(boutontuileSelect);
         afficheTuileSelect(new ImageIcon(image),idDom);
     }
-    public void updateAllRoyaume() throws IOException {
+
+	/**
+	 * Update all royaume.
+	 *
+	 * @throws IOException the io exception
+	 */
+	public void updateAllRoyaume() throws IOException {
 	    for (int i = 0; i < model.getNbJoueur(); i++) {
 		    jPanelRoyaumes[model.getJoueur(i).getId()].updateRoyaume();
 	    }
@@ -359,6 +399,13 @@ FenetreTest extends JFrame {
 
 	}
 
+	/**
+	 * Donne chemin domino string.
+	 *
+	 * @param numeroDomino the numero domino
+	 * @param rot          the rot
+	 * @return the string
+	 */
 	public String donneCheminDomino(int numeroDomino , int rot){
 	    String nomImg ="";
 	    switch (rot){
@@ -373,13 +420,20 @@ FenetreTest extends JFrame {
 	}
 
 
-
+	/**
+	 * Set action listener tuile centre a choisir.
+	 */
 	public void setActionListenerTuileCentreAChoisir(){
 		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jButtonTuilleCentreAChoisir[i].addActionListener(controlTuileAChoisir);
 		}
 	}
 
+	/**
+	 * Un truc.
+	 *
+	 * @throws IOException the io exception
+	 */
 	public void unTruc() throws IOException {
 		model.setDominoSelect(model.getTuilesCentreAPLacer().getDominoTab()[model.getPosJoueurActuel()]);
 		int id = model.getDominoSelect().getId();
@@ -390,18 +444,31 @@ FenetreTest extends JFrame {
 		bloquerRoyaumeJoueur(false,model.getJoueurActuel().getId());
 	}
 
+	/**
+	 * Changement joueur.
+	 *
+	 * @throws IOException the io exception
+	 */
 	public void changementJoueur() throws IOException {
 		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 
 	}
 
+	/**
+	 * Sets action listener case royaume.
+	 */
 	public void setActionListenerCaseRoyaume() {
 		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jPanelRoyaumes[i].setActionListener(controlCaseRoyaume);
 		}
 	}
 
+	/**
+	 * Bloquer tout bouton a placer centre.
+	 *
+	 * @param b the b
+	 */
 	public void bloquerToutBoutonAPlacerCentre(boolean b){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 		    jButtonTuilleCentreAPlacer[i].setEnabled(!b);
@@ -409,17 +476,30 @@ FenetreTest extends JFrame {
 	}
 
 
-
+	/**
+	 * Remove all controler a choisir centre.
+	 */
 	public void removeAllControlerAChoisirCentre(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 		jButtonTuilleCentreAChoisir[i].removeActionListener(controlTuileAChoisir);
 		}
 	}
 
+	/**
+	 * Bloquer royaume joueur.
+	 *
+	 * @param b      the b
+	 * @param joueur the joueur
+	 */
 	public void bloquerRoyaumeJoueur(boolean b, int joueur){
 		jPanelRoyaumes[joueur].bloquerRoyaume(b);
 	}
 
+	/**
+	 * Bloquer tout royaumes.
+	 *
+	 * @param b the b
+	 */
 	public void bloquerToutRoyaumes(boolean b){
 		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jPanelRoyaumes[i].bloquerRoyaume(b);
@@ -431,14 +511,29 @@ FenetreTest extends JFrame {
 		jButtonTuilleCentreAPlacer[index].setEnabled(b);
 	}
 
+	/**
+	 * Remove controler bouton a choisr centre.
+	 *
+	 * @param index the index
+	 */
 	public void removeControlerBoutonAChoisrCentre(int index){
 		jButtonTuilleCentreAChoisir[index].removeActionListener(controlTuileAChoisir);
 	}
 
+	/**
+	 * Add controler bouton a choisr centre.
+	 *
+	 * @param index the index
+	 */
 	public void addControlerBoutonAChoisrCentre(int index){
 		jButtonTuilleCentreAChoisir[index].addActionListener(controlTuileAChoisir);
 	}
 
+	/**
+	 * Nouvelle selection domino.
+	 *
+	 * @throws IOException the io exception
+	 */
 	public void nouvelleSelectionDomino() throws IOException {
 		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
     	jPanelTuileSelect.remove(boutontuileSelect);
@@ -449,6 +544,11 @@ FenetreTest extends JFrame {
 		jFrame.revalidate();
 	}
 
+	/**
+	 * Changement tour.
+	 *
+	 * @throws IOException the io exception
+	 */
 	public void changementTour() throws IOException {
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
@@ -478,7 +578,11 @@ FenetreTest extends JFrame {
 	}
 
 
-
+	/**
+	 * Afficher jeu.
+	 *
+	 * @throws IOException the io exception
+	 */
 	public void afficherJeu() throws IOException {
 		nomJoueurActif = new JLabel("C'est au tour du joueur d : " + model.getJoueurActuel().getNom());
 		nomJoueurActif.setFont(new Font("Helvetica", Font.BOLD, 30));
@@ -492,6 +596,11 @@ FenetreTest extends JFrame {
 
 	}
 
+	/**
+	 * Afficher menu jouer quitter.
+	 *
+	 * @throws IOException the io exception
+	 */
 	public void afficherMenuJouerQuitter() throws IOException {
 			jFrame.remove(jPanelPressStart);
 			panelMenuJouerQuiter = new JPanelPressStart(fondKing);
@@ -585,6 +694,11 @@ FenetreTest extends JFrame {
 		});
 	}
 
+	/**
+	 * Instruction.
+	 *
+	 * @throws IOException the io exception
+	 */
 	public void instruction() throws IOException {
     	jFrame.removeKeyListener(keyListener);
 		boutonRetour.setFont(new Font("Helvetica", Font.BOLD, 40));
@@ -601,6 +715,9 @@ FenetreTest extends JFrame {
 		});
 	}
 
+	/**
+	 * Fermer.
+	 */
 	public void fermer() {
     	int res = JOptionPane.showConfirmDialog(jFrame,"Voulez-vous abandonner votre royaume ?","", JOptionPane.YES_NO_OPTION);
 		switch (res){
@@ -613,6 +730,12 @@ FenetreTest extends JFrame {
 		}
 	}
 
+	/**
+	 * Choix nom joueur.
+	 *
+	 * @param nombreJoueur the nombre joueur
+	 * @throws IOException the io exception
+	 */
 	public void choixNomJoueur(int nombreJoueur) throws IOException {
 
 
@@ -678,10 +801,20 @@ FenetreTest extends JFrame {
 
 	}
 
+	/**
+	 * Gets frame.
+	 *
+	 * @return the frame
+	 */
 	public JFrame getjFrame() {
 		return jFrame;
 	}
 
+	/**
+	 * Change label player.
+	 *
+	 * @param posDom the pos dom
+	 */
 	public void changeLabelPlayer(int posDom) {
 		jLabelsDomSelectByPlayer[posDom].setText(model.getJoueurActuel().getNom());
 	}

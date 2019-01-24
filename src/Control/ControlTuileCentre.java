@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The type Control tuile centre.
+ */
 public class ControlTuileCentre implements ActionListener {
 	private ModelTest model;
 	private FenetreTest fenetre;
@@ -18,6 +21,12 @@ public class ControlTuileCentre implements ActionListener {
 	private int posDom;
 	private BufferedImage image;
 
+	/**
+	 * Instantiates a new Control tuile centre.
+	 *
+	 * @param model   the model
+	 * @param fenetre the fenetre
+	 */
 	public ControlTuileCentre(ModelTest model, FenetreTest fenetre) {
 		this.model = model;
 		this.fenetre = fenetre;

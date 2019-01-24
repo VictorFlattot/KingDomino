@@ -5,10 +5,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Paquet.
+ */
 public class Paquet {
+	/**
+	 * The Dominos.
+	 */
 	List<Domino> dominos;
+	/**
+	 * The Tuile list.
+	 */
 	List<Tuile> tuileList;
 
+	/**
+	 * Instantiates a new Paquet.
+	 */
 	public Paquet() {
 		initTuiles();
 		initDominos();
@@ -113,20 +125,38 @@ public class Paquet {
 		}
 	}
 
+	/**
+	 * Is empty boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isEmpty(){
 		return dominos.isEmpty();
 	}
 
+	/**
+	 * Size int.
+	 *
+	 * @return the int
+	 */
 	public int size(){
 		return dominos.size();
 	}
 
+	/**
+	 * Take first domino.
+	 *
+	 * @return the domino
+	 */
 	public Domino takeFirst() {
 		Domino domino = dominos.get(0);
 		dominos.remove(domino);
 		return domino;
 	}
 
+	/**
+	 * Shuffle.
+	 */
 	public void shuffle() {
 		Collections.shuffle(dominos);
 

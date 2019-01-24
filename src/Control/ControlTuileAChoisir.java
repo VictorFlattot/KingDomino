@@ -9,12 +9,21 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * The type Control tuile a choisir.
+ */
 public class ControlTuileAChoisir implements ActionListener {
 
     private ModelTest model;
     private FenetreTest fenetre;
 
 
+    /**
+     * Instantiates a new Control tuile a choisir.
+     *
+     * @param model   the model
+     * @param fenetre the fenetre
+     */
     public ControlTuileAChoisir(ModelTest model, FenetreTest fenetre) {
         this.model = model;
         this.fenetre = fenetre;
