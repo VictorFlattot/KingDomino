@@ -29,11 +29,11 @@ public class JPanelRoyaume extends JPanel {
         JLabel nomJoueur = new JLabel(joueur.getNom());
         nomJoueur.setForeground (Color.blue);
         nomJoueur.setFont(new Font("Helvetica",Font.PLAIN,20));
-        nomJoueur.setBorder(new EmptyBorder(0,130,5,0));
+        nomJoueur.setBorder(new EmptyBorder(35,130,5,0));
         this.add(nomJoueur,BorderLayout.NORTH);
         this.add(panelRoyaume);
         setOpaque(false);
-        setBorder(new EmptyBorder(20,40,170,40));
+        setBorder(new EmptyBorder(0,40,140,40));
 
     }
 
@@ -49,7 +49,7 @@ public class JPanelRoyaume extends JPanel {
 
     private void initBoutonPanel() throws IOException {
 
-        croix = ImageIO.read(new File("img/croix.png"));
+        croix = ImageIO.read(new File("img/caseSable.png"));
         final BufferedImage depart = ImageIO.read(new File("img/Tuile16.jpg"));
 
         for (int i = 0; i < 5; i++) {

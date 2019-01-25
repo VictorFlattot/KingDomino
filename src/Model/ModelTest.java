@@ -48,17 +48,28 @@ public class ModelTest {
     }
 
     public void changementJoueur(){
-        if (getPosJoueurActuel() == nbJoueur-1){
-            setJoueurActuel(0);
-            nbChangementJoueur=0;
-            faireUnNouveauTour = true;
+        if(nbJoueur>2) {
+            if (getPosJoueurActuel() == nbJoueur - 1) {
+                setJoueurActuel(0);
+                faireUnNouveauTour = true;
+            } else {
+                setJoueurActuel(getPosJoueurActuel() + 1);
+                faireUnNouveauTour = false;
+                nbChangementJoueur++;
+            }
         }
-        else{
-            setJoueurActuel(getPosJoueurActuel()+1);
-            faireUnNouveauTour = false;
-            nbChangementJoueur ++;
+        else {
+            for (int i =0; i<2; i++) {
+                if (getPosJoueurActuel() == nbJoueur - 1) {
+                    setNbJoueur(0);
+                } else {
+                    setJoueurActuel(getPosJoueurActuel() + 1);
+                    faireUnNouveauTour = false;
+                    nbChangementJoueur++;
+                }
+            }
+            faireUnNouveauTour= true;
         }
-
     }
 
     public void nouveauIndextourSuivant(int posDom){
@@ -66,7 +77,7 @@ public class ModelTest {
     }
 
     public void nouveauTour(){
-        System.out.println("nex turn");
+        System.out.println("next turn");
 	    setFaireUnNouveauTour(false);
 	    dominoDejaPlace = new boolean[4];
         for (int i = 0; i < nbJoueur; i++) {

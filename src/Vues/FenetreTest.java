@@ -154,9 +154,7 @@ FenetreTest extends JFrame {
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
 		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
-		instruction_img = ImageIO.read(new File("img/instruction_1.png"));
 		instruction_img2 = ImageIO.read(new File("img/instruction_2.png"));
-		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
 
 		setFullscreen(jFrame);
@@ -388,7 +386,7 @@ FenetreTest extends JFrame {
 
 
 	public void afficherJeu() throws IOException {
-		nomJoueurActif = new JLabel("C'est au tour du joueur d : " + model.getJoueurActuel().getNom());
+		nomJoueurActif = new JLabel("C'est au tour du joueu : " + model.getJoueurActuel().getNom());
 		nomJoueurActif.setFont(new Font("Helvetica", Font.BOLD, 30));
 		jFrame.add(nomJoueurActif,BorderLayout.NORTH);
 		initAtributJeu();
