@@ -33,10 +33,6 @@ public class Paquet {
 		initDominoEntre34et48();
 
 		setIdDominos();
-
-
-
-
 	}
 	private void initDominoEntre1et12() {
 		int nbDominoDouble = 0;
@@ -104,12 +100,8 @@ public class Paquet {
 	private void setIdDominos() {
 		for (int i = 0; i < dominos.size(); i++) {
 			dominos.get(i).setId(i+1);
-
 		}
-
 	}
-
-
 
 	private void initTuiles() {
 		tuileList = new ArrayList<>();
@@ -149,6 +141,10 @@ public class Paquet {
 	 * @return the domino
 	 */
 	public Domino takeFirst() {
+		/*
+		* Problème avec le paquet, OOB lors du tirage. Index: 0, Size: 0
+		*/
+        System.out.println("Taille du paquet: " + dominos.size());
 		Domino domino = dominos.get(0);
 		dominos.remove(domino);
 		return domino;
@@ -159,9 +155,5 @@ public class Paquet {
 	 */
 	public void shuffle() {
 		Collections.shuffle(dominos);
-
 	}
-
-
-
 }

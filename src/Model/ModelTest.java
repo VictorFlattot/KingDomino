@@ -30,10 +30,6 @@ public class ModelTest {
         faireUnNouveauTour = false;
         nbTour=1;
         nbTourMax=12;
-
-
-
-
     }
 
     /**
@@ -46,7 +42,7 @@ public class ModelTest {
         joueurs = new Joueur[nbJoueur];
         if (nbJoueur == 3) nbDominoCentre = 3;
         else nbDominoCentre = 4;
-         if (nbJoueur > 2) tailleRoyaume = 5;
+        if (nbJoueur > 2) tailleRoyaume = 5;
         else tailleRoyaume = 7;
         for (int i = 0; i < nbJoueur; i++) {
             joueurs[i]=new Joueur("",i,tailleRoyaume);
@@ -54,14 +50,15 @@ public class ModelTest {
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
 
-
-        initTuileCentre();
+        if (paquet.size() > 45)
+            initTuileCentre();
         initOrdre(nbJoueur);
     }
 
     private void initTuileCentre() {
+        System.out.println("nbDominoCentre: " + nbDominoCentre);
         tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
-        tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
+        //tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
     }
 
 
@@ -72,15 +69,12 @@ public class ModelTest {
             ordreJoueurTourActuel[i] = joueurs[i];
         }
         setJoueurActuel(0);
-
     }
 
     /**
      * Changement joueur.
      */
     public void changementJoueur(){
-
-
         if (getPosJoueurActuel() == nbJoueur-1){
             setJoueurActuel(0);
             faireUnNouveauTour = true;
@@ -89,7 +83,6 @@ public class ModelTest {
             setJoueurActuel(getPosJoueurActuel()+1);
             faireUnNouveauTour = false;
         }
-
     }
 
     /**
@@ -110,7 +103,6 @@ public class ModelTest {
 	    dominoDejaPlace = new boolean[nbDominoCentre];
 	    dominoDejaChoisi = new boolean[nbDominoCentre];
         for (int i = 0; i < nbJoueur; i++) {
-
             ordreJoueurTourActuel[i] = ordreJoueurTourSuivant[i];
         }
         tuilesCentreAPLacer = tuilleCentreAChoisir;

@@ -126,7 +126,6 @@ FenetreTest extends JFrame {
 	}
 
 	private void initAtributJeu() throws IOException {
-
 		jpanelNomJoueur = new JPanel();
 		jPanelNombreJoueur = new JPanel();
 		jPanelCentre = new JPanel();
@@ -144,7 +143,6 @@ FenetreTest extends JFrame {
 		jLabelsDomSelectByPlayer = new JLabel[model.getNbJoueur()];
 		jLabelsDomPreviousSelectByPlayer = new JLabel[model.getNbJoueur()];
 
-
 		boutonTour = new Bouton();
 
 		jPanelSouth = new JPanel(new FlowLayout());
@@ -160,12 +158,9 @@ FenetreTest extends JFrame {
 		setActionListenerCaseRoyaume();
 		controlTuileAChoisir = new ControlTuileAChoisir(model,this);
 		setActionListenerTuileCentreAChoisir();
-
 	}
 
 	private void initAtribut() throws IOException {
-
-
 		tj1 = new JLabel("Joueur 1");
 		tj2 = new JLabel("Joueur 2");
 		tj3 = new JLabel("Joueur 3");
@@ -198,7 +193,6 @@ FenetreTest extends JFrame {
 		setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
 
-
 		controlRotationTuile = new ControlRotationTuile(model, this);
 		keyListener = new KeyListener() {
 			@Override
@@ -229,8 +223,6 @@ FenetreTest extends JFrame {
 		boutonQuitter.addActionListener(e -> fermer());
 
 		jFrame.add(jPanelPressStart);
-
-
 	}
 
 	private void setFullscreen(JFrame JFrame){
@@ -252,6 +244,7 @@ FenetreTest extends JFrame {
 
 		}
 	}
+
 	private void initJLabelCouronne(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			jLabelsDomSelectByPlayer[i] = new JLabel();
@@ -302,15 +295,12 @@ FenetreTest extends JFrame {
 			}
 		}
 
-
-
 		jPanelCentre.add(jPanelTuileAuCentre);
 		jPanelCentre.add(jPanelTuileSelect);
 		jFrame.add(jPanelCentre,BorderLayout.CENTER);
 		jFrame.revalidate();
 
 	}
-
 
 	/**
 	 * Affiche tuile select.
@@ -371,7 +361,6 @@ FenetreTest extends JFrame {
 
 		}
 
-
 		jFrame.add(jPanelEst,BorderLayout.EAST);
 		jFrame.add(jPanelOuest,BorderLayout.WEST);
 		boutonTour.setText("Passer mon tour");
@@ -394,9 +383,7 @@ FenetreTest extends JFrame {
 
 		jFrame.add(jPanelSouth, BorderLayout.SOUTH);
 
-
 		bloquerToutRoyaumes(true);
-
 	}
 
 	/**
@@ -416,9 +403,7 @@ FenetreTest extends JFrame {
         }
 		if(numeroDomino<10) return "img/0"+ numeroDomino+ nomImg +".jpg";
 		return "img/"+ numeroDomino + nomImg +".jpg";
-
 	}
-
 
 	/**
 	 * Set action listener tuile centre a choisir.
@@ -475,7 +460,6 @@ FenetreTest extends JFrame {
 		}
 	}
 
-
 	/**
 	 * Remove all controler a choisir centre.
 	 */
@@ -505,7 +489,6 @@ FenetreTest extends JFrame {
 			jPanelRoyaumes[i].bloquerRoyaume(b);
 		}
 	}
-
 
 	private void bloquerBoutonAPlacerCentre(int index, boolean b){
 		jButtonTuilleCentreAPlacer[index].setEnabled(b);
@@ -577,14 +560,13 @@ FenetreTest extends JFrame {
 		}
 	}
 
-
 	/**
 	 * Afficher jeu.
 	 *
 	 * @throws IOException the io exception
 	 */
 	public void afficherJeu() throws IOException {
-		nomJoueurActif = new JLabel("C'est au tour du joueur d : " + model.getJoueurActuel().getNom());
+		nomJoueurActif = new JLabel("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		nomJoueurActif.setFont(new Font("Helvetica", Font.BOLD, 30));
 		jFrame.add(nomJoueurActif,BorderLayout.NORTH);
 		initAtributJeu();
@@ -593,7 +575,6 @@ FenetreTest extends JFrame {
 		afficherRoyaume();
 
 		jFrame.revalidate();
-
 	}
 
 	/**
@@ -611,7 +592,6 @@ FenetreTest extends JFrame {
 			jFrame.repaint();
 			jFrame.add(panelMenuJouerQuiter);
 			jFrame.removeKeyListener(keyListener);
-
 
 			instruction.setText("Instruction");
 			boutonJouer.setText("Jouer");
@@ -636,9 +616,7 @@ FenetreTest extends JFrame {
 					e1.printStackTrace();
 				}
 			});
-
 	}
-
 
 	private void afficherChoixNbJoueur() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
@@ -751,7 +729,6 @@ FenetreTest extends JFrame {
 
 		jpanelNomJoueur = new JPanelPressStart(fondKing);
 
-
 		tj1.setFont(new Font("Helvetica",Font.BOLD,80));
 		tj2.setFont(new Font("Helvetica",Font.BOLD,80));
 		tj3.setFont(new Font("Helvetica",Font.BOLD,80));
@@ -760,7 +737,6 @@ FenetreTest extends JFrame {
 		valider.setFont(new Font("Helvetica",Font.BOLD,100));
 
 		jpanelNomJoueur.setOpaque(false);
-
 
 		if(nombreJoueur>=1){
 			jpanelNomJoueur.add(tj1);
@@ -798,7 +774,6 @@ FenetreTest extends JFrame {
 		jpanelNomJoueur.add(valider);
 		jFrame.add(jpanelNomJoueur);
 		jFrame.revalidate();
-
 	}
 
 	/**

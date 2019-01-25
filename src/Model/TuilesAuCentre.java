@@ -19,7 +19,7 @@ public class TuilesAuCentre {
 	 * @param paquet   the paquet
 	 * @param nbDomino the nb domino
 	 */
-	public TuilesAuCentre(Paquet paquet,int nbDomino) {
+	public TuilesAuCentre(Paquet paquet, int nbDomino) {
 		dominoTab = new Domino[nbDomino];
 		this.paquet = paquet;
 		for (int i = 0; i <nbDomino; i++) {
@@ -39,7 +39,6 @@ public class TuilesAuCentre {
 				if(dominoTab[j].getId()<dominoTab[i].getId()) permut(i,j);
 			}
 		}
-
 	}
 
 	private void permut(int i,int j) {
