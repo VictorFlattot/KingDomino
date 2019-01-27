@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -131,7 +130,8 @@ FenetreTest extends JFrame {
 		boutontuileSelect.addActionListener(controlRotationTuile);
 
 		initBoutonCentre();
-		initJLabelCouronne();
+		initJLabelCouronneAChoisir();
+		initJLabelCouronneAPlacer();
 		controlCaseRoyaume = new ControlCaseRoyaume(model,this);
 		setActionListenerCaseRoyaume();
 		controlTuileAChoisir = new ControlTuileAChoisir(model,this);
@@ -228,12 +228,18 @@ FenetreTest extends JFrame {
 
 		}
 	}
-	private void initJLabelCouronne(){
+	private void initJLabelCouronneAChoisir(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
-			jLabelsDomSelectByPlayer[i] = new JLabel();
-			jLabelsDomPreviousSelectByPlayer[i] = new JLabel();
+			jLabelsDomSelectByPlayer[i] = new JLabel();;
 		}
 	}
+
+	private void initJLabelCouronneAPlacer(){
+		for (int i = 0; i < model.getNbDominoCentre(); i++) {
+			jLabelsDomPreviousSelectByPlayer[i] = new JLabel("");
+		}
+	}
+
 
 	private void afficherTuilleAuCentre() throws IOException {
 		model.showDomDejaChoisi();
@@ -244,7 +250,8 @@ FenetreTest extends JFrame {
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			jPanel2PartTuileAChoisir[i] = new JPanel();
 			jPanel2PartTuileAChoisir[i].setLayout(new GridLayout(2,1));
-			//jPanel2PartTuileAPlacer[i].setLayout(new GridLayout(2,1));
+			jPanel2PartTuileAPlacer[i] = new JPanel();
+			jPanel2PartTuileAPlacer[i].setLayout(new GridLayout(2,1));
 		}
 
 		jPanelTuileSelect = new JPanel();
@@ -267,14 +274,13 @@ FenetreTest extends JFrame {
 				final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
 
 				jButtonTuilleCentreAPlacer[i].setIcon(new ImageIcon(bi));
-				jButtonTuilleCentreAPlacer[i].setActionCommand(""+ idDom +"/"+ i);
-				jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
-				jPanel2PartTuileAChoisir[i].add(jLabelsDomSelectByPlayer[i]);
-				jPanelTuileAuCentre.add(jButtonTuilleCentreAPlacer[i]);
+				jPanel2PartTuileAPlacer[i].add(jButtonTuilleCentreAPlacer[i]);
+				jPanel2PartTuileAPlacer[i].add(jLabelsDomPreviousSelectByPlayer[i]);
+				jPanelTuileAuCentre.add(jPanel2PartTuileAPlacer[i]);
 
 			}else{
-				jPanelTuileAuCentre.add(jButtonTuilleCentreAPlacer[i]);
-				jButtonTuilleCentreAPlacer[i].setActionCommand(""+0+"/"+i);
+				jPanel2PartTuileAPlacer[i].add(jButtonTuilleCentreAPlacer[i]);
+				jPanelTuileAuCentre.add(jPanel2PartTuileAPlacer[i]);
 			}
 		}
 
@@ -461,8 +467,11 @@ FenetreTest extends JFrame {
 			}else{
 				jPanelCentre.removeAll();
 				model.nouveauTour();
+				for (int i = 0; i <model.getNbDominoCentre(); i++) {
+					jLabelsDomPreviousSelectByPlayer[i] = jLabelsDomSelectByPlayer[i];
+				}
 				jLabelsDomSelectByPlayer = new JLabel[4];
-				initJLabelCouronne();
+				initJLabelCouronneAChoisir();
 				bloquerToutBoutonAPlacerCentre(false);
 				removeAllControlerAChoisirCentre();
 				afficherTuilleAuCentre();
