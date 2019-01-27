@@ -75,15 +75,8 @@ FenetreTest extends JFrame {
 	private Bouton valider ;
 	public Bouton boutonTour ;
 
-	private JTextField j1 ;
-	private JTextField j2 ;
-	private JTextField j3;
-	private JTextField j4 ;
+	private JLabel[] labelNomJouerSelectionNom;
 
-	private JLabel tj1;
-	private JLabel tj2;
-	private JLabel tj3;
-	private JLabel tj4;
 
 	private JPanel jPanelSouth ;
 
@@ -142,10 +135,6 @@ FenetreTest extends JFrame {
 	private void initAtribut() throws IOException {
 
 
-		tj1 = new JLabel("Joueur 1");
-		tj2 = new JLabel("Joueur 2");
-		tj3 = new JLabel("Joueur 3");
-		tj4 = new JLabel("Joueur 4");
 
 		valider = new Bouton() ;
 		valider.setText("Jouer");
@@ -230,15 +219,16 @@ FenetreTest extends JFrame {
 	}
 	private void initJLabelCouronneAChoisir(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
-			jLabelsDomSelectByPlayer[i] = new JLabel();;
+			jLabelsDomSelectByPlayer[i] = new JLabel();
 		}
 	}
 
 	private void initJLabelCouronneAPlacer(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
-			jLabelsDomPreviousSelectByPlayer[i] = new JLabel("");
+			jLabelsDomPreviousSelectByPlayer[i] = new JLabel();
 		}
 	}
+
 
 
 	private void afficherTuilleAuCentre() throws IOException {
@@ -249,9 +239,9 @@ FenetreTest extends JFrame {
 		jPanel2PartTuileAPlacer = new JPanel[model.getNbDominoCentre()];
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			jPanel2PartTuileAChoisir[i] = new JPanel();
-			jPanel2PartTuileAChoisir[i].setLayout(new GridLayout(2,1));
+			jPanel2PartTuileAChoisir[i].setLayout(new GridLayout(3,1));
 			jPanel2PartTuileAPlacer[i] = new JPanel();
-			jPanel2PartTuileAPlacer[i].setLayout(new GridLayout(2,1));
+			jPanel2PartTuileAPlacer[i].setLayout(new GridLayout(3,1));
 		}
 
 		jPanelTuileSelect = new JPanel();
@@ -262,8 +252,8 @@ FenetreTest extends JFrame {
 
 			jButtonTuilleCentreAChoisir[i].setIcon(new ImageIcon(bi));
 			jButtonTuilleCentreAChoisir[i].setActionCommand(""+ idDom +"/"+ i);
-			jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
 			jPanel2PartTuileAChoisir[i].add(jLabelsDomSelectByPlayer[i]);
+			jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
 			jPanelTuileAuCentre.add(jPanel2PartTuileAChoisir[i]);
 
 		}
@@ -274,8 +264,9 @@ FenetreTest extends JFrame {
 				final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
 
 				jButtonTuilleCentreAPlacer[i].setIcon(new ImageIcon(bi));
-				jPanel2PartTuileAPlacer[i].add(jButtonTuilleCentreAPlacer[i]);
+
 				jPanel2PartTuileAPlacer[i].add(jLabelsDomPreviousSelectByPlayer[i]);
+				jPanel2PartTuileAPlacer[i].add(jButtonTuilleCentreAPlacer[i]);
 				jPanelTuileAuCentre.add(jPanel2PartTuileAPlacer[i]);
 
 			}else{
@@ -291,6 +282,10 @@ FenetreTest extends JFrame {
 		jFrame.add(jPanelCentre,BorderLayout.CENTER);
 		jFrame.revalidate();
 
+	}
+
+	private JLabel afficherImgCourroneJoueur(){
+		return null;
 	}
 
 
@@ -348,10 +343,11 @@ FenetreTest extends JFrame {
 		boutonTour.setEnabled(false);
 		boutonTour.addActionListener(e->{
 			try {
-				changementJoueur();
-				model.changementJoueur();
 				nouvelleSelectionDomino();
 				bloquerToutRoyaumes(true);
+				setActionListenerTuileCentreAChoisir();
+				updateAllRoyaume();
+				boutonTour.setEnabled(false);
 				jFrame.revalidate();
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -623,14 +619,17 @@ FenetreTest extends JFrame {
 	}
 
 	public void choixNomJoueur(int nombreJoueur) throws IOException {
+		labelNomJouerSelectionNom= new JLabel[model.getNbJoueur()];
 
 
 		JTextField[] jTextField = new JTextField[nombreJoueur];
 		for (int i = 0; i < nombreJoueur; i++) {
-
+			labelNomJouerSelectionNom[i] = new JLabel();
+			labelNomJouerSelectionNom[i].setText("Roi "+ model.getCouleursUtilisé()[i]);
+			labelNomJouerSelectionNom[i].setFont(new Font("Helvetica",Font.BOLD,80));
 			jTextField[i] = new JTextField(30);
 			jTextField[i].setFont(new Font("Helvetica",Font.BOLD,40));
-			jTextField[i].setText("J"+(i+1));
+			jTextField[i].setText("Roi "+ model.getCouleursUtilisé()[i]);
 		}
 
 		jFrame.remove(jPanelNombreJoueur);
@@ -638,30 +637,25 @@ FenetreTest extends JFrame {
 		jpanelNomJoueur = new JPanelPressStart(fondKing);
 
 
-		tj1.setFont(new Font("Helvetica",Font.BOLD,80));
-		tj2.setFont(new Font("Helvetica",Font.BOLD,80));
-		tj3.setFont(new Font("Helvetica",Font.BOLD,80));
-		tj4.setFont(new Font("Helvetica",Font.BOLD,80));
-
 		valider.setFont(new Font("Helvetica",Font.BOLD,100));
 
 		jpanelNomJoueur.setOpaque(false);
 
 
 		if(nombreJoueur>=1){
-			jpanelNomJoueur.add(tj1);
+			jpanelNomJoueur.add(labelNomJouerSelectionNom[0]);
 			jpanelNomJoueur.add(jTextField[0]);
 		}
 		if(nombreJoueur>=2){
-			jpanelNomJoueur.add(tj2);
+			jpanelNomJoueur.add(labelNomJouerSelectionNom[1]);
 			jpanelNomJoueur.add(jTextField[1]);
 		}
 		if(nombreJoueur>=3) {
-			jpanelNomJoueur.add(tj3);
+			jpanelNomJoueur.add(labelNomJouerSelectionNom[2]);
 			jpanelNomJoueur.add(jTextField[2]);
 		}
 		if(nombreJoueur>=4) {
-			jpanelNomJoueur.add(tj4);
+			jpanelNomJoueur.add(labelNomJouerSelectionNom[3]);
 			jpanelNomJoueur.add(jTextField[3]);
 		}
 
@@ -669,6 +663,7 @@ FenetreTest extends JFrame {
 			model.setNbJoueur(nombreJoueur);
 			for (int i = 0; i < model.getNbJoueur(); i++) {
 				model.setNomJoueur(jTextField[i].getText(),i);
+				model.setCouleurJoueur(model.getCouleursUtilisé()[i],i);
 			}
 			try {
 
@@ -691,7 +686,8 @@ FenetreTest extends JFrame {
 		return jFrame;
 	}
 
-	public void changeLabelPlayer(int posDom) {
-		jLabelsDomSelectByPlayer[posDom].setText(model.getJoueurActuel().getNom());
+	public void changeLabelPlayer(int posDom, String couleur) throws IOException {
+		final BufferedImage bi = ImageIO.read(new File("img/Roi"+couleur+".png"));
+		jLabelsDomSelectByPlayer[posDom].setIcon(new ImageIcon(bi));
 	}
 }

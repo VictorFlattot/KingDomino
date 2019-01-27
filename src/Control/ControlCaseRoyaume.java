@@ -43,6 +43,7 @@ public class ControlCaseRoyaume implements ActionListener {
                 fenetre.bloquerToutRoyaumes(true);
                 fenetre.setActionListenerTuileCentreAChoisir();
                 fenetre.updateAllRoyaume();
+                fenetre.boutonTour.setEnabled(false);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

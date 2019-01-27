@@ -6,7 +6,6 @@ import Vues.FenetreTest;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ControlTuileAChoisir implements ActionListener {
@@ -38,24 +37,25 @@ public class ControlTuileAChoisir implements ActionListener {
 
 
         if (autorisation){
-            fenetre.changeLabelPlayer(posDom);
-                try {
-                    model.setDominoDejaChoisi(posDom,true);
-                    model.changementJoueur();
+            try {
+                fenetre.changeLabelPlayer(posDom,model.getJoueurActuel().getCouleur().toString() );
+                model.setDominoDejaChoisi(posDom,true);
+                model.changementJoueur();
                 fenetre.changementJoueur();
                 fenetre.changementTour();
                 if (model.getNbTour()!=1) {
                     fenetre.removeAllControlerAChoisirCentre();
-                    //fenetre.setActionListenerTuileCentreAPlacer();
                 }
-                    if (model.getNbTour()>1){
-                        try {
-                            fenetre.unTruc();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+                if (model.getNbTour()>1){
+                    try {
+                        fenetre.unTruc();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
-            } catch (IOException e1) {}
+                }
+            } catch (IOException e1) {
+                System.out.println(e1);
+            }
 
         }else{
             JOptionPane.showMessageDialog(fenetre.getjFrame(),"Ce domino est déjà résérvé par un autre joueur","Attention", JOptionPane.WARNING_MESSAGE);

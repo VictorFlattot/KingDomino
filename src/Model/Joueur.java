@@ -5,14 +5,16 @@ public class Joueur {
     private String nom;
     private Royaume royaume;
     private boolean estJoueurActuel;
-    int score;
+    private Couleur couleur;
+    private int score;
 
-    public Joueur(String nom, int id, int taille) {
+    public Joueur(String nom, int id, int taille, Couleur couleur) {
         this.id = id;
         this.nom = nom;
         estJoueurActuel = false;
         royaume = new Royaume(taille);
         score = 0;
+        this.couleur = couleur;
     }
 
     public String getNom() {
@@ -49,5 +51,17 @@ public class Joueur {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Couleur getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(Couleur couleur) {
+        this.couleur = couleur;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
