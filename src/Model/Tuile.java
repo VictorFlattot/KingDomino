@@ -1,19 +1,10 @@
 package Model;
 
-/**
- * The type Tuile.
- */
 public class Tuile {
 	private int id;
 	private int nbCouronne;
 	private Terrain terrain;
 
-	/**
-	 * Instantiates a new Tuile.
-	 *
-	 * @param terrain    the terrain
-	 * @param nbCouronne the nb couronne
-	 */
 	public Tuile(Terrain terrain, int nbCouronne) {
 		this.terrain = terrain;
 		this.nbCouronne=nbCouronne;
@@ -21,21 +12,11 @@ public class Tuile {
 		else id=-1;
 	}
 
-	/**
-	 * Gets terrain.
-	 *
-	 * @return the terrain
-	 */
 	public Terrain getTerrain() {
 		return terrain;
 	}
 
 
-	/**
-	 * Gets couronne.
-	 *
-	 * @return the couronne
-	 */
 	public int getCouronne() {
 		return nbCouronne;
 	}
@@ -49,18 +30,10 @@ public class Tuile {
 				'}';
 	}
 
-	/**
-	 * Gets id.
-	 *
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 * Sets id.
-	 */
 	public void setId() {
 		switch (terrain){
 			case DEPART: id = 16; break;

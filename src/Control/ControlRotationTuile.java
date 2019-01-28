@@ -8,19 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-/**
- * The type Control rotation tuile.
- */
 public class ControlRotationTuile implements ActionListener {
     private ModelTest model;
     private FenetreTest fenetre;
 
-    /**
-     * Instantiates a new Control rotation tuile.
-     *
-     * @param model   the model
-     * @param fenetre the fenetre
-     */
     public ControlRotationTuile(ModelTest model, FenetreTest fenetre) {
         this.model = model;
         this.fenetre = fenetre;

@@ -1,23 +1,16 @@
 package Model;
 
-/**
- * The type Royaume.
- */
 public class Royaume {
 	private int taille;
 	private Tuile[][] tuiles;
 	private Tuile depart;
 
 
-	/**
-	 * Instantiates a new Royaume.
-	 *
-	 * @param taille the taille
-	 */
 	public Royaume(int taille) {
 		this.taille=taille;
 		initRoyaume();
 		//showRoyaume();
+
 	}
 
 	private void initRoyaume() {
@@ -30,35 +23,14 @@ public class Royaume {
 		setDepart(taille/2,taille/2);
 	}
 
-	/**
-	 * Set depart.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 */
 	void setDepart(int x,int y){
 		tuiles[x][y] = new Tuile(Terrain.DEPART,0);
 	}
 
-	/**
-	 * Matrice tuile [ ] [ ].
-	 *
-	 * @return the tuile [ ] [ ]
-	 */
 	Tuile[][] matrice(){
 		return tuiles;
 	}
 
-	/**
-	 * Add domino royaume.
-	 *
-	 * @param domino the domino
-	 * @param x      the x
-	 * @param y      the y
-	 * @param x2     the x 2
-	 * @param y2     the y 2
-	 * @throws UnconnectedException the unconnected exception
-	 */
 	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2)throws UnconnectedException {
 	    if(isTuileDejaPlace(x,y)){
 	        throw new UnconnectedException();
@@ -79,47 +51,23 @@ public class Royaume {
 		}else {
 			throw new UnconnectedException();
 		}
+
+
 	}
 
-	/**
-	 * Is tuile deja place boolean.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 * @return the boolean
-	 */
 	public boolean isTuileDejaPlace(int x, int y){
 		return getTuile(x, y).getTerrain() != null;
 	}
 
-	/**
-	 * Add tuille.
-	 *
-	 * @param tuile the tuile
-	 * @param x     the x
-	 * @param y     the y
-	 */
 	void addTuille(Tuile tuile,int x,int y){
 		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)
 			tuiles[x][y] = tuile;
 	}
 
-	/**
-	 * Get tuile tuile.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 * @return the tuile
-	 */
 	public Tuile getTuile(int x,int y){
 		return tuiles[x][y];
 	}
 
-	/**
-	 * Get depart int [ ].
-	 *
-	 * @return the int [ ]
-	 */
 	public int[] getDepart() {
 		int[] coordDepart = new int[2];
 		for (int i = 0; i < taille; i++){
@@ -133,9 +81,6 @@ public class Royaume {
 		return null;
 	}
 
-	/**
-	 * Show royaume.
-	 */
 	void showRoyaume(){
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
@@ -144,14 +89,6 @@ public class Royaume {
 		}
 	}
 
-	/**
-	 * Is connected to tuile boolean.
-	 *
-	 * @param domino the domino
-	 * @param x      the x
-	 * @param y      the y
-	 * @return the boolean
-	 */
 	public boolean isConnectedToTuile(Domino domino, int x, int y){
 	    //if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
 			if (checkConnection(domino, x, y)){
@@ -162,14 +99,7 @@ public class Royaume {
         return false;
     }
 
-	/**
-	 * Is meme terrain boolean.
-	 *
-	 * @param base    the base
-	 * @param compare the compare
-	 * @return the boolean
-	 */
-	public boolean isMemeTerrain(Tuile base, Tuile compare){
+    public boolean isMemeTerrain(Tuile base, Tuile compare){
 		System.out.println("Domino : " + base.getTerrain() + " | Royaume : " + compare.getTerrain());
 	    return (base.getTerrain()==compare.getTerrain()) || (compare.getTerrain() == Terrain.DEPART);
     }

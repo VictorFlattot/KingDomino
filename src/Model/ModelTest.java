@@ -16,6 +16,7 @@ public class ModelTest {
     private int nbTour;
     private int nbTourMax;
     private boolean[] dominoDejaChoisi;
+    private Couleur[] couleursUtilisé;
 
 
     public ModelTest() {
@@ -38,22 +39,42 @@ public class ModelTest {
          if (nbJoueur > 2) tailleRoyaume = 5;
         else tailleRoyaume = 7;
         for (int i = 0; i < nbJoueur; i++) {
-            joueurs[i]=new Joueur("",i,tailleRoyaume);
+            joueurs[i]=new Joueur("",i,tailleRoyaume, null);
         }
+        couleursUtilisé = new Couleur[nbJoueur];
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
 
-        if (paquet.size() > 45)
-            initTuileCentre();
 		initCouleurUtilisé();
 		showCouleurUtilisé();
         initTuileCentre();
         initOrdre(nbJoueur);
     }
 
+    private void initCouleurUtilisé(){
+    	if (nbJoueur>=2){
+    		couleursUtilisé[0] = Couleur.Bleu;
+    		couleursUtilisé[1] = Couleur.Jaune;
+	    }
+	    if (nbJoueur>=3){
+	    	couleursUtilisé[2] = Couleur.Rouge;
+	    }
+	    if (nbJoueur<=4) {
+		    couleursUtilisé[3] = Couleur.Vert;
+	    }
+
+    }
+
+    private void showCouleurUtilisé(){
+	    for (Couleur couleur:
+	         couleursUtilisé) {
+		    System.out.println(couleur);
+	    }
+    }
+
     private void initTuileCentre() {
         tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
-        //tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
+        tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
     }
 
 
@@ -309,7 +330,10 @@ public class ModelTest {
 
     public void setNomJoueur(String nom,int i) {
         joueurs[i].setNom(nom);
-        System.out.println(nom);
+    }
+
+    public void setCouleurJoueur(Couleur couleurJoueur,int index){
+    	joueurs[index].setCouleur(couleurJoueur);
     }
 
     public int getNbDominoCentre() {

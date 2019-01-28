@@ -8,20 +8,13 @@ public class Joueur {
     private Couleur couleur;
     private int score;
 
-	/**
-	 * Instantiates a new Joueur.
-	 *
-	 * @param nom    the nom
-	 * @param id     the id
-	 * @param taille the taille
-	 * @param couleur the couleur
-	 */
     public Joueur(String nom, int id, int taille, Couleur couleur) {
         this.id = id;
         this.nom = nom;
         estJoueurActuel = false;
         royaume = new Royaume(taille);
         score = 0;
+        this.couleur = couleur;
     }
 
     public String getNom() {
@@ -58,5 +51,17 @@ public class Joueur {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Couleur getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(Couleur couleur) {
+        this.couleur = couleur;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

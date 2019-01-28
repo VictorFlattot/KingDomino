@@ -13,9 +13,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * The type J panel royaume.
- */
 public class JPanelRoyaume extends JPanel {
     private JPanel panelRoyaume;
     private Bouton[][] boutons;
@@ -26,13 +23,6 @@ public class JPanelRoyaume extends JPanel {
     private ControlCaseRoyaume actionListener;
 
 
-    /**
-     * Instantiates a new J panel royaume.
-     *
-     * @param modelTest the model test
-     * @param idJoueur  the id joueur
-     * @throws IOException the io exception
-     */
     JPanelRoyaume(ModelTest modelTest, int idJoueur) throws IOException {
         super();
         tailleRoyaume = modelTest.getTailleRoyaume();
@@ -77,11 +67,6 @@ public class JPanelRoyaume extends JPanel {
         updateRoyaume();
     }
 
-    /**
-     * Update royaume.
-     *
-     * @throws IOException the io exception
-     */
     public void updateRoyaume() throws IOException {
         for (int i = 0; i < tailleRoyaume; i++) {
             for (int j = 0; j < tailleRoyaume; j++) {
@@ -97,12 +82,6 @@ public class JPanelRoyaume extends JPanel {
         }
         revalidate();
     }
-
-    /**
-     * Set action listener.
-     *
-     * @param listener the listener
-     */
     public void setActionListener(ControlCaseRoyaume listener){
         actionListener = listener;
         for (int i = 0; i < tailleRoyaume; i++) {
@@ -117,11 +96,6 @@ public class JPanelRoyaume extends JPanel {
         boutons[x][y].setIcon(icon);
     }
 
-    /**
-     * Bloquer royaume.
-     *
-     * @param b the b
-     */
     public void bloquerRoyaume(boolean b){
         for (int i = 0; i < tailleRoyaume; i++) {
             for (int j = 0; j < tailleRoyaume; j++) {

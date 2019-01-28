@@ -3,9 +3,6 @@ package Model;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * The type Rond.
- */
 public class Rond extends JPanel {
 
     public void paint(Graphics g) {
