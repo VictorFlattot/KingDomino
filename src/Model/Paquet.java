@@ -5,10 +5,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Paquet.
+ */
 public class Paquet {
+	/**
+	 * The Dominos.
+	 */
 	List<Domino> dominos;
+	/**
+	 * The Tuile list.
+	 */
 	List<Tuile> tuileList;
 
+	/**
+	 * Instantiates a new Paquet.
+	 */
 	public Paquet() {
 		initTuiles();
 		initDominos();
@@ -21,10 +33,6 @@ public class Paquet {
 		initDominoEntre34et48();
 
 		setIdDominos();
-
-
-
-
 	}
 	private void initDominoEntre1et12() {
 		int nbDominoDouble = 0;
@@ -92,12 +100,8 @@ public class Paquet {
 	private void setIdDominos() {
 		for (int i = 0; i < dominos.size(); i++) {
 			dominos.get(i).setId(i+1);
-
 		}
-
 	}
-
-
 
 	private void initTuiles() {
 		tuileList = new ArrayList<>();
@@ -113,25 +117,43 @@ public class Paquet {
 		}
 	}
 
+	/**
+	 * Is empty boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isEmpty(){
 		return dominos.isEmpty();
 	}
 
+	/**
+	 * Size int.
+	 *
+	 * @return the int
+	 */
 	public int size(){
 		return dominos.size();
 	}
 
+	/**
+	 * Take first domino.
+	 *
+	 * @return the domino
+	 */
 	public Domino takeFirst() {
+		/*
+		* Problème avec le paquet, OOB lors du tirage. Index: 0, Size: 0
+		*/
+        System.out.println("Taille du paquet: " + dominos.size());
 		Domino domino = dominos.get(0);
 		dominos.remove(domino);
 		return domino;
 	}
 
+	/**
+	 * Shuffle.
+	 */
 	public void shuffle() {
 		Collections.shuffle(dominos);
-
 	}
-
-
-
 }

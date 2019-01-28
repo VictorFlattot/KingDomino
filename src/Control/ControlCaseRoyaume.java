@@ -10,11 +10,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * The type Control case royaume.
+ */
 public class ControlCaseRoyaume implements ActionListener {
     private ModelTest model;
     private FenetreTest fenetre;
 
 
+    /**
+     * Instantiates a new Control case royaume.
+     *
+     * @param model   the model
+     * @param fenetre the fenetre
+     */
     public ControlCaseRoyaume(ModelTest model, FenetreTest fenetre) {
         this.model = model;
         this.fenetre = fenetre;
