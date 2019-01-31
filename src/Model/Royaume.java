@@ -101,7 +101,7 @@ public class Royaume {
 
     public boolean isMemeTerrain(Tuile base, Tuile compare){
 		System.out.println("Domino : " + base.getTerrain() + " | Royaume : " + compare.getTerrain());
-	    return (base.getTerrain()==compare.getTerrain()) || (compare.getTerrain() == Terrain.DEPART);
+	    return (base.getTerrain()==compare.getTerrain() || (compare.getTerrain() == Terrain.DEPART));
     }
 
     private boolean checkConnection(Domino domino, int x, int y){

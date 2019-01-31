@@ -280,7 +280,7 @@ public class ModelTest {
 
     public int trueCalculScore(Joueur joueur){
         int score = 0;
-        int[] preScore = new int[2];
+        int[] preScore;
         Royaume royaumeJoueur = joueur.getRoyaume();
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
@@ -289,56 +289,70 @@ public class ModelTest {
         }
         for (int x = 0; x < 5; x++){
             for (int y = 0; y <5; y++){
-                if (!royaumeJoueur.getTuile(x, y).isChecked()){
-                    royaumeJoueur.getTuile(x, y).setChecked(true);
-                    preScore = voisin(royaumeJoueur, x, y);
-                    score += preScore[0]*preScore[1];
-                    //System.out.println("preScore: " + score);
+                if (royaumeJoueur.getTuile(x, y).getTerrain() != null) {
+                    if (!royaumeJoueur.getTuile(x, y).isChecked()) {
+                        preScore = otherVoisin(royaumeJoueur, x, y);
+                        score += preScore[0] * preScore[1];
+                        //System.out.println("preScore: " + score);
+                    }
                 }
             }
         }
-        System.out.println("Score final : " + score + "\n");
+        System.out.println("" + joueur.getNom() + ", Score final : " + score + "\n=====");
         return score;
     }
 
-    private int[] voisin(Royaume royaumeJoueur, int x, int y){
-        int preScoreDroit[];
-        int preScoreBas[];
-        int preScore[] = new int[2];
-        preScoreDroit = voisinDroit(royaumeJoueur, x, y);
-        preScoreBas = voisinBas(royaumeJoueur, x, y);
-        preScore[0] = preScoreDroit[0] + preScoreBas[0];
-        preScore[1] = preScoreDroit[1] + preScoreBas[1];
-        return preScore;
-    }
-
-    private int[] voisinDroit(Royaume royaumeJoueur, int x, int y){
+    private int[] otherVoisin(Royaume royaumeJoueur, int x, int y){
         int[] preScore = new int[2];
+        royaumeJoueur.getTuile(x, y).setChecked(true);
+        System.out.println("\n" + royaumeJoueur.getTuile(x, y).toString() + "\n");
         preScore[0] = royaumeJoueur.getTuile(x, y).getCouronne();
         preScore[1] = 1;
 
-        if (x+1 > tailleRoyaume) {
-            if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(x, y), royaumeJoueur.getTuile(x + 1, y))) {
-                int[] vDroit = voisin(royaumeJoueur, x + 1, y);
-                preScore[0] += vDroit[0];
-                preScore[1] += vDroit[1];
+        if (x+1 < tailleRoyaume) {
+            if (!royaumeJoueur.getTuile(x + 1, y).isChecked()) {
+                if (royaumeJoueur.getTuile(x, y).getTerrain() == royaumeJoueur.getTuile(x + 1, y).getTerrain()) {
+                    System.out.println("x+1");
+                    int[] vDroit = otherVoisin(royaumeJoueur, x + 1, y);
+                    preScore[0] += vDroit[0];
+                    preScore[1] += vDroit[1];
+                }
             }
         }
-        return preScore;
-    }
 
-    private int[] voisinBas(Royaume royaumeJoueur, int x, int y){
-        int[] preScore = new int[2];
-        preScore[0] = 0;
-        preScore[1] = 0;
-
-        if (y+1 > tailleRoyaume) {
-            if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(x, y), royaumeJoueur.getTuile(x, y + 1))) {
-                int[] vBas = voisin(royaumeJoueur, x, y + 1);
-                preScore[0] += vBas[0];
-                preScore[1] += vBas[1];
+        if (x-1 > 0) {
+            if (!royaumeJoueur.getTuile(x - 1, y).isChecked()) {
+                if (royaumeJoueur.getTuile(x, y).getTerrain() == royaumeJoueur.getTuile(x - 1, y).getTerrain()) {
+                    System.out.println("x-1");
+                    int[] vGauche = otherVoisin(royaumeJoueur, x - 1, y);
+                    preScore[0] += vGauche[0];
+                    preScore[1] += vGauche[1];
+                }
             }
         }
+
+        if (y+1 < tailleRoyaume) {
+            if (!royaumeJoueur.getTuile(x, y+1).isChecked()) {
+                if (royaumeJoueur.getTuile(x, y).getTerrain() == royaumeJoueur.getTuile(x, y + 1).getTerrain()) {
+                    System.out.println("y+1");
+                    int[] vBas = otherVoisin(royaumeJoueur, x, y + 1);
+                    preScore[0] += vBas[0];
+                    preScore[1] += vBas[1];
+                }
+            }
+        }
+
+        if (y-1 > 0) {
+            if (!royaumeJoueur.getTuile(x, y-1).isChecked()) {
+                if (royaumeJoueur.getTuile(x, y).getTerrain() == royaumeJoueur.getTuile(x, y - 1).getTerrain()) {
+                    System.out.println("y-1");
+                    int[] vHaut = otherVoisin(royaumeJoueur, x, y - 1);
+                    preScore[0] += vHaut[0];
+                    preScore[1] += vHaut[1];
+                }
+            }
+        }
+        System.out.println("=====\nDomaine[" + royaumeJoueur.getTuile(x, y).getTerrain() +"]\nTaille:" + preScore[1] + "\n=====");
         return preScore;
     }
 
