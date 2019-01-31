@@ -270,7 +270,8 @@ public class ModelTest {
     }
 
     public boolean isPartieFinie(){
-        return nbTour >= nbTourMax;
+        return nbTour >=
+                nbTourMax;
     }
 
     public int calculScore(Joueur joueur){ //renvoie le score d'dun joueur
