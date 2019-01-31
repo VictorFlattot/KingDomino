@@ -37,7 +37,7 @@ public class JPanelRoyaume extends JPanel {
         this.add(nomJoueur,BorderLayout.NORTH);
         this.add(panelRoyaume);
         setOpaque(false);
-        setBorder(new EmptyBorder(20,40,170,40));
+        setBorder(new EmptyBorder(20,40,37,40));
 
     }
 

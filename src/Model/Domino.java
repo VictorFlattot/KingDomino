@@ -87,5 +87,17 @@ public class Domino {
 
         return tuiles;
     }
+
+	@Override
+	public String toString() {
+		return "Domino{" +
+				"id=" + id +
+				", tuileNord=" + tuileNord +
+				", tuileSud=" + tuileSud +
+				", tuileEst=" + tuileEst +
+				", tuileOuest=" + tuileOuest +
+				", rotation=" + rotation +
+				'}';
+	}
 }
 

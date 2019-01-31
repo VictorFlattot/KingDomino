@@ -275,7 +275,8 @@ public class ModelTest {
     }
 
     public boolean isPartieFinie(){
-        return nbTour >= nbTourMax;
+        return nbTour >=
+                nbTourMax;
     }
 
     public int trueCalculScore(Joueur joueur){
@@ -356,37 +357,7 @@ public class ModelTest {
         return preScore;
     }
 
-    public int calculScore(Joueur joueur){ //renvoie le score d'dun joueur
-        int score=0;
-        boolean memeTerrain = false;
-        Royaume royaumeJoueur = joueur.getRoyaume();
-        Royaume test = new Royaume(5); //TEST
-        for (int i =0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                test.addTuille(new Tuile(Terrain.FORET,1),i,j); //TEST
-                if(royaumeJoueur.getTuile(i,j).getCouronne()==1) {
-                    score = 1;
 
-                }
-                    int nbTuilleSame =0;
-
-
-                nbTuilleSame = getNbTuilleSame(royaumeJoueur, i, nbTuilleSame, royaumeJoueur.getTuile(i, j), i + 1, j, i);
-                nbTuilleSame = getNbTuilleSame(royaumeJoueur, j, nbTuilleSame, royaumeJoueur.getTuile(i, j), i, j + 1, i);
-                nbTuilleSame = getNbTuilleSame(royaumeJoueur, i, j, nbTuilleSame, royaumeJoueur.getTuile(i, j), i - 1);
-                nbTuilleSame = getNbTuilleSame(royaumeJoueur, j, j - 1, nbTuilleSame, royaumeJoueur.getTuile(i, j), i);
-
-                score = score * nbTuilleSame;
-
-
-
-
-            }
-        }
-
-        joueur.setScore(score);
-        return score;
-    }
 
     private int getNbTuilleSame(Royaume royaumeJoueur, int i, int j, int nbTuilleSame, Tuile tuile, int i2) {
         boolean memeTerrain;
@@ -410,6 +381,120 @@ public class ModelTest {
             }
         }
         return nbTuilleSame;
+    }
+
+    public boolean plusPetit(int b, int a){
+        if(a <= b){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public int cherchePlusGrand(int[][] tab){
+        int plusGrand = 0;
+        for(int i=0;i<=tab.length-1;i++){
+            for (int j=0;j<=tab.length;j++){
+                if(tab[i][j] > plusGrand){
+                    plusGrand = tab[i][j];
+                }
+            }
+        }
+        return plusGrand;
+    }
+
+    public int compteTab(int[][] tab, Tuile[][] royaumeRef){
+        int couronne = 0;
+        int nbTuile = 0;
+        int resultatFinal = 0;
+        int plusGrand = cherchePlusGrand(tab);
+        int numeroEnTest = 1;
+        while (true) {
+            for (int i = 0; i <= tab.length - 1; i++) {
+                for (int j = 0; j <= tab.length; j++) {
+                    if(tab[i][j]==numeroEnTest){
+                        couronne += royaumeRef[i][j].getCouronne();
+                        nbTuile++;
+                    }
+                }
+            }
+            if(numeroEnTest != plusGrand){
+                resultatFinal += nbTuile*couronne;
+                nbTuile = 0;
+                couronne = 0;
+                numeroEnTest++;
+            }else{
+                resultatFinal += nbTuile*couronne;
+                break;
+            }
+        }
+        return resultatFinal;
+    }
+
+    public int propagation(Joueur joueur){
+        int[][] tableauFinal = new int[5][5];
+        int marqueurActuelle =1;
+        Tuile[][] matriceJoueur = joueur.getRoyaume().matrice();
+        Royaume royaumeJoueur = joueur.getRoyaume();
+        Boolean terrainDessusSame = false;
+        for (int i=0; i<=4;i++){
+            for(int j=0; j<=4;j++){
+                if( i==0 && j==0){
+                    if(matriceJoueur[i][j]==null){
+                        tableauFinal[i][j]=0;
+                    }else{
+                    tableauFinal[i][j]=marqueurActuelle;
+                    marqueurActuelle++;}
+                }else if(i==0){
+                    if(matriceJoueur[i][j]==null){
+                        tableauFinal[i][j]=0;
+                    }else if(royaumeJoueur.isMemeTerrain(matriceJoueur[i][j],matriceJoueur[i][j-1])){
+                       tableauFinal[i][j] = tableauFinal[i][j-1];
+                   }else{
+                       tableauFinal[i][j] = marqueurActuelle;
+                       marqueurActuelle++;
+                   }
+                }else if(j==0){
+                    if(matriceJoueur[i][j]==null){
+                        tableauFinal[i][j]=0;
+                    }else if(royaumeJoueur.isMemeTerrain(matriceJoueur[i][j],matriceJoueur[i-1][j])){
+                        tableauFinal[i][j] = tableauFinal[i-1][j];
+                    }else{
+                        tableauFinal[i][j] = marqueurActuelle;
+                        marqueurActuelle++;
+                    }
+                }else if(i==2 && j==2){
+                    tableauFinal[i][j] = 0;
+                }else{
+                    if(matriceJoueur[i][j]==null){
+                        tableauFinal[i][j]=0;
+                    }else if(royaumeJoueur.isMemeTerrain(matriceJoueur[i][j],matriceJoueur[i-1][j])){
+                        tableauFinal[i][j] = tableauFinal[i-1][j];
+                        terrainDessusSame = true;
+                    }else{
+                        tableauFinal[i][j] = marqueurActuelle;
+                        marqueurActuelle++;
+                    }
+                    if(royaumeJoueur.isMemeTerrain(matriceJoueur[i][j],matriceJoueur[i][j-1]) && plusPetit(tableauFinal[i][j-1],tableauFinal[i][j]) && terrainDessusSame){
+                        tableauFinal[i][j] = tableauFinal[i][j-1];
+                        tableauFinal[i-1][j]= tableauFinal[i][j];
+                        terrainDessusSame = false;
+                    }else if(royaumeJoueur.isMemeTerrain(matriceJoueur[i][j],matriceJoueur[i][j-1]) && plusPetit(tableauFinal[i][j-1],tableauFinal[i][j])){
+                        tableauFinal[i][j] = tableauFinal[i][j-1];
+                    }
+                }
+            }
+        }
+        for(int i=0;i<=4;i++){
+            for(int j=0;j<=4;j++){
+                if(j==0){
+                    System.out.println(tableauFinal[i][j]);
+                }else{
+                    System.out.print(" "+tableauFinal[i][j]);
+                }
+            }
+        }
+        return compteTab(tableauFinal,matriceJoueur);
     }
 
 

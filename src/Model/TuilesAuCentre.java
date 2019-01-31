@@ -9,6 +9,7 @@ public class TuilesAuCentre {
 		dominoTab = new Domino[nbDomino];
 		this.paquet = paquet;
 		if (distrib && paquet.size()>0) distribuer();
+		showTuilesAuCentre();
 
 
 	}
