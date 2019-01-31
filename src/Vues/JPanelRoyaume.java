@@ -59,7 +59,6 @@ public class JPanelRoyaume extends JPanel {
         for (int i = 0; i < tailleRoyaume; i++) {
             for (int j = 0; j < tailleRoyaume; j++) {
                 boutons[i][j] = new Bouton();
-
                 panelRoyaume.add(boutons[i][j]);
             }
         }
@@ -113,5 +112,13 @@ public class JPanelRoyaume extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Bouton[][] getBoutons() {
+        return boutons;
+    }
+
+    public void setBoutons(Bouton[][] boutons) {
+        this.boutons = boutons;
     }
 }

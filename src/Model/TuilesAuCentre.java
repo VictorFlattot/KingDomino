@@ -18,7 +18,7 @@ public class TuilesAuCentre {
 		for (int i = 0; i <dominoTab.length; i++) {
 			dominoTab[i]= paquet.takeFirst();
 		}
-		System.out.println(paquet.size());
+		//System.out.println(paquet.size());
 		triOrdreCroissant();
 	}
 

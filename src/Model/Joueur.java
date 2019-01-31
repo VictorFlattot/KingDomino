@@ -7,14 +7,16 @@ public class Joueur {
     private boolean estJoueurActuel;
     private Couleur couleur;
     private int score;
+    private boolean IA;
 
-    public Joueur(String nom, int id, int taille, Couleur couleur) {
+    public Joueur(String nom, int id, int taille, Couleur couleur,boolean IA) {
         this.id = id;
         this.nom = nom;
         estJoueurActuel = false;
         royaume = new Royaume(taille);
         score = 0;
         this.couleur = couleur;
+        this.IA = IA;
     }
 
     public String getNom() {
@@ -63,5 +65,13 @@ public class Joueur {
 
     public int getScore() {
         return score;
+    }
+
+    public boolean isIA() {
+        return IA;
+    }
+
+    public void setIA(boolean IA) {
+        this.IA = IA;
     }
 }

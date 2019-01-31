@@ -41,8 +41,11 @@ public class ModelTest {
          if (nbJoueur > 2) tailleRoyaume = 5;
         else tailleRoyaume = 7;
         for (int i = 0; i < nbJoueur; i++) {
-            joueurs[i]=new Joueur("",i,tailleRoyaume, null);
+            joueurs[i]=new Joueur("",i,tailleRoyaume, null,false);
         }
+        joueurs[0].setIA(true);
+        joueurs[1].setIA(true);
+        joueurs[2].setIA(true);
         couleursUtilisé = new Couleur[nbJoueur];
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
@@ -75,7 +78,6 @@ public class ModelTest {
     }
 
     private void initTuileCentre() {
-        System.out.println("ok");
         tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre,true);
         tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre,false);
     }
@@ -92,6 +94,7 @@ public class ModelTest {
     }
 
     public void changementJoueur(){
+
 
 
         if (getPosJoueurActuel() == nbJoueur-1){
@@ -400,6 +403,9 @@ public class ModelTest {
     }
 
 
+
+
+
     public void setNomJoueur(String nom,int i) {
         joueurs[i].setNom(nom);
     }
@@ -455,4 +461,45 @@ public class ModelTest {
 	public void setCouleursUtilisé(Couleur[] couleursUtilisé) {
 		this.couleursUtilisé = couleursUtilisé;
 	}
+
+    //IA
+
+
+
+    public int quelDomPourIA(){
+        return getPosJoueurActuel();
+    }
+
+    public int[] ouPlacerDomino(){
+
+        System.out.println(getRotDominoSelect());
+        int[] coord = new int[2];
+        int i2;
+        int j2;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                i2 = i;
+                j2 = j;
+                if (getRotDominoSelect()==0 || getRotDominoSelect()==180){
+                    j2 = j+1;
+                }
+                if (getRotDominoSelect()==90|| getRotDominoSelect()==270)
+                    i2 = i+1;
+                try {
+
+                    if (j+1 <tailleRoyaume){
+                        if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
+                            coord[0]=i;
+                            coord[1]=j;
+                            return coord;
+                        }
+                    }
+
+                } catch (UnconnectedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }
