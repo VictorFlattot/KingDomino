@@ -4,15 +4,21 @@ public class TuilesAuCentre {
 	Domino[] dominoTab;
 	Paquet paquet;
 
-	public TuilesAuCentre(Paquet paquet,int nbDomino) {
+
+	public TuilesAuCentre(Paquet paquet, int nbDomino, boolean distrib) {
 		dominoTab = new Domino[nbDomino];
 		this.paquet = paquet;
-		for (int i = 0; i <nbDomino; i++) {
+		if (distrib && paquet.size()>0) distribuer();
+
+
+	}
+
+	private void distribuer(){
+		for (int i = 0; i <dominoTab.length; i++) {
 			dominoTab[i]= paquet.takeFirst();
 		}
-
+		System.out.println(paquet.size());
 		triOrdreCroissant();
-		//showTuilesAuCentre();
 	}
 
 

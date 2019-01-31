@@ -12,6 +12,7 @@ public class Paquet {
 	public Paquet() {
 		initTuiles();
 		initDominos();
+		showTuile();
 	}
 
 	private void initDominos() {
@@ -21,6 +22,7 @@ public class Paquet {
 		initDominoEntre34et48();
 
 		setIdDominos();
+
 
 
 
@@ -47,7 +49,7 @@ public class Paquet {
 		for (int i = 2; i <= 6; i+=2) {	dominos.add(new Domino(tuileList.get(0), tuileList.get(i)));}
 
         //16
-		dominos.add(new Domino(tuileList.get(6), tuileList.get(9)));
+		dominos.add(new Domino(tuileList.get(0), tuileList.get(9)));
         //17 et 18
 		for (int i = 4; i <= 6; i+=2) {dominos.add(new Domino(tuileList.get(2), tuileList.get(i)));}
         // 19 a 23
@@ -130,6 +132,13 @@ public class Paquet {
 	public void shuffle() {
 		Collections.shuffle(dominos);
 
+	}
+
+	private void showTuile(){
+		for (Tuile tuile: tuileList
+		     ) {
+			System.out.println(tuile);
+		}
 	}
 
 

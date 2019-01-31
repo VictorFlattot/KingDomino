@@ -232,7 +232,6 @@ FenetreTest extends JFrame {
 
 
 	private void afficherTuilleAuCentre() throws IOException {
-		model.showDomDejaChoisi();
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
 		jPanel2PartTuileAChoisir = new JPanel[model.getNbDominoCentre()];
@@ -247,14 +246,20 @@ FenetreTest extends JFrame {
 		jPanelTuileSelect = new JPanel();
 		int idDom;
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
-			idDom = model.getTuilleCentreAChoisir().getDominoTab()[i].getId();
-			final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
+			if (model.getNbTour() <= model.getNbTourMax()-1){
+				idDom = model.getTuilleCentreAChoisir().getDominoTab()[i].getId();
+				final BufferedImage bi = ImageIO.read(new File(donneCheminDomino(idDom,90)));
 
-			jButtonTuilleCentreAChoisir[i].setIcon(new ImageIcon(bi));
-			jButtonTuilleCentreAChoisir[i].setActionCommand(""+ idDom +"/"+ i);
-			jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
-			jPanel2PartTuileAChoisir[i].add(jLabelsDomSelectByPlayer[i]);
-			jPanelTuileAuCentre.add(jPanel2PartTuileAChoisir[i]);
+				jButtonTuilleCentreAChoisir[i].setIcon(new ImageIcon(bi));
+				jButtonTuilleCentreAChoisir[i].setActionCommand(""+ idDom +"/"+ i);
+				jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
+				jPanel2PartTuileAChoisir[i].add(jLabelsDomSelectByPlayer[i]);
+				jPanelTuileAuCentre.add(jPanel2PartTuileAChoisir[i]);
+			}else{
+				jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAPlacer[i]);
+				jPanelTuileAuCentre.add(jPanel2PartTuileAChoisir[i]);
+			}
+
 
 		}
 
@@ -281,9 +286,6 @@ FenetreTest extends JFrame {
 
 	}
 
-	private JLabel afficherImgCourroneJoueur(){
-		return null;
-	}
 
 
 
@@ -342,7 +344,15 @@ FenetreTest extends JFrame {
 			try {
 				nouvelleSelectionDomino();
 				bloquerToutRoyaumes(true);
-				setActionListenerTuileCentreAChoisir();
+				if (model.getNbTour()<model.getNbTourMax()){
+					setActionListenerTuileCentreAChoisir();
+				}else{
+					model.changementJoueur();
+					changementJoueur();
+					changementTour();
+					unTruc();
+				}
+
 				updateAllRoyaume();
 				boutonTour.setEnabled(false);
 				jFrame.revalidate();
@@ -456,6 +466,7 @@ FenetreTest extends JFrame {
 
 				JOptionPane.showMessageDialog(jFrame,
 						"FIN DE PARTIE.");
+				fermer();
 
 			}else{
 				jPanelCentre.removeAll();
@@ -657,7 +668,7 @@ FenetreTest extends JFrame {
 		}
 
 		valider.addActionListener(e->{
-			model.setNbJoueur(nombreJoueur);
+
 			for (int i = 0; i < model.getNbJoueur(); i++) {
 				model.setNomJoueur(jTextField[i].getText(),i);
 				model.setCouleurJoueur(model.getCouleursUtilisé()[i],i);

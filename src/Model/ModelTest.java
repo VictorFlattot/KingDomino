@@ -24,7 +24,7 @@ public class ModelTest {
         paquet.shuffle();
         faireUnNouveauTour = false;
         nbTour=1;
-        nbTourMax=12;
+        nbTourMax=13;
 
 
 
@@ -73,8 +73,9 @@ public class ModelTest {
     }
 
     private void initTuileCentre() {
-        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
-        tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre);
+        System.out.println("ok");
+        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre,true);
+        tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre,false);
     }
 
 
@@ -108,15 +109,16 @@ public class ModelTest {
 
     public void nouveauTour(){
         nbTour++;
+        System.out.println(nbTour);
 	    setFaireUnNouveauTour(false);
 	    dominoDejaPlace = new boolean[nbDominoCentre];
 	    dominoDejaChoisi = new boolean[nbDominoCentre];
         for (int i = 0; i < nbJoueur; i++) {
-
             ordreJoueurTourActuel[i] = ordreJoueurTourSuivant[i];
         }
         tuilesCentreAPLacer = tuilleCentreAChoisir;
-        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre);
+        tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre,true);
+
         setJoueurActuel(0);
     }
 
@@ -268,7 +270,7 @@ public class ModelTest {
     }
 
     public boolean isPartieFinie(){
-        return nbTour > nbTourMax;
+        return nbTour >= nbTourMax;
     }
 
     public int calculScore(Joueur joueur){ //renvoie le score d'dun joueur

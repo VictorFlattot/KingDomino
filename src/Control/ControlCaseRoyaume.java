@@ -41,7 +41,14 @@ public class ControlCaseRoyaume implements ActionListener {
 
                 fenetre.nouvelleSelectionDomino();
                 fenetre.bloquerToutRoyaumes(true);
-                fenetre.setActionListenerTuileCentreAChoisir();
+                if (model.getNbTour()<model.getNbTourMax()){
+                    fenetre.setActionListenerTuileCentreAChoisir();
+                }else{
+                    model.changementJoueur();
+                    fenetre.changementJoueur();
+                    fenetre.changementTour();
+                    fenetre.unTruc();
+                }
                 fenetre.updateAllRoyaume();
                 fenetre.boutonTour.setEnabled(false);
             } catch (IOException e1) {
