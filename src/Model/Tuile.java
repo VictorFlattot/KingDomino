@@ -4,6 +4,7 @@ public class Tuile {
 	private int id;
 	private int nbCouronne;
 	private Terrain terrain;
+	private boolean checked = false;
 
 	public Tuile(Terrain terrain, int nbCouronne) {
 		this.terrain = terrain;
@@ -34,7 +35,15 @@ public class Tuile {
 		return id;
 	}
 
-	public void setId() {
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public void setId() {
 		switch (terrain){
 			case DEPART: id = 16; break;
 			case CHAMPS: id=nbCouronne; break;

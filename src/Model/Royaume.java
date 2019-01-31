@@ -138,7 +138,7 @@ public class Royaume {
 					return true;
 				if (x-2 > -1 && isMemeTerrain(domino.getTuileNord(),getTuile((x-1)-1,y)))
 					return true;
-				if (x-1 > -1 && y-1 > -1 &&isMemeTerrain(domino.getTuileNord(),getTuile((x-1),y-1)))
+				if (x-1 > -1 && y-1 > -1 && isMemeTerrain(domino.getTuileNord(),getTuile((x-1),y-1)))
 					return true;
 				return (x-1 > -1 && y+1 < taille && isMemeTerrain(domino.getTuileNord(),getTuile((x-1),y+1)));
 
