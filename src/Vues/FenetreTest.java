@@ -461,6 +461,13 @@ FenetreTest extends JFrame {
 	public void changementTour() throws IOException {
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
+
+                System.out.println(model.propagation(model.getJoueurs()[0]));
+                System.out.println(model.propagation(model.getJoueurs()[1]));
+                System.out.println(model.propagation(model.getJoueurs()[2]));
+                System.out.println(model.propagation(model.getJoueurs()[3]));
+
+
 				jFrame.remove(jPanelCentre);
 				jFrame.repaint();
 
