@@ -568,10 +568,10 @@ public class ModelTest {
                     j2 = j+1;
                 }
                 if (getRotDominoSelect()==90|| getRotDominoSelect()==270)
-                    i2 = i+1;
+                    i2 = i-1;
                 try {
 
-                    if (j+1 <tailleRoyaume){
+                    if (j2 <tailleRoyaume && i2>=0 ){
                         if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
                             coord[0]=i;
                             coord[1]=j;

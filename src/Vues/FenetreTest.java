@@ -393,6 +393,7 @@ FenetreTest extends JFrame {
 	}
 
 	public void tourIA() {
+		System.out.println("tourIA");
 		int[] coord = model.ouPlacerDomino();
 		int compt =0;
 		while (coord == null && compt<3){
@@ -401,14 +402,17 @@ FenetreTest extends JFrame {
 			compt++;
 		}
 
-		if (compt !=3 ){
+		if (compt <=3 && coord != null ){
 			controlCaseRoyaume.actionPerformed(new ActionEvent(jPanelRoyaumes[model.getPosJoueurActuel()].getBoutons()[coord[0]][coord[1]],ActionEvent.ACTION_PERFORMED,jPanelRoyaumes[model.getPosJoueurActuel()].getBoutons()[coord[0]][coord[1]].getActionCommand()));
-			controlTuileAChoisir.actionPerformed(
-					new ActionEvent(jButtonTuilleCentreAChoisir[model.quelDomPourIA()],
-							ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.quelDomPourIA()].getActionCommand()));
+
 		}else{
+			System.out.println("passe tour");
 			passerTour();
 		}
+		controlTuileAChoisir.actionPerformed(
+				new ActionEvent(jButtonTuilleCentreAChoisir[model.quelDomPourIA()],
+						ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.quelDomPourIA()].getActionCommand()));
+
 
 	}
 
@@ -436,6 +440,7 @@ FenetreTest extends JFrame {
 		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
 		if (model.getJoueurActuel().isIA() && !model.getDominoDejaPlace()[model.getPosJoueurActuel()]){
+			System.out.println("géchan");
 			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()].getActionCommand()));
 		}
 
