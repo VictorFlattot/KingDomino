@@ -54,6 +54,13 @@ public class Royaume {
 
 
 	}
+	void removeDominoRoyaume(int x, int y,int x2,int y2){
+		showRoyaume();
+		tuiles[x][y] = new Tuile(null,0);
+		tuiles[x2][y2] = new Tuile(null,0);
+		System.out.println("after Remove");
+		showRoyaume();
+	}
 
 	public boolean verifPlacement(Domino domino, int x, int y, int x2, int y2) /*throws UnconnectedException*/ {
 		if(isTuileDejaPlace(x,y)) return false;

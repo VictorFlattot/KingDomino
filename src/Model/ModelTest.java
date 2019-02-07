@@ -1,6 +1,7 @@
 package Model;
 
 import javax.print.attribute.standard.JobOriginatingUserName;
+import java.util.ArrayList;
 
 public class ModelTest {
     private Paquet paquet;
@@ -173,6 +174,10 @@ public class ModelTest {
             return false;
         }
         return  true;
+    }
+
+    private void removeDominoRoyaume(int idJoueur,int x,int y,int x2,int y2){
+        joueurs[idJoueur].getRoyaume().removeDominoRoyaume(x,y,x2,y2);
     }
 
     public void setJoueurActuel(int index){
@@ -391,9 +396,9 @@ public class ModelTest {
     }
 
     public int[] ouPlacerDomino(){
-
+        ArrayList<int[]> positionPosible = new ArrayList<>();
         System.out.println(getRotDominoSelect());
-        int[] coord = new int[2];
+        int[] coord = new int[4];
         int i2;
         int j2;
         for (int i = 0; i < 5; i++) {
@@ -411,7 +416,10 @@ public class ModelTest {
                         if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
                             coord[0]=i;
                             coord[1]=j;
-                            return coord;
+                            coord[2]=i2;
+                            coord[3]=j2;
+                            positionPosible.add(coord);
+
                         }
                     }
 
@@ -420,6 +428,32 @@ public class ModelTest {
                 }*/
             }
         }
-        return null;
+
+        return getBestCoord(positionPosible);
     }
+
+    private int[] getBestCoord(ArrayList<int []> list){
+        int maxScore = 0;
+        int scoreCalculé;
+        int[] bestCoord = new int[4];
+        for (int[] coord :
+                list) {
+            addDominoRoyaume(dominoSelect,getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
+            scoreCalculé = calculScore(getJoueurActuel());
+            if (maxScore <= scoreCalculé){
+                maxScore = scoreCalculé;
+                for (int i = 0; i < 4; i++) {
+                    bestCoord[i] = coord[i];
+                }
+                bestCoord = coord;
+            }
+            removeDominoRoyaume(getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
+        }
+        System.out.println("bestCoord");
+        for (int coordone:bestCoord){
+            System.out.println(coordone);
+        }
+        return bestCoord;
+    }
+
 }
