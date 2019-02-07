@@ -168,11 +168,11 @@ public class ModelTest {
     }
 
     public boolean addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
-        try {
+        //try {
             joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino, x, y, x2, y2);
-        }catch (ArrayIndexOutOfBoundsException /*| UnconnectedException*/ e1){
+        /*}catch (ArrayIndexOutOfBoundsException | UnconnectedException e1){
             return false;
-        }
+        }*/
         return  true;
     }
 
@@ -282,6 +282,30 @@ public class ModelTest {
                 nbTourMax;
     }
 
+    private int getNbTuilleSame(Royaume royaumeJoueur, int i, int j, int nbTuilleSame, Tuile tuile, int i2) {
+        boolean memeTerrain;
+        if (i > 0) { //sinon ça fait OutOfBoundsException
+                if (royaumeJoueur.isMemeTerrain(tuile, royaumeJoueur.getTuile(i2, j))) {
+                    System.out.println("Les tuiles ont le même terrain");
+                    memeTerrain = true;
+                    nbTuilleSame++;
+                }
+            }
+        return nbTuilleSame;
+    }
+
+    private int getNbTuilleSame(Royaume royaumeJoueur, int j, int nbTuilleSame, Tuile tuile, int i2, int i3, int i) {
+        boolean memeTerrain;
+        if (j < 4) { //sinon ça fait OutOfBoundsException
+            if (royaumeJoueur.isMemeTerrain(tuile, royaumeJoueur.getTuile(i2, i3))) {
+                System.out.println("Les tuiles ont le même terrain");
+                memeTerrain = true;
+                nbTuilleSame++;
+            }
+        }
+        return nbTuilleSame;
+    }
+
     public int calculScore(Joueur joueur){
         int score = 0;
         Royaume rJoueur = joueur.getRoyaume();
@@ -299,7 +323,7 @@ public class ModelTest {
                 }
             }
         }
-        System.out.println(joueur.getNom() + ", score : " + score);
+        //System.out.println(joueur.getNom() + ", score : " + score);
         return score;
     }
 
@@ -330,7 +354,6 @@ public class ModelTest {
         }
         return preScore;
     }
-
     public void setNomJoueur(String nom,int i) {
         joueurs[i].setNom(nom);
     }
@@ -398,44 +421,51 @@ public class ModelTest {
     public int[] ouPlacerDomino(){
         ArrayList<int[]> positionPosible = new ArrayList<>();
         System.out.println(getRotDominoSelect());
+        int bestRot = 0;
+        int[] allRotation = new int[4];
+        for (int i = 0; i < 4; i++) {
+            allRotation[i] = i*90;
+        }
+        int[] bestCoord = new int[5];
         int[] coord = new int[4];
         int i2;
         int j2;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                i2 = i;
-                j2 = j;
-                if (getRotDominoSelect()==0 || getRotDominoSelect()==180){
-                    j2 = j+1;
-                }
-                if (getRotDominoSelect()==90|| getRotDominoSelect()==270)
-                    i2 = i-1;
-                //try {
-
-                    if (j2 <tailleRoyaume && i2>=0 ){
-                        if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
-                            coord[0]=i;
-                            coord[1]=j;
-                            coord[2]=i2;
-                            coord[3]=j2;
-                            positionPosible.add(coord);
-
+        for (int rot : allRotation) {
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    i2 = i; j2 = j;
+                    if (rot==0 || rot==180) j2 = j+1;
+                    if (rot==90|| rot==270) i2 = i-1;
+                    //try {
+                        if (j2 <tailleRoyaume && i2>=0 ){
+                            if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
+                                coord[0]=i;coord[1]=j;coord[2]=i2;coord[3]=j2;
+                                positionPosible.add(coord);
+                            }
                         }
-                    }
-
-                /*} catch (UnconnectedException e) {
-                    e.printStackTrace();
-                }*/
+                    /*} catch (UnconnectedException e) {}*/
+                }
             }
+            bestCoord = getBestCoord(positionPosible,rot);
+            if (bestCoord[4]>=bestRot){
+                    bestRot = bestCoord[4];
+            }
+
         }
 
-        return getBestCoord(positionPosible);
+        System.out.println("bestCoord");
+        for (int coordone:bestCoord){
+            System.out.println(coordone);
+        }
+
+        return bestCoord;
+        //return getBestCoord(positionPosible);
     }
 
-    private int[] getBestCoord(ArrayList<int []> list){
+    private int[] getBestCoord(ArrayList<int []> list,int rot){
         int maxScore = 0;
         int scoreCalculé;
-        int[] bestCoord = new int[4];
+        int[] bestCoord = new int[5];
         for (int[] coord :
                 list) {
             addDominoRoyaume(dominoSelect,getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
@@ -445,14 +475,12 @@ public class ModelTest {
                 for (int i = 0; i < 4; i++) {
                     bestCoord[i] = coord[i];
                 }
-                bestCoord = coord;
+                bestCoord[4]=rot;
             }
             removeDominoRoyaume(getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
         }
-        System.out.println("bestCoord");
-        for (int coordone:bestCoord){
-            System.out.println(coordone);
-        }
+        System.out.println(maxScore);
+
         return bestCoord;
     }
 

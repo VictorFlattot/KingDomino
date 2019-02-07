@@ -58,6 +58,7 @@ public class MainTest {
 		model.setDominoSelect(foret1Champ);
 		//test(model);
 		royaume.showRoyaume();
+		model.ouPlacerDomino();
 	}
 
 	private static void test(ModelTest model) throws IOException {

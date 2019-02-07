@@ -396,9 +396,10 @@ FenetreTest extends JFrame {
 		System.out.println("tourIA");
 		int[] coord = model.ouPlacerDomino();
 		int compt =0;
-		while (coord == null && compt<3){
+		while ( compt<3 && model.getDominoSelect().getRotation()!=coord[4]){
 			controlRotationTuile.actionPerformed(new ActionEvent(boutontuileSelect,ActionEvent.ACTION_PERFORMED,boutontuileSelect.getActionCommand()));
 			coord = model.ouPlacerDomino();
+			System.out.println(model.getDominoSelect().getRotation());
 			compt++;
 		}
 
