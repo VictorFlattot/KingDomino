@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class MainTest {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, UnconnectedException {
 		TuilesAuCentre tuilesAuCentre;
 		ModelTest model = new ModelTest();
 		model = new ModelTest();
@@ -50,11 +50,11 @@ public class MainTest {
         royaume.addDominoRoyaume(lacChamp,0,2,0,3);
         royaume.addDominoRoyaume(doubleChamp,0,4,1,4);
         royaume.addDominoRoyaume(champs1Prairie,3,1,2,1);
-        royaume.addDominoRoyaume(prairie1Champ,3,0,2,0);
         royaume.addDominoRoyaume(doubleMarais, 3,2,4,2);
         royaume.addDominoRoyaume(lac1Foret,2,3,3,3);
         royaume.addDominoRoyaume(foret1Prairie,4,3,4,4);
-		model.calculScore(model.getJoueurActuel());
+        System.out.println(model.calculScore(model.getJoueurActuel()));
+
 		model.setDominoSelect(foret1Champ);
 		//test(model);
 		royaume.showRoyaume();

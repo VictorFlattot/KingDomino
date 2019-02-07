@@ -1,5 +1,7 @@
 package Model;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 import javax.print.attribute.standard.JobOriginatingUserName;
 import java.util.ArrayList;
 
@@ -168,11 +170,11 @@ public class ModelTest {
     }
 
     public boolean addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
-        //try {
+        try {
             joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino, x, y, x2, y2);
-        /*}catch (ArrayIndexOutOfBoundsException | UnconnectedException e1){
+        }catch (ArrayIndexOutOfBoundsException | UnconnectedException e1){
             return false;
-        }*/
+        }
         return  true;
     }
 
@@ -436,20 +438,21 @@ public class ModelTest {
                     i2 = i; j2 = j;
                     if (rot==0 || rot==180) j2 = j+1;
                     if (rot==90|| rot==270) i2 = i-1;
-                    //try {
+                    try {
                         if (j2 <tailleRoyaume && i2>=0 ){
                             if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
                                 coord[0]=i;coord[1]=j;coord[2]=i2;coord[3]=j2;
                                 positionPosible.add(coord);
                             }
                         }
-                    /*} catch (UnconnectedException e) {}*/
+                    } catch (UnconnectedException e) {}
                 }
             }
-            bestCoord = getBestCoord(positionPosible,rot);
+
+            /*bestCoord = getBestCoord(positionPosible,rot);
             if (bestCoord[4]>=bestRot){
                     bestRot = bestCoord[4];
-            }
+            }*/
 
         }
 
