@@ -4,6 +4,7 @@ public class Royaume {
 	private int taille;
 	private Tuile[][] tuiles;
 	private Tuile depart;
+	private boolean[][] checkcedTuiles;
 
 
 	public Royaume(int taille) {
@@ -13,11 +14,21 @@ public class Royaume {
 
 	}
 
+	public boolean isTuileChecked(int x, int y){
+		return checkcedTuiles[x][y];
+	}
+
+	public void setTuileCheckStatut(int x, int y, boolean statut){
+		checkcedTuiles[x][y] = statut;
+	}
+
 	private void initRoyaume() {
 		tuiles = new Tuile[taille][taille];
+		checkcedTuiles = new boolean[taille][taille];
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
 				addTuille(new Tuile(null,0),i,j);
+				checkcedTuiles[i][j] = false;
 			}
 		}
 		setDepart(taille/2,taille/2);

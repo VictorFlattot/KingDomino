@@ -20,17 +20,12 @@ public class ModelTest {
     private boolean[] dominoDejaChoisi;
     private Couleur[] couleursUtilisé;
 
-
     public ModelTest() {
         paquet = new Paquet();
         paquet.shuffle();
         faireUnNouveauTour = false;
         nbTour=1;
         nbTourMax=13;
-
-
-
-
     }
 
     public void setNbJoueur(int nbJoueur){
@@ -49,14 +44,11 @@ public class ModelTest {
         couleursUtilisé = new Couleur[nbJoueur];
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
-        showDomDejaChoisi();
 
 		initCouleurUtilisé();
-		//showCouleurUtilisé();
+		showCouleurUtilisé();
         initTuileCentre();
         initOrdre(nbJoueur);
-
-
     }
 
     private void initCouleurUtilisé(){
@@ -126,10 +118,10 @@ public class ModelTest {
         }
         tuilesCentreAPLacer = tuilleCentreAChoisir;
         tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre,true);
-        trueCalculScore(joueurs[0]);
-        trueCalculScore(joueurs[1]);
-        trueCalculScore(joueurs[2]);
-        trueCalculScore(joueurs[3]);
+        //calculScore(joueurs[0]);
+        //calculScore(joueurs[1]);
+        //calculScore(joueurs[2]);
+        calculScore(joueurs[3]);
         setJoueurActuel(0);
     }
 
@@ -285,72 +277,6 @@ public class ModelTest {
                 nbTourMax;
     }
 
-    public int trueCalculScore(Joueur joueur){
-        int score = 0;
-        int[] preScore = new int[2];
-        Royaume royaumeJoueur = joueur.getRoyaume();
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
-                royaumeJoueur.getTuile(x ,y).setChecked(false);
-            }
-        }
-        for (int x = 0; x < 5; x++){
-            for (int y = 0; y <5; y++){
-                if (!royaumeJoueur.getTuile(x, y).isChecked()){
-                    royaumeJoueur.getTuile(x, y).setChecked(true);
-                    preScore = voisin(royaumeJoueur, x, y);
-                    score += preScore[0]*preScore[1];
-                    //System.out.println("preScore: " + score);
-                }
-            }
-        }
-        System.out.println("Score final : " + score + "\n");
-        return score;
-    }
-
-    private int[] voisin(Royaume royaumeJoueur, int x, int y){
-        int preScoreDroit[];
-        int preScoreBas[];
-        int preScore[] = new int[2];
-        preScoreDroit = voisinDroit(royaumeJoueur, x, y);
-        preScoreBas = voisinBas(royaumeJoueur, x, y);
-        preScore[0] = preScoreDroit[0] + preScoreBas[0];
-        preScore[1] = preScoreDroit[1] + preScoreBas[1];
-        return preScore;
-    }
-
-    private int[] voisinDroit(Royaume royaumeJoueur, int x, int y){
-        int[] preScore = new int[2];
-        preScore[0] = royaumeJoueur.getTuile(x, y).getCouronne();
-        preScore[1] = 1;
-
-        if (x+1 > tailleRoyaume) {
-            if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(x, y), royaumeJoueur.getTuile(x + 1, y))) {
-                int[] vDroit = voisin(royaumeJoueur, x + 1, y);
-                preScore[0] += vDroit[0];
-                preScore[1] += vDroit[1];
-            }
-        }
-        return preScore;
-    }
-
-    private int[] voisinBas(Royaume royaumeJoueur, int x, int y){
-        int[] preScore = new int[2];
-        preScore[0] = 0;
-        preScore[1] = 0;
-
-        if (y+1 > tailleRoyaume) {
-            if (royaumeJoueur.isMemeTerrain(royaumeJoueur.getTuile(x, y), royaumeJoueur.getTuile(x, y + 1))) {
-                int[] vBas = voisin(royaumeJoueur, x, y + 1);
-                preScore[0] += vBas[0];
-                preScore[1] += vBas[1];
-            }
-        }
-        return preScore;
-    }
-
-
-
     private int getNbTuilleSame(Royaume royaumeJoueur, int i, int j, int nbTuilleSame, Tuile tuile, int i2) {
         boolean memeTerrain;
         if (i > 0) { //sinon ça fait OutOfBoundsException
@@ -373,6 +299,55 @@ public class ModelTest {
             }
         }
         return nbTuilleSame;
+    }
+
+    public int calculScore(Joueur joueur){
+        int score = 0;
+        Royaume rJoueur = joueur.getRoyaume();
+        for (int i = 0; i < tailleRoyaume; i++){
+            for (int j = 0; j < tailleRoyaume; j++){
+                rJoueur.setTuileCheckStatut(i, j, false);
+            }
+        }
+        for (int i = 0; i < tailleRoyaume; i++){
+            for (int j = 0; j < tailleRoyaume; j++){
+                if (!rJoueur.isTuileChecked(i, j) && rJoueur.getTuile(i, j).getTerrain() != null){
+                    int[] preScore;
+                    preScore = voisin(rJoueur, i, j);
+                    score += preScore[0]*preScore[1];
+                }
+            }
+        }
+        System.out.println(joueur.getNom() + ", score : " + score);
+        return score;
+    }
+
+    private int[] voisin(Royaume rJoueur, int x, int y){
+        int[] preScore = new int[2];
+        preScore[0] = 0; preScore[1] = 0;
+        if (!rJoueur.isTuileChecked(x, y)){
+            rJoueur.setTuileCheckStatut(x, y, true);
+            preScore[0] = rJoueur.getTuile(x, y).getCouronne();
+            preScore[1] = 1;
+            int[] voisinScore;
+            if (y+1 < tailleRoyaume && rJoueur.getTuile(x, y).getTerrain() == rJoueur.getTuile(x, y+1).getTerrain()){
+                voisinScore = voisin(rJoueur, x, y+1);
+                preScore[0] += voisinScore[0];  preScore[1] += voisinScore[1];
+            }
+            if (x+1 < tailleRoyaume && rJoueur.getTuile(x, y).getTerrain() == rJoueur.getTuile(x+1, y).getTerrain()){
+                voisinScore = voisin(rJoueur, x+1, y);
+                preScore[0] += voisinScore[0];  preScore[1] += voisinScore[1];
+            }
+            if (x-1 >= 0  && rJoueur.getTuile(x, y).getTerrain() == rJoueur.getTuile(x-1, y).getTerrain()){
+                voisinScore = voisin(rJoueur, x-1, y);
+                preScore[0] += voisinScore[0];  preScore[1] += voisinScore[1];
+            }
+            if (y-1 >= 0 && rJoueur.getTuile(x, y).getTerrain() == rJoueur.getTuile(x, y-1).getTerrain()){
+                voisinScore = voisin(rJoueur, x, y-1);
+                preScore[0] += voisinScore[0];  preScore[1] += voisinScore[1];
+            }
+        }
+        return preScore;
     }
 
     public boolean plusPetit(int b, int a){
@@ -554,12 +529,6 @@ public class ModelTest {
 
 
     public int quelDomPourIA(){
-        /*showDomDejaChoisi();
-        for (int i = 3; i >= 0; --i) {
-            if (!dominoDejaChoisi[i])
-                return i;
-        }
-        return Integer.parseInt(null);*/
         return getPosJoueurActuel();
     }
 
