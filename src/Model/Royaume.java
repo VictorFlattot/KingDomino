@@ -4,6 +4,7 @@ public class Royaume {
 	private int taille;
 	private Tuile[][] tuiles;
 	private Tuile depart;
+	private boolean[][] checkcedTuiles;
 
 
 	public Royaume(int taille) {
@@ -13,11 +14,21 @@ public class Royaume {
 
 	}
 
+	public boolean isTuileChecked(int x, int y){
+		return checkcedTuiles[x][y];
+	}
+
+	public void setTuileCheckStatut(int x, int y, boolean statut){
+		checkcedTuiles[x][y] = statut;
+	}
+
 	private void initRoyaume() {
 		tuiles = new Tuile[taille][taille];
+		checkcedTuiles = new boolean[taille][taille];
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
 				addTuille(new Tuile(null,0),i,j);
+				checkcedTuiles[i][j] = false;
 			}
 		}
 		setDepart(taille/2,taille/2);
@@ -31,33 +42,42 @@ public class Royaume {
 		return tuiles;
 	}
 
-	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2)throws UnconnectedException {
-	    if(isTuileDejaPlace(x,y)){
-	        throw new UnconnectedException();
-        }
-        if (isTuileDejaPlace(x2, y2)) {
-            throw new UnconnectedException();
-        }
-
-		if(isConnectedToTuile(domino, x, y)){
-			/*if(x>=matrice().length || x<0 || y>=matrice().length || y<0 || x2>=matrice().length || x<0 || y2>=matrice().length||y2<0) {
-				throw new ArrayIndexOutOfBoundsException();
-			}else{*/
-				Tuile[] tuilesDomino = domino.getTuiles();
-				addTuille(tuilesDomino[0], x, y);
-				addTuille(tuilesDomino[1], x2, y2);
-				//showRoyaume();
-			//}
-		}else {
+	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2)/*throws UnconnectedException*/ {
+		if (verifPlacement(domino, x, y, x2, y2)){
+			Tuile[] tuilesDomino = domino.getTuiles();
+			addTuille(tuilesDomino[0], x, y);
+			addTuille(tuilesDomino[1], x2, y2);
+			showRoyaume();
+		}/*else{
 			throw new UnconnectedException();
-		}
+		}*/
 
+
+	}
+	void removeDominoRoyaume(int x, int y,int x2,int y2){
+		showRoyaume();
+		tuiles[x][y] = new Tuile(null,0);
+		tuiles[x2][y2] = new Tuile(null,0);
+		System.out.println("after Remove");
+		showRoyaume();
+	}
+
+	public boolean verifPlacement(Domino domino, int x, int y, int x2, int y2) /*throws UnconnectedException*/ {
+		if(isTuileDejaPlace(x,y)) return false;
+
+		if (isTuileDejaPlace(x2, y2))return false;
+
+
+		if(!isConnectedToTuile(domino, x, y)) return false;
+
+		return true;
 
 	}
 
 	public boolean isTuileDejaPlace(int x, int y){
 		return getTuile(x, y).getTerrain() != null;
 	}
+
 
 	void addTuille(Tuile tuile,int x,int y){
 		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)
@@ -81,13 +101,31 @@ public class Royaume {
 		return null;
 	}
 
-	void showRoyaume(){
+	/*void showRoyaume(){
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
 				System.out.println(i +"/" + j +":"+tuiles[i][j]);
 			}
 		}
-	}
+	}*/
+
+	public void showRoyaume(){
+	    for (int i = 0; i < taille; i++){
+            line();
+	        for (int j = 0; j < taille; j++){
+                System.out.print("| " + tuiles[i][j].getCouronne());
+            }
+            System.out.println();
+        }
+    }
+
+    private void line(){
+        for (int i = 0; i <= 3*taille; i++){
+            if (i%3 == 0)   System.out.print('+');
+            else            System.out.print('-');
+        }
+        System.out.println();
+    }
 
 	public boolean isConnectedToTuile(Domino domino, int x, int y){
 	    //if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
@@ -100,21 +138,21 @@ public class Royaume {
     }
 
     public boolean isMemeTerrain(Tuile base, Tuile compare){
-		System.out.println("Domino : " + base.getTerrain() + " | Royaume : " + compare.getTerrain());
-	    return (base.getTerrain()==compare.getTerrain() || (compare.getTerrain() == Terrain.DEPART));
+		//System.out.println("Domino : " + base.getTerrain() + " | Royaume : " + compare.getTerrain());
+	    return (base.getTerrain()==compare.getTerrain()) || (compare.getTerrain() == Terrain.DEPART);
     }
 
     private boolean checkConnection(Domino domino, int x, int y){
-		System.out.println("Terrain Nord : " + domino.getTuileNord());
+		/*System.out.println("Terrain Nord : " + domino.getTuileNord());
 		System.out.println("Terrain Ouest : " + domino.getTuileOuest());
 		System.out.println("Terrain Est : " + domino.getTuileEst());
 		System.out.println("Terrain Sud : " + domino.getTuileSud());
-		System.out.println("x: " + x + " | y: " + y);
+		System.out.println("x: " + x + " | y: " + y);*/
 
 	    switch (domino.getRotation()){
             case 0:
 			case 180:
-				System.out.println("=== Rotation  0/180 ===");
+				//System.out.println("=== Rotation  0/180 ===");
             	if (y-1 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x,y-1)))
 					return true;
 				if (x-1 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x-1,y)))
@@ -129,7 +167,7 @@ public class Royaume {
 
             case 90:
 			case 270:
-				System.out.println("=== Rotation 90/270 ===");
+				//System.out.println("=== Rotation 90/270 ===");
 				if (y-1 > -1 && isMemeTerrain(domino.getTuileSud(),getTuile(x,y-1)))
 					return true;
 				if (y+1 < taille && isMemeTerrain(domino.getTuileSud(),getTuile(x,y+1)))

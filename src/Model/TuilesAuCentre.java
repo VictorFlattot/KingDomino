@@ -9,7 +9,7 @@ public class TuilesAuCentre {
 		dominoTab = new Domino[nbDomino];
 		this.paquet = paquet;
 		if (distrib && paquet.size()>0) distribuer();
-		showTuilesAuCentre();
+		//showTuilesAuCentre();
 
 
 	}
@@ -18,7 +18,7 @@ public class TuilesAuCentre {
 		for (int i = 0; i <dominoTab.length; i++) {
 			dominoTab[i]= paquet.takeFirst();
 		}
-		System.out.println(paquet.size());
+		//System.out.println(paquet.size());
 		triOrdreCroissant();
 	}
 

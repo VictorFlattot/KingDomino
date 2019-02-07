@@ -13,6 +13,13 @@ import java.io.IOException;
 public class ControlCaseRoyaume implements ActionListener {
     private ModelTest model;
     private FenetreTest fenetre;
+    private boolean test;
+
+    public ControlCaseRoyaume(ModelTest modelTest){
+        this.model = modelTest;
+        fenetre = new FenetreTest();
+        test = true;
+    }
 
 
     public ControlCaseRoyaume(ModelTest model, FenetreTest fenetre) {
@@ -31,29 +38,45 @@ public class ControlCaseRoyaume implements ActionListener {
         int rotation = domino.getRotation();
         if (rotation==0 || rotation==180) y2+=1;
         if (rotation==90 || rotation==270) x2-=1;
-        System.out.println("JA");
-        System.out.println(model.getJoueurActuel().getNom());
-        System.out.println();
+        System.out.println(x+" "+y+" "+x2+" "+y2);
         if(model.addDominoRoyaume(domino, model.getJoueurActuel().getId(), x, y, x2, y2)){
 
 
-            try {
 
-                fenetre.nouvelleSelectionDomino();
-                fenetre.bloquerToutRoyaumes(true);
-                if (model.getNbTour()<model.getNbTourMax()){
-                    fenetre.setActionListenerTuileCentreAChoisir();
-                }else{
+                if (test){
                     model.changementJoueur();
-                    fenetre.changementJoueur();
-                    fenetre.changementTour();
-                    fenetre.unTruc();
+                }else{
+
+                    try {
+                        fenetre.nouvelleSelectionDomino();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    fenetre.bloquerToutRoyaumes(true);
+                    if (model.getNbTour()<model.getNbTourMax()){
+                        fenetre.setActionListenerTuileCentreAChoisir();
+                        fenetre.boutonTour.setEnabled(false);
+                    }else{
+                        model.changementJoueur();
+                        try {
+                            fenetre.changementJoueur();
+                            fenetre.changementTour();
+                            fenetre.unTruc();
+                            System.out.println("ici");
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
+                    try {
+                        fenetre.updateAllRoyaume();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
-                fenetre.updateAllRoyaume();
-                fenetre.boutonTour.setEnabled(false);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+
+
+
         }else{
             JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
         }

@@ -21,7 +21,7 @@ public class ControlTuileAChoisir implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        model.showDomDejaChoisi();
+        //model.showDomDejaChoisi();
         boolean autorisation = true;
         String[] actionCommandSplit = e.getActionCommand().split("/");
         int idDom = Integer.valueOf(actionCommandSplit[0]);
@@ -58,7 +58,7 @@ public class ControlTuileAChoisir implements ActionListener {
             }
 
         }else{
-            JOptionPane.showMessageDialog(fenetre.getjFrame(),"Ce domino est déjà résérvé par un autre joueur","Attention", JOptionPane.WARNING_MESSAGE);
+            //JOptionPane.showMessageDialog(fenetre.getjFrame(),"Ce domino est déjà résérvé par un autre joueur","Attention", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
