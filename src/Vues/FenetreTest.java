@@ -4,7 +4,6 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileAChoisir;
-import Model.Couleur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -166,7 +165,7 @@ FenetreTest extends JFrame {
 		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
 
-		setFullscreen(jFrame);
+		//setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
 
 
@@ -387,8 +386,7 @@ FenetreTest extends JFrame {
 		afficheTuileSelect(new ImageIcon(image),id);
 		bloquerToutRoyaumes(true);
 		bloquerRoyaumeJoueur(false,model.getJoueurActuel().getId());
-		System.out.println("truc");
-		if (model.getJoueurActuel().getCouleur() == Couleur.Bleu){
+		if (model.getJoueurActuel().isIA()){
 			tourIA();
 		}
 
@@ -441,12 +439,10 @@ FenetreTest extends JFrame {
 	public void changementJoueur() throws IOException {
 		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
-		if (model.getJoueurActuel().isIA()){
+		if (model.getJoueurActuel().isIA() && !model.getDominoDejaPlace()[model.getPosJoueurActuel()]){
 			System.out.println("géchan");
-			System.out.println(model.quelDomPourIA());
-			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.quelDomPourIA()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.quelDomPourIA()].getActionCommand()));
+			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()].getActionCommand()));
 		}
-
 
 	}
 
@@ -504,15 +500,8 @@ FenetreTest extends JFrame {
 	}
 
 	public void changementTour() throws IOException {
-
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
-
-                System.out.println(model.propagation(model.getJoueurs()[0]));
-                System.out.println(model.propagation(model.getJoueurs()[1]));
-                System.out.println(model.propagation(model.getJoueurs()[2]));
-                System.out.println(model.propagation(model.getJoueurs()[3]));
-
 
 				jFrame.remove(jPanelCentre);
 				jFrame.repaint();
@@ -535,7 +524,6 @@ FenetreTest extends JFrame {
 			}
 
 		}
-
 	}
 
 	private void bloquerBoutonDominoDejaPlacé(){
@@ -555,7 +543,7 @@ FenetreTest extends JFrame {
 		afficherTuilleAuCentre();
 		afficherRoyaume();
 		if (model.getJoueurActuel().isIA()){
-			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.quelDomPourIA()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.quelDomPourIA()].getActionCommand()));
+			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()].getActionCommand()));
 		}
 		jFrame.revalidate();
 
