@@ -47,12 +47,19 @@ public class Royaume {
 			Tuile[] tuilesDomino = domino.getTuiles();
 			addTuille(tuilesDomino[0], x, y);
 			addTuille(tuilesDomino[1], x2, y2);
-			showRoyaume();
+			//showRoyaume();
 		}else{
 			throw new UnconnectedException();
 		}
 
 
+	}
+	void removeDominoRoyaume(int x, int y,int x2,int y2){
+		showRoyaume();
+		tuiles[x][y] = new Tuile(null,0);
+		tuiles[x2][y2] = new Tuile(null,0);
+		System.out.println("after Remove");
+		showRoyaume();
 	}
 
 	public boolean verifPlacement(Domino domino, int x, int y, int x2, int y2) throws UnconnectedException {
@@ -104,7 +111,7 @@ public class Royaume {
 	public boolean isConnectedToTuile(Domino domino, int x, int y){
 	    //if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
 			if (checkConnection(domino, x, y)){
-				System.out.println("Fonction OK");
+				//System.out.println("Fonction OK");
 				return true;
 			}
         //}
