@@ -101,13 +101,31 @@ public class Royaume {
 		return null;
 	}
 
-	void showRoyaume(){
+	/*void showRoyaume(){
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
 				System.out.println(i +"/" + j +":"+tuiles[i][j]);
 			}
 		}
-	}
+	}*/
+
+	public void showRoyaume(){
+	    for (int i = 0; i < taille; i++){
+            line();
+	        for (int j = 0; j < taille; j++){
+                System.out.print("| " + tuiles[i][j].getCouronne());
+            }
+            System.out.println();
+        }
+    }
+
+    private void line(){
+        for (int i = 0; i <= 3*taille; i++){
+            if (i%3 == 0)   System.out.print('+');
+            else            System.out.print('-');
+        }
+        System.out.println();
+    }
 
 	public boolean isConnectedToTuile(Domino domino, int x, int y){
 	    //if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
