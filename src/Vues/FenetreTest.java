@@ -4,6 +4,7 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileAChoisir;
+import Model.Couleur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -386,7 +387,8 @@ FenetreTest extends JFrame {
 		afficheTuileSelect(new ImageIcon(image),id);
 		bloquerToutRoyaumes(true);
 		bloquerRoyaumeJoueur(false,model.getJoueurActuel().getId());
-		if (model.getJoueurActuel().isIA()){
+		System.out.println("truc");
+		if (model.getJoueurActuel().getCouleur() == Couleur.Bleu){
 			tourIA();
 		}
 
@@ -439,10 +441,12 @@ FenetreTest extends JFrame {
 	public void changementJoueur() throws IOException {
 		nomJoueurActif.setText("C'est au tour du joueur : " + model.getJoueurActuel().getNom());
 		jPanelRoyaumes[model.getJoueurActuel().getId()].updateRoyaume();
-		if (model.getJoueurActuel().isIA() && !model.getDominoDejaPlace()[model.getPosJoueurActuel()]){
+		if (model.getJoueurActuel().isIA()){
 			System.out.println("géchan");
-			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()].getActionCommand()));
+			System.out.println(model.quelDomPourIA());
+			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.quelDomPourIA()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.quelDomPourIA()].getActionCommand()));
 		}
+
 
 	}
 
@@ -500,6 +504,7 @@ FenetreTest extends JFrame {
 	}
 
 	public void changementTour() throws IOException {
+
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
 
@@ -530,6 +535,7 @@ FenetreTest extends JFrame {
 			}
 
 		}
+
 	}
 
 	private void bloquerBoutonDominoDejaPlacé(){
@@ -549,7 +555,7 @@ FenetreTest extends JFrame {
 		afficherTuilleAuCentre();
 		afficherRoyaume();
 		if (model.getJoueurActuel().isIA()){
-			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()].getActionCommand()));
+			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.quelDomPourIA()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.quelDomPourIA()].getActionCommand()));
 		}
 		jFrame.revalidate();
 
