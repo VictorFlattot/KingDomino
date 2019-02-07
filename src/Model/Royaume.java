@@ -98,13 +98,62 @@ public class Royaume {
 		return null;
 	}
 
-	void showRoyaume(){
-		for (int i = 0; i < taille; i++) {
-			for (int j = 0; j < taille; j++) {
-				System.out.println(i +"/" + j +":"+tuiles[i][j]);
+	public void showRoyaume(){
+	    for (int i = 0; i < 3*taille; i++){
+			switch (i%3){
+				case 0:
+					line();
+					break;
+				case 1:
+					for (int j = 0; j < taille; j++)
+						System.out.print("| " + tuiles[i/3][j].getCouronne());
+					System.out.println("|");
+					break;
+				case 2:
+					for (int j = 0; j < taille; j++){
+						if (tuiles[i/3][j].getTerrain() != null) {
+							switch (tuiles[i/3][j].getTerrain()) {
+								case DEPART:
+									System.out.print("|De");
+									break;
+								case LAC:
+									System.out.print("|La");
+									break;
+								case FORET:
+									System.out.print("|Fo");
+									break;
+								case CHAMPS:
+									System.out.print("|Ch");
+									break;
+								case MARAIS:
+									System.out.print("|Ma");
+									break;
+								case PRAIRIE:
+									System.out.print("|Pr");
+									break;
+								case MONTAGNES:
+									System.out.print("|Mo");
+									break;
+								default:
+									System.out.print("|  ");
+									break;
+							}
+						} else System.out.print("|  ");
+					}
+					System.out.println("|");
+					break;
 			}
-		}
-	}
+        }
+	    line();
+    }
+
+    private void line(){
+        for (int i = 0; i <= 3*taille; i++){
+            if (i%3 == 0)   System.out.print('+');
+            else            System.out.print('-');
+        }
+        System.out.println();
+    }
 
 	public boolean isConnectedToTuile(Domino domino, int x, int y){
 	    //if ((x+1) < taille && (x-1) >= 0 && (y+1) < taille && (y-1) >= 0){
