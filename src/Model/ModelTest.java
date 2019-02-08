@@ -422,7 +422,6 @@ public class ModelTest {
 
     public int[] ouPlacerDomino(){
         ArrayList<int[]> positionPosible = new ArrayList<>();
-        System.out.println(getRotDominoSelect());
         int bestRot = 0;
         int[] allRotation = new int[4];
         for (int i = 0; i < 4; i++) {
@@ -441,8 +440,8 @@ public class ModelTest {
                     try {
                         if (j2 <tailleRoyaume && i2>=0 ){
                             if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
-                                coord = new int[4];
-                                coord[0]=i;coord[1]=j;coord[2]=i2;coord[3]=j2;
+                                coord = new int[5];
+                                coord[0]=i;coord[1]=j;coord[2]=i2;coord[3]=j2;coord[4]=rot;
                                 positionPosible.add(coord);
 
                             }
@@ -451,23 +450,27 @@ public class ModelTest {
                 }
             }
 
-            bestCoord = getBestCoord(positionPosible,rot);
-            if (bestCoord[4]>=bestRot){
-                    bestRot = bestCoord[4];
-            }
+            bestCoord = getBestCoord(positionPosible);
 
         }
 
 
-        System.out.println("bestCoord");
         for (int coordone:bestCoord){
             System.out.println(coordone);
+        }
+
+        for (int[] ints: positionPosible
+             ) {
+            System.out.println("");
+            for (int i = 0; i < 4; i++) {
+                System.out.print(ints[i] + " / ");
+            }
         }
 
         return bestCoord;
     }
 
-    private int[] getBestCoord(ArrayList<int []> list,int rot){
+    private int[] getBestCoord(ArrayList<int []> list){
         int maxScore = 0;
         int scoreCalculé;
         int[] bestCoord = new int[5];
@@ -477,13 +480,10 @@ public class ModelTest {
             scoreCalculé = calculScore(getJoueurActuel());
             if (maxScore <= scoreCalculé){
                 maxScore = scoreCalculé;
-                System.out.println("rot :" + rot);
-                System.arraycopy(coord, 0, bestCoord, 0, 4);
-                bestCoord[4]=rot;
+                System.arraycopy(coord, 0, bestCoord, 0, 5);
             }
             removeDominoRoyaume(getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
         }
-        System.out.println(maxScore);
 
         return bestCoord;
     }
