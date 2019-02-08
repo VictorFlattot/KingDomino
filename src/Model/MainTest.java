@@ -18,17 +18,16 @@ public class MainTest {
 		ModelTest model = new ModelTest();
 		model = new ModelTest();
 		model.setNbJoueur(4);
-		System.out.println(model.getJoueurActuel());
-		/*for (int i = 0; i < 4; i++) {
-			model.changementJoueur();
-		}
-		for (int i = 0; i < 12; i++) {
-			tuilesAuCentre = new TuilesAuCentre(model.getPaquet(),4,true);
-		}
+        //testRoyaume(model);
+        System.out.println(model.quelDomPourIA());
+        model.setDominoDejaChoisi(model.getPosJoueurActuel(),true);
+        model.changementJoueur();
+        System.out.println(model.quelDomPourIA());
 
+	}
 
-		*/
-		Royaume royaume  = model.getJoueurActuel().getRoyaume();
+    private static void testRoyaume(ModelTest model) throws UnconnectedException {
+        Royaume royaume  = model.getJoueurActuel().getRoyaume();
 
         Domino doubleForet = new Domino(new Tuile(Terrain.FORET, 0), new Tuile(Terrain.FORET, 0));
         Domino foretChamp = new Domino(new Tuile(Terrain.FORET, 0), new Tuile(Terrain.CHAMPS, 0));
@@ -44,7 +43,7 @@ public class MainTest {
         Domino doublePrairie = new Domino(new Tuile(Terrain.PRAIRIE, 0), new Tuile(Terrain.PRAIRIE, 0));
 
 
-		//royaume.showRoyaume();
+        //royaume.showRoyaume();
         royaume.addDominoRoyaume(foretChamp,1,2,1,3);
         royaume.addDominoRoyaume(doubleForet,1,0,1,1);
         royaume.addDominoRoyaume(lacChamp,0,2,0,3);
@@ -55,19 +54,22 @@ public class MainTest {
         royaume.addDominoRoyaume(foret1Prairie,4,3,4,4);
         System.out.println(model.calculScore(model.getJoueurActuel()));
 
-		model.setDominoSelect(foret1Champ);
-		//test(model);
-		royaume.showRoyaume();
+        model.setDominoSelect(foret1Champ);
+        royaume.showRoyaume();
         for (int i = 0; i < 3; i++) {
             int[] coord = model.ouPlacerDomino();
 
             royaume.addDominoRoyaume(model.getDominoSelect(),coord[0],coord[1],coord[2],coord[3]);
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
             royaume.showRoyaume();
+
+
         }
+    }
 
-	}
-
-	private static void test(ModelTest model) throws IOException {
+    private static void test(ModelTest model) throws IOException {
 		Bouton jButton = new Bouton();
 		jButton.setActionCommand(""+ 3 +"/"+ 1);
 		ControlCaseRoyaume controlCaseRoyaume = new ControlCaseRoyaume(model);

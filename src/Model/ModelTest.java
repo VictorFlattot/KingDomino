@@ -47,6 +47,9 @@ public class ModelTest {
         couleursUtilisé = new Couleur[nbJoueur];
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
+        for (int i = 0; i < nbDominoCentre; i++) {
+            dominoDejaChoisi[i]=false;
+        }
 
 		initCouleurUtilisé();
 		showCouleurUtilisé();
@@ -417,7 +420,23 @@ public class ModelTest {
 
 
     public int quelDomPourIA(){
-        return getPosJoueurActuel();
+        int meilleurDom;
+
+        if (dominoDejaChoisi[0])
+            System.out.println("ah d'acord 0");
+        if (dominoDejaChoisi[1])
+            System.out.println("ah d'acord 1");
+        if (dominoDejaChoisi[2])
+            System.out.println("ah d'acord 2");
+        if (dominoDejaChoisi[3])
+            System.out.println("ah d'acord 3");
+        for (int i = 3; i > 0 ; i--) {
+            showDomDejaChoisi();
+            System.out.println("1:" + !dominoDejaChoisi[i]);
+            if (!dominoDejaChoisi[i])
+                return i;
+        }
+        return Integer.parseInt(null);
     }
 
     public int[] ouPlacerDomino(){
