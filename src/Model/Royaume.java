@@ -147,6 +147,25 @@ public class Royaume {
 	    line();
     }
 
+    public boolean isEntourerParTerrain(int x, int y){
+	    int caseBloquee = 0;
+	    if (tuiles[x][y].getTerrain() != null) return false;
+	    if (x-1 >= 0){
+	        if (tuiles[x-1][y].getTerrain() != null) caseBloquee++;
+        } else caseBloquee++;
+        if (x+1 < taille){
+            if (tuiles[x+1][y].getTerrain() != null) caseBloquee++;
+        }else caseBloquee++;
+        if (y-1 >= 0){
+            if (tuiles[x][y-1].getTerrain() != null) caseBloquee++;
+        } else  caseBloquee++;
+        if (y-1 >= 0){
+            if (tuiles[x][y-1].getTerrain() != null) caseBloquee++;
+        } else caseBloquee++;
+
+		return (caseBloquee > 3);
+    }
+
     private void line(){
         for (int i = 0; i <= 3*taille; i++){
             if (i%3 == 0)   System.out.print('+');

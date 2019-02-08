@@ -42,8 +42,6 @@ public class ModelTest {
             joueurs[i]=new Joueur("",i,tailleRoyaume, null,false);
         }
         joueurs[0].setIA(true);
-        joueurs[1].setIA(true);
-        joueurs[2].setIA(true);
         couleursUtilisé = new Couleur[nbJoueur];
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
