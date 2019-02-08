@@ -429,7 +429,7 @@ public class ModelTest {
             allRotation[i] = i*90;
         }
         int[] bestCoord = new int[5];
-        int[] coord = new int[4];
+        int[] coord;
         int i2;
         int j2;
         for (int rot : allRotation) {
@@ -441,20 +441,23 @@ public class ModelTest {
                     try {
                         if (j2 <tailleRoyaume && i2>=0 ){
                             if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
+                                coord = new int[4];
                                 coord[0]=i;coord[1]=j;coord[2]=i2;coord[3]=j2;
                                 positionPosible.add(coord);
+
                             }
                         }
                     } catch (UnconnectedException e) {}
                 }
             }
 
-            /*bestCoord = getBestCoord(positionPosible,rot);
+            bestCoord = getBestCoord(positionPosible,rot);
             if (bestCoord[4]>=bestRot){
                     bestRot = bestCoord[4];
-            }*/
+            }
 
         }
+
 
         System.out.println("bestCoord");
         for (int coordone:bestCoord){
@@ -462,7 +465,6 @@ public class ModelTest {
         }
 
         return bestCoord;
-        //return getBestCoord(positionPosible);
     }
 
     private int[] getBestCoord(ArrayList<int []> list,int rot){
@@ -475,9 +477,8 @@ public class ModelTest {
             scoreCalculé = calculScore(getJoueurActuel());
             if (maxScore <= scoreCalculé){
                 maxScore = scoreCalculé;
-                for (int i = 0; i < 4; i++) {
-                    bestCoord[i] = coord[i];
-                }
+                System.out.println("rot :" + rot);
+                System.arraycopy(coord, 0, bestCoord, 0, 4);
                 bestCoord[4]=rot;
             }
             removeDominoRoyaume(getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
