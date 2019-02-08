@@ -64,6 +64,7 @@ public class MainTest {
             royaume.addDominoRoyaume(model.getDominoSelect(),coord[0],coord[1],coord[2],coord[3]);
             royaume.showRoyaume();
         }
+        System.out.println(royaume.isEntourerParTerrain(2,0));
 
 	}
 
