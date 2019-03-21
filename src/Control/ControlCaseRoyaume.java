@@ -38,13 +38,16 @@ public class ControlCaseRoyaume implements ActionListener {
         int rotation = domino.getRotation();
         if (rotation==0 || rotation==180) y2+=1;
         if (rotation==90 || rotation==270) x2-=1;
-        System.out.println(x+" "+y+" "+x2+" "+y2);
+        System.out.println("x1: " +x+" y1: "+y+" x2: "+x2+" y2: "+y2);
+
         if(model.addDominoRoyaume(domino, model.getJoueurActuel().getId(), x, y, x2, y2)){
 
 
 
                 if (test){
+                    model.getJoueurActuel().getRoyaume().showRoyaume();
                     model.changementJoueur();
+
                 }else{
 
                     try {
@@ -78,7 +81,9 @@ public class ControlCaseRoyaume implements ActionListener {
 
 
         }else{
+            System.out.println(model.getDominoSelect());
             JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
+            model.changementJoueur();
         }
     }
 }

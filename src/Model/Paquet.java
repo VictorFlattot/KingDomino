@@ -8,10 +8,76 @@ import java.util.List;
 public class Paquet {
 	List<Domino> dominos;
 	List<Tuile> tuileList;
+	List<Domino> arrayList;
 
 	public Paquet() {
 		initTuiles();
 		initDominos();
+	}
+
+	public Paquet(boolean test){
+		this();
+		sortDom();
+
+	}
+
+	private void sortDom() {
+		arrayList = new ArrayList<>();
+		arrayList.add(dominos.get(12));
+		arrayList.add(dominos.get(21));
+		arrayList.add(dominos.get(27));
+		arrayList.add(dominos.get(28));
+		arrayList.add(dominos.get(19));
+		arrayList.add(dominos.get(41));
+		arrayList.add(dominos.get(45));
+		arrayList.add(dominos.get(47));
+		arrayList.add(dominos.get(10));
+		arrayList.add(dominos.get(15));
+		arrayList.add(dominos.get(29));
+		arrayList.add(dominos.get(33));
+		arrayList.add(dominos.get(1));
+		arrayList.add(dominos.get(16));
+		arrayList.add(dominos.get(31));
+		arrayList.add(dominos.get(44));
+		arrayList.add(dominos.get(0));
+		arrayList.add(dominos.get(3));
+		arrayList.add(dominos.get(22));
+		arrayList.add(dominos.get(25));
+		arrayList.add(dominos.get(5));
+		arrayList.add(dominos.get(13));
+		arrayList.add(dominos.get(17));
+		arrayList.add(dominos.get(36));
+		arrayList.add(dominos.get(9));
+		arrayList.add(dominos.get(11));
+		arrayList.add(dominos.get(35));
+		arrayList.add(dominos.get(42));
+		arrayList.add(dominos.get(7));
+		arrayList.add(dominos.get(20));
+		arrayList.add(dominos.get(39));
+		arrayList.add(dominos.get(46));
+		arrayList.add(dominos.get(6));
+		arrayList.add(dominos.get(14));
+		arrayList.add(dominos.get(18));
+		arrayList.add(dominos.get(30));
+		arrayList.add(dominos.get(32));
+		arrayList.add(dominos.get(34));
+		arrayList.add(dominos.get(37));
+		arrayList.add(dominos.get(43));
+		arrayList.add(dominos.get(8));
+		arrayList.add(dominos.get(23));
+		arrayList.add(dominos.get(24));
+		arrayList.add(dominos.get(38));
+		arrayList.add(dominos.get(2));
+		arrayList.add(dominos.get(4));
+		arrayList.add(dominos.get(26));
+		arrayList.add(dominos.get(40));
+
+
+
+
+		dominos = arrayList;
+
+
 	}
 
 	private void initDominos() {
@@ -59,8 +125,8 @@ public class Paquet {
 			}
 			dominos.add(new Domino(tuileList.get(1), tuileList.get(i)));
 		}
-		//24 a 27
-		for (int i = 0; i < 4; i++) {dominos.add(new Domino(tuileList.get(3), tuileList.get(0)));}
+		//24 a 27 /!\ chg effectué inversion
+		for (int i = 0; i < 4; i++) {dominos.add(new Domino(tuileList.get(0), tuileList.get(3)));}
 		//28 et 29
 		for (int i = 4; i <= 6; i+=2) {dominos.add(new Domino(tuileList.get(3), tuileList.get(i)));}
 		//30 a 35
@@ -139,6 +205,15 @@ public class Paquet {
 			System.out.println(tuile);
 		}
 	}
+
+	private void showDomino(){
+		for (Domino domino :
+				dominos) {
+			System.out.println(domino);
+		}
+	}
+
+
 
 
 

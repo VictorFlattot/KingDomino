@@ -11,10 +11,18 @@ import java.io.IOException;
 public class ControlRotationTuile implements ActionListener {
     private ModelTest model;
     private FenetreTest fenetre;
+    private boolean test;
 
     public ControlRotationTuile(ModelTest model, FenetreTest fenetre) {
         this.model = model;
         this.fenetre = fenetre;
+        test = false;
+    }
+
+    public ControlRotationTuile(ModelTest model) {
+        this.model = model;
+        this.fenetre = new FenetreTest();
+        test = true;
     }
 
     @Override
@@ -22,35 +30,12 @@ public class ControlRotationTuile implements ActionListener {
 
 
         Domino dominoSelect = model.getDominoSelect();
-        int rot = 0;
-        switch (model.getRotDominoSelect()){
-            case 0:
-                rot=90;
-                model.setRotDominoSelect(rot);
-                dominoSelect.setTuileNord(dominoSelect.getTuileOuest());
-                dominoSelect.setTuileSud(dominoSelect.getTuileEst());
-            break;
-            case 90:
-                rot=180;
-                model.setRotDominoSelect(rot);
-                dominoSelect.setTuileEst(dominoSelect.getTuileNord());
-                dominoSelect.setTuileOuest(dominoSelect.getTuileSud());
-            break;
-            case 180:
-                rot=270;
-                model.setRotDominoSelect(rot);
-                dominoSelect.setTuileNord(dominoSelect.getTuileOuest());
-                dominoSelect.setTuileSud(dominoSelect.getTuileEst());
-            break;
-            case 270:
-                rot=0;
-                dominoSelect.setTuileEst(dominoSelect.getTuileNord());
-                dominoSelect.setTuileOuest(dominoSelect.getTuileSud());
-                model.setRotDominoSelect(rot);
-            break;
-        }
+        int rot = model.rotate();
         try {
-            fenetre.tournerTuileSelect(rot, Integer.valueOf(e.getActionCommand()));
+            if (!test){
+                fenetre.tournerTuileSelect(rot, Integer.valueOf(e.getActionCommand()));
+            }
+
         } catch (IOException e1) {
             e1.printStackTrace();
         }

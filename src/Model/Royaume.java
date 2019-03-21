@@ -62,7 +62,7 @@ public class Royaume {
 	public boolean verifPlacement(Domino domino, int x, int y, int x2, int y2) throws UnconnectedException {
 		if(isTuileDejaPlace(x,y)) return false;
 
-		if (isTuileDejaPlace(x2, y2))return false;
+		if (isTuileDejaPlace(x2, y2)) return false;
 
 
 		if(!isConnectedToTuile(domino, x, y)) return false;
@@ -70,6 +70,7 @@ public class Royaume {
 		return true;
 
 	}
+
 
 	public boolean isTuileDejaPlace(int x, int y){
 		return getTuile(x, y).getTerrain() != null;
@@ -204,8 +205,10 @@ public class Royaume {
 					return true;
 				if (x-1 > -1 && isMemeTerrain(domino.getTuileOuest(),getTuile(x-1,y)))
 					return true;
-				if (x+1 < taille && isMemeTerrain(domino.getTuileOuest(),getTuile(x+1,y)))
+
+				if (x+1 < taille && isMemeTerrain(domino.getTuileOuest(),getTuile(x+1,y))) {
 					return true;
+				}
 				if (y+2 < taille && isMemeTerrain(domino.getTuileEst(),getTuile(x,(y+1)+1)))
 					return true;
 				if (x-1 > -1 && y+1 < taille && isMemeTerrain(domino.getTuileEst(),getTuile(x-1,(y+1))))

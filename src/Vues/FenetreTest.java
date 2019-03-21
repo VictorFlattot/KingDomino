@@ -165,7 +165,7 @@ FenetreTest extends JFrame {
 		instruction_img3 = ImageIO.read(new File("img/instruction_3.png"));
 		instructionTab = new Image[] {instruction_img, instruction_img2, instruction_img3};
 
-		//setFullscreen(jFrame);
+		setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
 
 
@@ -503,14 +503,11 @@ FenetreTest extends JFrame {
 	public void changementTour() throws IOException {
 		if (model.faireUnNouveauTour()) {
 			if (model.isPartieFinie()){
-
 				jFrame.remove(jPanelCentre);
 				jFrame.repaint();
-
 				JOptionPane.showMessageDialog(jFrame,
 						"FIN DE PARTIE.");
 				fermer();
-
 			}else{
 				jPanelCentre.removeAll();
 				model.nouveauTour();

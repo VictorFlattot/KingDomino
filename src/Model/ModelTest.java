@@ -1,6 +1,5 @@
 package Model;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import javax.print.attribute.standard.JobOriginatingUserName;
 import java.util.ArrayList;
@@ -22,6 +21,9 @@ public class ModelTest {
     private int nbTourMax;
     private boolean[] dominoDejaChoisi;
     private Couleur[] couleursUtilisé;
+    public boolean test;
+    private int maxScore;
+    private int[] bestCoord;
 
     public ModelTest() {
         paquet = new Paquet();
@@ -42,6 +44,8 @@ public class ModelTest {
             joueurs[i]=new Joueur("",i,tailleRoyaume, null,false);
         }
         joueurs[0].setIA(true);
+        joueurs[1].setIA(true);
+        joueurs[2].setIA(true);
         couleursUtilisé = new Couleur[nbJoueur];
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
@@ -94,8 +98,6 @@ public class ModelTest {
 
     public void changementJoueur(){
 
-
-
         if (getPosJoueurActuel() == nbJoueur-1){
             setJoueurActuel(0);
             faireUnNouveauTour = true;
@@ -105,6 +107,11 @@ public class ModelTest {
             faireUnNouveauTour = false;
         }
 
+        if (test && faireUnNouveauTour){
+        	nouveauTour();
+        }
+
+
     }
 
     public void nouveauIndextourSuivant(int posDom){
@@ -113,7 +120,6 @@ public class ModelTest {
 
     public void nouveauTour(){
         nbTour++;
-        System.out.println(nbTour);
 	    setFaireUnNouveauTour(false);
 	    dominoDejaPlace = new boolean[nbDominoCentre];
 	    dominoDejaChoisi = new boolean[nbDominoCentre];
@@ -160,6 +166,24 @@ public class ModelTest {
 
     public void setRotDominoSelect(int rotDominoSelect) {
         dominoSelect.setRotation(rotDominoSelect);
+        switch (getRotDominoSelect()){
+            case 0:
+                dominoSelect.setTuileNord(dominoSelect.getTuileOuest());
+                dominoSelect.setTuileSud(dominoSelect.getTuileEst());
+                break;
+            case 90:
+                dominoSelect.setTuileEst(dominoSelect.getTuileSud());
+                dominoSelect.setTuileOuest(dominoSelect.getTuileNord());
+                break;
+            case 180:
+                dominoSelect.setTuileNord(dominoSelect.getTuileOuest());
+                dominoSelect.setTuileSud(dominoSelect.getTuileEst());
+                break;
+            case 270:
+                dominoSelect.setTuileEst(dominoSelect.getTuileSud());
+                dominoSelect.setTuileOuest(dominoSelect.getTuileNord());
+                break;
+        }
     }
 
     public Domino getDominoSelect() {
@@ -258,7 +282,7 @@ public class ModelTest {
         }
     }
 
-    private void showOrdreNext(){
+    public void showOrdreNext(){
         for (Joueur joueur:
                 ordreJoueurTourSuivant) {
             if (joueur !=null){
@@ -418,19 +442,8 @@ public class ModelTest {
 
 
     public int quelDomPourIA(){
-        int meilleurDom;
-
-        if (dominoDejaChoisi[0])
-            System.out.println("ah d'acord 0");
-        if (dominoDejaChoisi[1])
-            System.out.println("ah d'acord 1");
-        if (dominoDejaChoisi[2])
-            System.out.println("ah d'acord 2");
-        if (dominoDejaChoisi[3])
-            System.out.println("ah d'acord 3");
-        for (int i = 3; i > 0 ; i--) {
-            showDomDejaChoisi();
-            System.out.println("1:" + !dominoDejaChoisi[i]);
+        for (int i = 3; i >= 0 ; i--) {
+            //showDomDejaChoisi();
             if (!dominoDejaChoisi[i])
                 return i;
         }
@@ -439,16 +452,16 @@ public class ModelTest {
 
     public int[] ouPlacerDomino(){
         ArrayList<int[]> positionPosible = new ArrayList<>();
-        int bestRot = 0;
         int[] allRotation = new int[4];
         for (int i = 0; i < 4; i++) {
             allRotation[i] = i*90;
         }
-        int[] bestCoord = new int[5];
+        bestCoord = new int[5];
         int[] coord;
         int i2;
         int j2;
         for (int rot : allRotation) {
+            rotateTo(rot/90);
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     i2 = i; j2 = j;
@@ -456,47 +469,74 @@ public class ModelTest {
                     if (rot==90|| rot==270) i2 = i-1;
                     try {
                         if (j2 <tailleRoyaume && i2>=0 ){
-                            if (joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect,i,j,i2,j2)){
-                                coord = new int[5];
-                                coord[0]=i;coord[1]=j;coord[2]=i2;coord[3]=j2;coord[4]=rot;
-                                positionPosible.add(coord);
-
+                            if(getDominoSelect().getId() == 18 && joueurs[getPosJoueurActuel()].getRoyaume().verifPlacement(dominoSelect, i, j, i2, j2)) {
+                                System.out.println("ah");
                             }
+                            try{
+                                if (addDominoRoyaume(dominoSelect,getJoueurActuel().getId(), i, j, i2, j2)){
+                                    coord = new int[5];
+                                    coord[0] = i;
+                                    coord[1] = j;
+                                    coord[2] = i2;
+                                    coord[3] = j2;
+                                    coord[4] = rot;
+                                    positionPosible.add(coord);
+                                    removeDominoRoyaume(getJoueurActuel().getId(), i, j, i2, j2);
+                                }
+
+                            }catch (Exception e){
+                                System.out.println("aie");
+                            }
+
+
+
                         }
                     } catch (UnconnectedException e) {}
                 }
             }
 
-            bestCoord = getBestCoord(positionPosible);
+            getBestCoord(positionPosible);
+
 
         }
 
 
-        for (int coordone:bestCoord){
+       for (int coordone:bestCoord){
             System.out.println(coordone);
-        }
+        }/*
 
         for (int[] ints: positionPosible
              ) {
             System.out.println("");
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 System.out.print(ints[i] + " / ");
             }
+
+        }*/
+
+        if (positionPosible.size() == 0){
+            bestCoord[0] = -1;
         }
 
         return bestCoord;
     }
 
     private int[] getBestCoord(ArrayList<int []> list){
-        int maxScore = 0;
-        int scoreCalculé;
-        int[] bestCoord = new int[5];
+        ArrayList<int[]> bestPositionPosible = new ArrayList<>();
+        if (getRotDominoSelect() == 0) maxScore = 0;
+        int scoreCalcule;
+        System.out.println("fnnnnnnnnn");
         for (int[] coord :
                 list) {
             addDominoRoyaume(dominoSelect,getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
-            scoreCalculé = calculScore(getJoueurActuel());
-            if (maxScore <= scoreCalculé){
-                maxScore = scoreCalculé;
+            scoreCalcule = calculScore(getJoueurActuel());
+            System.out.println("Max: " +maxScore);
+            System.out.println("Cal : "+scoreCalcule);
+
+            if (maxScore <= scoreCalcule){
+                System.out.println(coord[0]+"∕"+coord[1]+"∕"+coord[2]+"∕"+coord[3]+"∕"+coord[4]);
+                bestPositionPosible.add(coord);
+                maxScore = scoreCalcule;
                 System.arraycopy(coord, 0, bestCoord, 0, 5);
             }
             removeDominoRoyaume(getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
@@ -504,5 +544,39 @@ public class ModelTest {
 
         return bestCoord;
     }
+
+    public int rotate(){
+        int rot = getRotDominoSelect();
+        switch (getRotDominoSelect()){
+            case 0:
+                rot=90;
+                setRotDominoSelect(rot);
+
+                break;
+            case 90:
+                rot=180;
+                setRotDominoSelect(rot);
+                break;
+            case 180:
+                rot=270;
+                setRotDominoSelect(rot);
+                break;
+            case 270:
+                rot=0;
+                setRotDominoSelect(rot);
+
+                break;
+        }
+        return rot;
+    }
+
+    public void rotateTo(int pos){
+        setRotDominoSelect(0);
+        for (int i = 0; i < pos ; i++) {
+            rotate();
+        }
+
+    }
+
 
 }

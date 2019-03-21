@@ -12,11 +12,18 @@ public class ControlTuileAChoisir implements ActionListener {
 
     private ModelTest model;
     private FenetreTest fenetre;
+    private boolean test;
 
 
     public ControlTuileAChoisir(ModelTest model, FenetreTest fenetre) {
         this.model = model;
         this.fenetre = fenetre;
+    }
+
+    public ControlTuileAChoisir(ModelTest modelTest){
+        this.model = modelTest;
+        fenetre = new FenetreTest();
+        test = true;
     }
 
     @Override
