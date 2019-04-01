@@ -5,6 +5,7 @@ public class Royaume {
 	private Tuile[][] tuiles;
 	private Tuile depart;
 	private boolean[][] checkcedTuiles;
+	private int[][] rotation;
 
 
 	public Royaume(int taille) {
@@ -14,7 +15,11 @@ public class Royaume {
 
 	}
 
-	public boolean isTuileChecked(int x, int y){
+    public int getRotation(int x, int y) {
+        return rotation[x][y];
+    }
+
+    public boolean isTuileChecked(int x, int y){
 		return checkcedTuiles[x][y];
 	}
 
@@ -25,9 +30,11 @@ public class Royaume {
 	private void initRoyaume() {
 		tuiles = new Tuile[taille][taille];
 		checkcedTuiles = new boolean[taille][taille];
+		rotation = new int[taille][taille];
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
-				addTuille(new Tuile(null,0),i,j);
+                rotation[i][j] = 0;
+				addTuille(new Tuile(null,0),i,j, 0);
 				checkcedTuiles[i][j] = false;
 			}
 		}
@@ -45,8 +52,8 @@ public class Royaume {
 	void addDominoRoyaume(Domino domino, int x, int y,int x2,int y2)throws UnconnectedException {
 		if (verifPlacement(domino, x, y, x2, y2)){
 			Tuile[] tuilesDomino = domino.getTuiles();
-			addTuille(tuilesDomino[0], x, y);
-			addTuille(tuilesDomino[1], x2, y2);
+			addTuille(tuilesDomino[0], x, y, domino.getRotation());
+			addTuille(tuilesDomino[1], x2, y2, (domino.getRotation()+180)%360);
 			//showRoyaume();
 		}else{
 			throw new UnconnectedException();
@@ -77,9 +84,10 @@ public class Royaume {
 	}
 
 
-	void addTuille(Tuile tuile,int x,int y){
+	void addTuille(Tuile tuile,int x,int y, int rot){
 		//if (x == getDepart()[0] && x == getDepart()[1] || 0 < x || 0 < y)
 			tuiles[x][y] = tuile;
+			rotation[x][y] = rot;
 	}
 
 	public Tuile getTuile(int x,int y){
@@ -107,7 +115,10 @@ public class Royaume {
 					break;
 				case 1:
 					for (int j = 0; j < taille; j++)
-						System.out.print("| " + tuiles[i/3][j].getCouronne());
+					    if (tuiles[i/3][j].getTerrain() != null)
+						    System.out.print("| " + tuiles[i/3][j].getCouronne());
+					    else
+                            System.out.print("|  ");
 					System.out.println("|");
 					break;
 				case 2:

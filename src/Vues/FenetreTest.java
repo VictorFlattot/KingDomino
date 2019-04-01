@@ -358,12 +358,12 @@ FenetreTest extends JFrame {
 	}
 
 	public String donneCheminDomino(int numeroDomino , int rot){
-	    String nomImg ="";
+	    String nomImg =".pivoté";
 	    switch (rot){
-            case 0:break;
-            case 90:nomImg=".pivoté90";break;
-            case 180:nomImg=".pivoté180";break;
-            case 270:nomImg=".pivoté270";break;
+            case 0:nomImg+="0";break;
+            case 90:nomImg+="90";break;
+            case 180:nomImg+="180";break;
+            case 270:nomImg+="270";break;
         }
 		if(numeroDomino<10) return "img/0"+ numeroDomino+ nomImg +".jpg";
 		return "img/"+ numeroDomino + nomImg +".jpg";
