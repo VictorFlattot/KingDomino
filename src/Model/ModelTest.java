@@ -447,7 +447,7 @@ public class ModelTest {
             if (!dominoDejaChoisi[i])
                 return i;
         }
-        return Integer.parseInt(null);
+        return -1;
     }
 
     public int[] ouPlacerDomino(){
@@ -525,13 +525,10 @@ public class ModelTest {
         ArrayList<int[]> bestPositionPosible = new ArrayList<>();
         if (getRotDominoSelect() == 0) maxScore = 0;
         int scoreCalcule;
-        System.out.println("fnnnnnnnnn");
         for (int[] coord :
                 list) {
             addDominoRoyaume(dominoSelect,getJoueurActuel().getId(),coord[0],coord[1],coord[2],coord[3]);
             scoreCalcule = calculScore(getJoueurActuel());
-            System.out.println("Max: " +maxScore);
-            System.out.println("Cal : "+scoreCalcule);
 
             if (maxScore <= scoreCalcule){
                 System.out.println(coord[0]+"∕"+coord[1]+"∕"+coord[2]+"∕"+coord[3]+"∕"+coord[4]);
@@ -551,7 +548,6 @@ public class ModelTest {
             case 0:
                 rot=90;
                 setRotDominoSelect(rot);
-
                 break;
             case 90:
                 rot=180;

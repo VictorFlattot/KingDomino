@@ -395,24 +395,23 @@ FenetreTest extends JFrame {
 	public void tourIA() {
 		System.out.println("tourIA");
 		int[] coord = model.ouPlacerDomino();
-		int compt =0;
-		while ( compt<3 && model.getDominoSelect().getRotation()!=coord[4]){
-			controlRotationTuile.actionPerformed(new ActionEvent(boutontuileSelect,ActionEvent.ACTION_PERFORMED,boutontuileSelect.getActionCommand()));
-			coord = model.ouPlacerDomino();
-			System.out.println(model.getDominoSelect().getRotation());
-			compt++;
-		}
 
-		if (compt <=3 && coord != null ){
-			controlCaseRoyaume.actionPerformed(new ActionEvent(jPanelRoyaumes[model.getPosJoueurActuel()].getBoutons()[coord[0]][coord[1]],ActionEvent.ACTION_PERFORMED,jPanelRoyaumes[model.getPosJoueurActuel()].getBoutons()[coord[0]][coord[1]].getActionCommand()));
+		if (coord[0] != -1 ){
+			System.out.println("x1: " +coord[0]+" y1: "+coord[1]);
+			model.setRotDominoSelect(coord[4]);
+			model.getJoueurActuel().getRoyaume().showRoyaume();
+			boutontuileSelect.setActionCommand(""+ coord[0] +"/"+ coord[1]);
+			controlCaseRoyaume.actionPerformed(new ActionEvent(boutontuileSelect, ActionEvent.ACTION_PERFORMED, boutontuileSelect.getActionCommand()));
 
 		}else{
 			System.out.println("passe tour");
-			passerTour();
+			model.getJoueurActuel().getRoyaume().showRoyaume();
+			model.changementJoueur();
 		}
+		int posDom = model.quelDomPourIA();
 		controlTuileAChoisir.actionPerformed(
-				new ActionEvent(jButtonTuilleCentreAChoisir[model.quelDomPourIA()],
-						ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.quelDomPourIA()].getActionCommand()));
+				new ActionEvent(jButtonTuilleCentreAChoisir[posDom],
+						ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[posDom].getActionCommand()));
 
 
 	}

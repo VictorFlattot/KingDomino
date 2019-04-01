@@ -30,10 +30,10 @@ public class ControlRotationTuile implements ActionListener {
 
 
         Domino dominoSelect = model.getDominoSelect();
-        int rot = model.rotate();
+        model.rotateTo(((dominoSelect.getRotation()+90)/90)%4);
         try {
             if (!test){
-                fenetre.tournerTuileSelect(rot, Integer.valueOf(e.getActionCommand()));
+                fenetre.tournerTuileSelect(dominoSelect.getRotation(), Integer.valueOf(e.getActionCommand()));
             }
 
         } catch (IOException e1) {
