@@ -172,16 +172,16 @@ public class ModelTest {
                 dominoSelect.setTuileSud(dominoSelect.getTuileEst());
                 break;
             case 90:
-                dominoSelect.setTuileEst(dominoSelect.getTuileSud());
-                dominoSelect.setTuileOuest(dominoSelect.getTuileNord());
+                dominoSelect.setTuileEst(dominoSelect.getTuileNord());
+                dominoSelect.setTuileOuest(dominoSelect.getTuileSud());
                 break;
             case 180:
                 dominoSelect.setTuileNord(dominoSelect.getTuileOuest());
                 dominoSelect.setTuileSud(dominoSelect.getTuileEst());
                 break;
             case 270:
-                dominoSelect.setTuileEst(dominoSelect.getTuileSud());
-                dominoSelect.setTuileOuest(dominoSelect.getTuileNord());
+                dominoSelect.setTuileEst(dominoSelect.getTuileNord());
+                dominoSelect.setTuileOuest(dominoSelect.getTuileSud());
                 break;
         }
     }
@@ -547,19 +547,19 @@ public class ModelTest {
         switch (getRotDominoSelect()){
             case 0:
                 rot=90;
-                setRotDominoSelect(rot);
+                setRotDominoSelect(90);
                 break;
             case 90:
                 rot=180;
-                setRotDominoSelect(rot);
+                setRotDominoSelect(180);
                 break;
             case 180:
                 rot=270;
-                setRotDominoSelect(rot);
+                setRotDominoSelect(270);
                 break;
             case 270:
                 rot=0;
-                setRotDominoSelect(rot);
+                setRotDominoSelect(0);
 
                 break;
         }
