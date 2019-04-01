@@ -396,7 +396,7 @@ FenetreTest extends JFrame {
 		System.out.println("tourIA");
 		int[] coord = model.ouPlacerDomino();
 
-		if (coord[0] != -1 ){
+		if (coord[4] != -1 ){
 			System.out.println("x1: " +coord[0]+" y1: "+coord[1]);
 			model.setRotDominoSelect(coord[4]);
 			model.getJoueurActuel().getRoyaume().showRoyaume();
@@ -408,7 +408,7 @@ FenetreTest extends JFrame {
 			model.getJoueurActuel().getRoyaume().showRoyaume();
 			model.changementJoueur();
 		}
-		int posDom = model.quelDomPourIA();
+		int posDom = model.whoIsBestDomino();
 		controlTuileAChoisir.actionPerformed(
 				new ActionEvent(jButtonTuilleCentreAChoisir[posDom],
 						ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[posDom].getActionCommand()));

@@ -91,11 +91,12 @@ public class MainTest {
 		for (int a = 0; a < 12; a++) {
 			System.out.println("tour : " + (a+1));
 			TuilesAuCentre tuilesAuCentre = new TuilesAuCentre(paquet,4,true);
+			model.setTuilesCentreAPLacer(tuilesAuCentre);
 			for (int i = 0; i < 4; i++) {
 				Bouton jButton = new Bouton();
 				Button boutontuileSelect = new Button();
 
-				int posDom = model.quelDomPourIA();
+				int posDom = model.whoIsBestDomino();
 				boutontuileSelect.setActionCommand(String.valueOf(posDom));
 				model.setDominoSelect(tuilesAuCentre.getDominoTab()[posDom]);
 				System.out.println(model.getJoueurActuel().getNom());
