@@ -18,7 +18,7 @@ public class MainTest {
 		model.test = true;
 		//test(model);
         //testRoyaume(model);
-		prodK2Test(model);
+		prodK2Test(model); //Renvoie vers la fonction qui marche
 		/*
 		for (int a = 0; a < 1; a++) {
 			for (int i = 0; i < 4; i++) {
@@ -33,7 +33,7 @@ public class MainTest {
 	}
 
     private static void testRoyaume(ModelTest model) throws UnconnectedException {
-        Royaume royaume  = model.getJoueurActuel().getRoyaume();
+        Royaume royaume  = model.getJoueurActuel().getRoyaume(); //récupère le royaume du joueur actuelle
 
         Domino doubleForet = new Domino(new Tuile(Terrain.FORET, 0), new Tuile(Terrain.FORET, 0));
         Domino foretChamp = new Domino(new Tuile(Terrain.FORET, 0), new Tuile(Terrain.CHAMPS, 0));
@@ -86,18 +86,19 @@ public class MainTest {
     }
 
 	private static void prodK2Test(ModelTest model) throws UnconnectedException {
+	    //Création d'un nouveau paquet et mélange
 		Paquet paquet = new Paquet();
 		paquet.shuffle();
-		for (int a = 0; a < 12; a++) {
+		for (int a = 0; a < 12; a++) {//décompte du nombre de tour
 			System.out.println("tour : " + (a+1));
-			TuilesAuCentre tuilesAuCentre = new TuilesAuCentre(paquet,4,true);
-			model.setTuilesCentreAPLacer(tuilesAuCentre);
+			TuilesAuCentre tuilesAuCentre = new TuilesAuCentre(paquet,4,true); // instanciation des tuiles au centre
+			model.setTuilesCentreAPLacer(tuilesAuCentre); //on récupère dans le modèle l'instance de tuilesAuCentre
 			for (int i = 0; i < 4; i++) {
 				Bouton jButton = new Bouton();
 				Button boutontuileSelect = new Button();
 
-				int posDom = model.whoIsBestDomino();
-				boutontuileSelect.setActionCommand(String.valueOf(posDom));
+				int posDom = model.whoIsBestDomino(); //choix du meilleur domino pour IA
+				boutontuileSelect.setActionCommand(String.valueOf(posDom));// On lui insert le meilleur domino
 				model.setDominoSelect(tuilesAuCentre.getDominoTab()[posDom]);
 				System.out.println(model.getJoueurActuel().getNom());
 				System.out.println(model.getDominoSelect());

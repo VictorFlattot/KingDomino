@@ -4,6 +4,9 @@ package Model;
 import javax.print.attribute.standard.JobOriginatingUserName;
 import java.util.ArrayList;
 
+/**
+ * The type Model test.
+ */
 public class ModelTest {
     private Paquet paquet;
     private TuilesAuCentre tuilesCentreAPLacer;
@@ -22,10 +25,16 @@ public class ModelTest {
     private boolean[] dominoDejaChoisi;
     private TuilesAuCentre centre;
     private Couleur[] couleursUtilisé;
+    /**
+     * The Test.
+     */
     public boolean test;
     private int maxScore;
     private int[] bestCoord;
 
+    /**
+     * Instantiates a new Model test.
+     */
     public ModelTest() {
         paquet = new Paquet();
         paquet.shuffle();
@@ -34,6 +43,11 @@ public class ModelTest {
         nbTourMax=13;
     }
 
+    /**
+     * Set nb joueur.
+     *
+     * @param nbJoueur the nb joueur
+     */
     public void setNbJoueur(int nbJoueur){
         this.nbJoueur = nbJoueur;
         joueurs = new Joueur[nbJoueur];
@@ -98,6 +112,9 @@ public class ModelTest {
 
     }
 
+    /**
+     * Changement joueur.
+     */
     public void changementJoueur(){
 
         if (getPosJoueurActuel() == nbJoueur-1){
@@ -116,10 +133,18 @@ public class ModelTest {
 
     }
 
+    /**
+     * Nouveau indextour suivant.
+     *
+     * @param posDom the pos dom
+     */
     public void nouveauIndextourSuivant(int posDom){
         ordreJoueurTourSuivant[posDom]=getJoueurActuel();
     }
 
+    /**
+     * Nouveau tour.
+     */
     public void nouveauTour(){
         nbTour++;
 	    setFaireUnNouveauTour(false);
@@ -138,34 +163,74 @@ public class ModelTest {
     }
 
 
+    /**
+     * Gets paquet.
+     *
+     * @return the paquet
+     */
     public Paquet getPaquet() {
         return paquet;
     }
 
+    /**
+     * Sets paquet.
+     *
+     * @param paquet the paquet
+     */
     public void setPaquet(Paquet paquet) {
         this.paquet = paquet;
     }
 
+    /**
+     * Gets tuiles centre ap lacer.
+     *
+     * @return the tuiles centre ap lacer
+     */
     public TuilesAuCentre getTuilesCentreAPLacer() {
         return tuilesCentreAPLacer;
     }
 
+    /**
+     * Sets tuiles centre ap lacer.
+     *
+     * @param tuilesCentreAPLacer the tuiles centre ap lacer
+     */
     public void setTuilesCentreAPLacer(TuilesAuCentre tuilesCentreAPLacer) {
         this.tuilesCentreAPLacer = tuilesCentreAPLacer;
     }
 
+    /**
+     * Get joueurs joueur [ ].
+     *
+     * @return the joueur [ ]
+     */
     public Joueur[] getJoueurs() {
         return joueurs;
     }
 
+    /**
+     * Sets joueurs.
+     *
+     * @param joueurs the joueurs
+     */
     public void setJoueurs(Joueur[] joueurs) {
         this.joueurs = joueurs;
     }
 
+    /**
+     * Gets rot domino select.
+     *
+     * @return the rot domino select
+     */
     public int getRotDominoSelect() {
         return dominoSelect.getRotation();
     }
 
+    /**
+     * Sets rot domino select.
+     *
+     * @param rotDominoSelect the rot domino select
+     */
     public void setRotDominoSelect(int rotDominoSelect) {
         dominoSelect.setRotation(rotDominoSelect);
         switch (getRotDominoSelect()){
@@ -188,14 +253,35 @@ public class ModelTest {
         }
     }
 
+    /**
+     * Gets domino select.
+     *
+     * @return the domino select
+     */
     public Domino getDominoSelect() {
         return dominoSelect;
     }
 
+    /**
+     * Sets domino select.
+     *
+     * @param dominoSelect the domino select
+     */
     public void setDominoSelect(Domino dominoSelect) {
         this.dominoSelect = dominoSelect;
     }
 
+    /**
+     * Add domino royaume boolean.
+     *
+     * @param domino   the domino
+     * @param idJoueur the id joueur
+     * @param x        the x
+     * @param y        the y
+     * @param x2       the x 2
+     * @param y2       the y 2
+     * @return the boolean
+     */
     public boolean addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
         try {
             joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino, x, y, x2, y2);
@@ -209,6 +295,11 @@ public class ModelTest {
         joueurs[idJoueur].getRoyaume().removeDominoRoyaume(x,y,x2,y2);
     }
 
+    /**
+     * Set joueur actuel.
+     *
+     * @param index the index
+     */
     public void setJoueurActuel(int index){
         for (Joueur joueur :
                 ordreJoueurTourActuel) {
@@ -217,6 +308,11 @@ public class ModelTest {
         ordreJoueurTourActuel[index].setEstJoueurActuel(true);
     }
 
+    /**
+     * Get pos joueur actuel int.
+     *
+     * @return the int
+     */
     public int getPosJoueurActuel(){
         for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
             if (ordreJoueurTourActuel[i].isEstJoueurActuel())
@@ -225,6 +321,12 @@ public class ModelTest {
         return -1;
     }
 
+    /**
+     * Gets joueur.
+     *
+     * @param id the id
+     * @return the joueur
+     */
     public Joueur getJoueur(int id) {
         for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
             if (ordreJoueurTourActuel[i].getId() == id)
@@ -234,6 +336,11 @@ public class ModelTest {
     }
 
 
+    /**
+     * Get joueur actuel joueur.
+     *
+     * @return the joueur
+     */
     public Joueur getJoueurActuel(){
         for (int i = 0; i < ordreJoueurTourActuel.length; i++) {
             if (ordreJoueurTourActuel[i].isEstJoueurActuel())
@@ -242,10 +349,22 @@ public class ModelTest {
         return null;
     }
 
+    /**
+     * Set domino deja placé.
+     *
+     * @param index the index
+     * @param b     the b
+     */
     public void setDominoDejaPlacé(int index,boolean b){
         dominoDejaPlace[index]=b;
     }
 
+    /**
+     * Set domino deja choisi.
+     *
+     * @param index the index
+     * @param b     the b
+     */
     public void setDominoDejaChoisi(int index,boolean b){
         nouveauIndextourSuivant(index);
         dominoDejaChoisi[index]=b;
@@ -253,31 +372,67 @@ public class ModelTest {
 
     }
 
+    /**
+     * Get domino deja place boolean [ ].
+     *
+     * @return the boolean [ ]
+     */
     public boolean[] getDominoDejaPlace() {
         return dominoDejaPlace;
     }
 
+    /**
+     * Gets centre.
+     *
+     * @return the centre
+     */
     public TuilesAuCentre getCentre() {
         return centre;
     }
 
+    /**
+     * Sets centre.
+     *
+     * @param centre the centre
+     */
     public void setCentre(TuilesAuCentre centre) {
         this.centre = centre;
     }
 
+    /**
+     * Gets nb joueur.
+     *
+     * @return the nb joueur
+     */
     public int getNbJoueur() {
         return nbJoueur;
     }
 
+    /**
+     * Faire un nouveau tour boolean.
+     *
+     * @return the boolean
+     */
     public boolean faireUnNouveauTour() {
         return faireUnNouveauTour;
     }
 
+    /**
+     * Sets faire un nouveau tour.
+     *
+     * @param faireUnNouveauTour the faire un nouveau tour
+     */
     public void setFaireUnNouveauTour(boolean faireUnNouveauTour) {
         this.faireUnNouveauTour = faireUnNouveauTour;
 
     }
 
+    /**
+     * Is deja choisit boolean.
+     *
+     * @param index the index
+     * @return the boolean
+     */
     public boolean isDejaChoisit(int index){
            return dominoDejaChoisi[index];
     }
@@ -292,6 +447,9 @@ public class ModelTest {
         }
     }
 
+    /**
+     * Show ordre next.
+     */
     public void showOrdreNext(){
         for (Joueur joueur:
                 ordreJoueurTourSuivant) {
@@ -303,6 +461,9 @@ public class ModelTest {
         }
     }
 
+    /**
+     * Show dom deja choisi.
+     */
     public void showDomDejaChoisi(){
         for (Boolean b:
                 dominoDejaChoisi) {
@@ -314,6 +475,11 @@ public class ModelTest {
         }
     }
 
+    /**
+     * Is partie finie boolean.
+     *
+     * @return the boolean
+     */
     public boolean isPartieFinie(){
         return nbTour >=
                 nbTourMax;
@@ -343,6 +509,12 @@ public class ModelTest {
         return nbTuilleSame;
     }
 
+    /**
+     * Calcul score int.
+     *
+     * @param joueur the joueur
+     * @return the int
+     */
     public int calculScore(Joueur joueur){
         int score = 0;
         Royaume rJoueur = joueur.getRoyaume();
@@ -391,66 +563,143 @@ public class ModelTest {
         }
         return preScore;
     }
+
+    /**
+     * Sets nom joueur.
+     *
+     * @param nom the nom
+     * @param i   the
+     */
     public void setNomJoueur(String nom,int i) {
         joueurs[i].setNom(nom);
     }
 
+    /**
+     * Set couleur joueur.
+     *
+     * @param couleurJoueur the couleur joueur
+     * @param index         the index
+     */
     public void setCouleurJoueur(Couleur couleurJoueur,int index){
     	joueurs[index].setCouleur(couleurJoueur);
     }
 
+    /**
+     * Gets nb domino centre.
+     *
+     * @return the nb domino centre
+     */
     public int getNbDominoCentre() {
         return nbDominoCentre;
     }
 
+    /**
+     * Sets nb domino centre.
+     *
+     * @param nbDominoCentre the nb domino centre
+     */
     public void setNbDominoCentre(int nbDominoCentre) {
         this.nbDominoCentre = nbDominoCentre;
     }
 
+    /**
+     * Gets taille royaume.
+     *
+     * @return the taille royaume
+     */
     public int getTailleRoyaume() {
         return tailleRoyaume;
     }
 
+    /**
+     * Sets taille royaume.
+     *
+     * @param tailleRoyaume the taille royaume
+     */
     public void setTailleRoyaume(int tailleRoyaume) {
         this.tailleRoyaume = tailleRoyaume;
     }
 
+    /**
+     * Gets tuille centre a choisir.
+     *
+     * @return the tuille centre a choisir
+     */
     public TuilesAuCentre getTuilleCentreAChoisir() {
         return tuilleCentreAChoisir;
     }
 
+    /**
+     * Sets tuille centre a choisir.
+     *
+     * @param tuilleCentreAChoisir the tuille centre a choisir
+     */
     public void setTuilleCentreAChoisir(TuilesAuCentre tuilleCentreAChoisir) {
         this.tuilleCentreAChoisir = tuilleCentreAChoisir;
     }
 
+    /**
+     * Gets nb tour max.
+     *
+     * @return the nb tour max
+     */
     public int getNbTourMax() {
         return nbTourMax;
     }
 
+    /**
+     * Sets nb tour max.
+     *
+     * @param nbTourMax the nb tour max
+     */
     public void setNbTourMax(int nbTourMax) {
         this.nbTourMax = nbTourMax;
     }
 
+    /**
+     * Gets nb tour.
+     *
+     * @return the nb tour
+     */
     public int getNbTour() {
         return nbTour;
     }
 
+    /**
+     * Sets nb tour.
+     *
+     * @param nbTour the nb tour
+     */
     public void setNbTour(int nbTour) {
         this.nbTour = nbTour;
     }
 
-	public Couleur[] getCouleursUtilisé() {
+    /**
+     * Get couleurs utilisé couleur [ ].
+     *
+     * @return the couleur [ ]
+     */
+    public Couleur[] getCouleursUtilisé() {
 		return couleursUtilisé;
 	}
 
-	public void setCouleursUtilisé(Couleur[] couleursUtilisé) {
+    /**
+     * Set couleurs utilisé.
+     *
+     * @param couleursUtilisé the couleurs utilisé
+     */
+    public void setCouleursUtilisé(Couleur[] couleursUtilisé) {
 		this.couleursUtilisé = couleursUtilisé;
 	}
 
     //IA
 
 
-
+    /**
+     * Quel dom pour ia int.
+     *
+     * @return the int
+     */
     public int quelDomPourIA(){
         for (int i = 3; i >= 0 ; i--) {
             //showDomDejaChoisi();
@@ -460,7 +709,12 @@ public class ModelTest {
         return -1;
     }
 
-    public int whoIsBestDomino(){
+    /**
+     * Who is best domino int.
+     *
+     * @return the int
+     */
+    public int whoIsBestDomino(){//retourne le numéro du domino au centre
         ArrayList<int[]> listPositionValide = new ArrayList<>();
         int meilleurScore=0;
         int meilleurIndex=0;
@@ -483,6 +737,11 @@ public class ModelTest {
     }
 
 
+    /**
+     * Ou placer domino int [ ].
+     *
+     * @return the int [ ]
+     */
     public int[] ouPlacerDomino(){
         ArrayList<int[]> positionPosible = new ArrayList<>();
         int[] allRotation = new int[4];
@@ -576,6 +835,11 @@ public class ModelTest {
         return bestCoord;// attribut de la classe
     }
 
+    /**
+     * Rotate int.
+     *
+     * @return the int
+     */
     public int rotate(){
         int rot = getRotDominoSelect();
         switch (getRotDominoSelect()){
@@ -600,6 +864,11 @@ public class ModelTest {
         return rot;
     }
 
+    /**
+     * Rotate to.
+     *
+     * @param pos the pos
+     */
     public void rotateTo(int pos){
         setRotDominoSelect(0);
         for (int i = 0; i < pos ; i++) {
