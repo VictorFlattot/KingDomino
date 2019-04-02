@@ -5,7 +5,10 @@ import javax.print.attribute.standard.JobOriginatingUserName;
 import java.util.ArrayList;
 
 /**
- * The type Model test.
+ * Modèle de données.
+ * Contient toutes les méthodes concernant:
+ * -La manipulation des joueurs
+ * -Manipulation des dominos/Tuiles.
  */
 public class ModelTest {
     private Paquet paquet;
@@ -25,15 +28,13 @@ public class ModelTest {
     private boolean[] dominoDejaChoisi;
     private TuilesAuCentre centre;
     private Couleur[] couleursUtilisé;
-    /**
-     * The Test.
-     */
+
     public boolean test;
     private int maxScore;
     private int[] bestCoord;
 
     /**
-     * Instantiates a new Model test.
+     * Constructeur de la classe.
      */
     public ModelTest() {
         paquet = new Paquet();
@@ -44,9 +45,9 @@ public class ModelTest {
     }
 
     /**
-     * Set nb joueur.
+     * Permet de définir le nombre de joueur.
      *
-     * @param nbJoueur the nb joueur
+     * @param nbJoueur Nombre de joueur présents.
      */
     public void setNbJoueur(int nbJoueur){
         this.nbJoueur = nbJoueur;
@@ -117,7 +118,7 @@ public class ModelTest {
     }
 
     /**
-     * Changement joueur.
+     * Change le joueur actuelle.
      */
     public void changementJoueur(){
 
@@ -138,9 +139,9 @@ public class ModelTest {
     }
 
     /**
-     * Nouveau indextour suivant.
+     * Permet de créer le tableau pour avoir l'ordre au tour suivant.
      *
-     * @param posDom the pos dom
+     * @param posDom position du domino.(0,1,2,3)
      */
     public void nouveauIndextourSuivant(int posDom){
         ordreJoueurTourSuivant[posDom]=getJoueurActuel();
@@ -186,7 +187,7 @@ public class ModelTest {
     }
 
     /**
-     * Gets tuiles centre ap lacer.
+     * Gets tuiles centre a placer.
      *
      * @return the tuiles centre ap lacer
      */
@@ -195,16 +196,17 @@ public class ModelTest {
     }
 
     /**
-     * Sets tuiles centre ap lacer.
+     * Sets tuiles centre a placer.
      *
      * @param tuilesCentreAPLacer the tuiles centre ap lacer
+     * @See TuilesAuCentre
      */
     public void setTuilesCentreAPLacer(TuilesAuCentre tuilesCentreAPLacer) {
         this.tuilesCentreAPLacer = tuilesCentreAPLacer;
     }
 
     /**
-     * Get joueurs joueur [ ].
+     * Fonction pour obtenir le tableau de joueur complet.
      *
      * @return the joueur [ ]
      */
@@ -213,7 +215,7 @@ public class ModelTest {
     }
 
     /**
-     * Sets joueurs.
+     * Permet de donner un tableau de joueur au modèle.
      *
      * @param joueurs the joueurs
      */
@@ -222,7 +224,7 @@ public class ModelTest {
     }
 
     /**
-     * Gets rot domino select.
+     * Permet de connaitre la rotation du domino actuelle.
      *
      * @return the rot domino select
      */
@@ -231,7 +233,7 @@ public class ModelTest {
     }
 
     /**
-     * Sets rot domino select.
+     * Permet de donner une rotation au domino séléctionner.
      *
      * @param rotDominoSelect the rot domino select
      */
@@ -258,7 +260,7 @@ public class ModelTest {
     }
 
     /**
-     * Gets domino select.
+     * Retourne le domino séléctionner.
      *
      * @return the domino select
      */
@@ -276,15 +278,15 @@ public class ModelTest {
     }
 
     /**
-     * Add domino royaume boolean.
+     * Ajoute le domino au royaume du joueur au position données.
      *
-     * @param domino   the domino
-     * @param idJoueur the id joueur
-     * @param x        the x
-     * @param y        the y
-     * @param x2       the x 2
-     * @param y2       the y 2
-     * @return the boolean
+     * @param domino   Le Domino choisis
+     * @param idJoueur id joueur
+     * @param x        coordonées x de la première tuiles à placer
+     * @param y        coordonées y de la première tuiles à placer
+     * @param x2       coordonées x de la deuxième tuiles à placer
+     * @param y2       coordonées y de la deuxième tuiles à placer
+     * @return the boolean. Si il y a une erreur retourne false.
      */
     public boolean addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
         try {
@@ -300,9 +302,9 @@ public class ModelTest {
     }
 
     /**
-     * Set joueur actuel.
+     * Permet d'actualiser le joueur actuelle.
      *
-     * @param index the index
+     * @param index Index du joueur dans le tableau des joueurs du tour.
      */
     public void setJoueurActuel(int index){
         for (Joueur joueur :
@@ -313,7 +315,7 @@ public class ModelTest {
     }
 
     /**
-     * Get pos joueur actuel int.
+     * Permet de connaitre l'index du joueur actuelle dans le tableau du tour.
      *
      * @return the int
      */
@@ -326,9 +328,9 @@ public class ModelTest {
     }
 
     /**
-     * Gets joueur.
+     * Permet de donner le joueur présent dans le tableau à l'index.
      *
-     * @param id the id
+     * @param id Index du joueur voulu.
      * @return the joueur
      */
     public Joueur getJoueur(int id) {
