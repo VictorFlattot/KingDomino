@@ -31,7 +31,17 @@ public class JPanelRoyaume extends JPanel {
         initAtribut();
         setLayout(new BorderLayout());
         JLabel nomJoueur = new JLabel(joueur.getNom());
-        nomJoueur.setForeground (Color.blue);
+        if (joueur.getId()==0) {
+            nomJoueur.setForeground(Color.blue);
+        }else if (joueur.getId()==1){
+            nomJoueur.setForeground(Color.yellow);
+        }else if (joueur.getId()==2){
+            nomJoueur.setForeground(Color.red);
+        }else if (joueur.getId()==3){
+            nomJoueur.setForeground(Color.green);
+        }else{
+            nomJoueur.setForeground(Color.white);
+        }
         nomJoueur.setFont(new Font("Helvetica",Font.PLAIN,20));
         nomJoueur.setBorder(new EmptyBorder(0,130,5,0));
         this.add(nomJoueur,BorderLayout.NORTH);
