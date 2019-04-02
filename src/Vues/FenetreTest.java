@@ -1,6 +1,5 @@
 package Vues;
 
-
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileAChoisir;
@@ -17,55 +16,239 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-
 /**
  * The type Fenetre test.
  */
-public class
-FenetreTest extends JFrame {
+public class FenetreTest extends JFrame {
 
+    /**
+     * Utilisation du modèle via la classe ModelTest
+     *
+     * @see ModelTest
+     */
 	private ModelTest model;
+
+	/**
+     * L'interface du projet
+     *
+     * @see JFrame
+     */
 	private JFrame jFrame;
+
+	/**
+     * Un tableau de bouton servant au placement des tuiles
+     *
+     * @see Bouton
+     */
 	private Bouton[] jButtonTuilleCentreAPlacer;
+
+	/**
+     * Un tableau de bouton servant au choix des tuiles
+     *
+     * @see Bouton
+     */
 	private Bouton[] jButtonTuilleCentreAChoisir;
+
+	/**
+     * Un tableau de bouton représentant les tuilles au centre qui sont vides
+     *
+     * @see Bouton
+     */
 	private Bouton[] jButtonTuilleCentreVide;
+
+	/**
+     * Perment de diviser l'intreface en 4 zones
+     * <i><b>jPanelCentre</b></i> représente la zone centrale
+     *
+     * @see JPanel
+     */
 	private JPanel jPanelCentre;
+
+    /**
+     * Perment de diviser l'intreface en 4 zones
+     * <i><b>jPanelOuest</b></i> représente la zone gauche
+     *
+     * @see JPanel
+     */
 	private JPanel jPanelOuest;
+
+    /**
+     * Perment de diviser l'intreface en 4 zones
+     * <i><b>jPanelEst</b></i> représente la zone droite
+     *
+     * @see JPanel
+     */
 	private JPanel jPanelEst;
+
+    /**
+     * Perment de diviser l'intreface en 4 zones
+     * <i><b>jPanelNord</b></i> représente la zone supérieur
+     *
+     * @see JPanel
+     */
 	private JPanel jPanelNord;
+
+	/**
+     * Permet de mettre un affichage pour les boutons Start
+     *
+     * @see JPanelPressStart
+     */
 	private JPanelPressStart jPanelPressStart;
-	private JFrame JFrameInstruction ;
-	private JPanel JPanelInsctruction ;
+
+	/**
+     * Permet d'avoir une frame spécial pour les instructions
+     *
+     * @see JFrame
+     */
+	private JFrame JFrameInstruction;
+
+	/**
+     * Le panel permetant aux instructions d'avoir lieu
+     *
+     * @see JPanel
+     */
+	private JPanel JPanelInsctruction;
+
+	/**
+     * Un tableau de <i><b>JLabel</b></i> represantant les dominos sélectionnés par les joueurs
+     *
+     * @see JLabel
+     */
 	private JLabel[] jLabelsDomSelectByPlayer;
-	private JLabel[] jLabelsDomPreviousSelectByPlayer;
 
+	/**
+     * Un tableau de <i><b>JLabel</b></i> represantant les précédents dominos sélectionnés par les joueurs
+     *
+     * @see JLabel
+     */
+    private JLabel[] jLabelsDomPreviousSelectByPlayer;
 
-	private JPanel jpanelNomJoueur ;
+    /**
+     * Permet d'avoir un affichage du nom du joueur
+     *
+     * @see JPanel
+     */
+	private JPanel jpanelNomJoueur;
 
-	private JPanel jPanelNombreJoueur ;
+	/**
+     * Permet d'avoir un affichage pour le nombre de joueur
+     *
+     * @see JPanel
+     */
+	private JPanel jPanelNombreJoueur;
 
+	/**
+     * Permet de récupérer les dimensions de l'écran
+     *
+     * @see Dimension
+     */
 	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
+	/**
+     * Contient la hauteur de l'écran utilisé
+     *
+     * @see Dimension
+     */
 	int height = (int)dimension.getHeight();
 
+	/**
+     * Contient la largeur de l'écran utilisé
+     *
+     * @see Dimension
+     */
 	int width  = (int)dimension.getWidth();
 
+	/**
+     * Un tableau de <i><b>JPanelRoyaume</b></i> représantant les différents royaumes des joueurs
+     *
+     * @see JPanelRoyaume
+     */
 	private JPanelRoyaume[] jPanelRoyaumes;
 
+	/**
+     * L'affichage des différents meunus <i>(Jouer, Quitter, ...)</i>
+     *
+     * @see JPanel
+     */
 	private JPanel panelMenuJouerQuiter;
 
+	/**
+     * L'affichage de la tuile sélectionnée
+     *
+     * @see JPanel
+     */
 	private JPanel jPanelTuileSelect;
+
+	/**
+     * Le bouton pour le contrôle de la tuile sélectionnée
+     *
+     * @see JButton
+     */
 	private JButton boutontuileSelect;
+
+    /**
+     * Le bouton permettant l'action de <b>jouer</b>
+     *
+     * @see Bouton
+     */
 	private Bouton boutonJouer;
+
+    /**
+     * Le bouton permettant l'action de <b>quitter</b>
+     *
+     * @see Bouton
+     */
 	private Bouton boutonQuitter;
-	private Bouton boutonRetour ;
-	private Bouton instruction ;
+
+    /**
+     * Le bouton permettant l'action du <b>retour</b>
+     *
+     * @see Bouton
+     */
+	private Bouton boutonRetour;
+
+    /**
+     * Le bouton permettant d'accéder aux <b>instructions</b>
+     *
+     * @see Bouton
+     */
+	private Bouton instruction;
+
+	/**
+     * Controlleur de la rotation des tuiles
+     *
+     * @see ControlRotationTuile
+     */
     private ControlRotationTuile controlRotationTuile;
+
+    /**
+     * Controlleur de la tuile à choisir
+     *
+     * @see ControlTuileAChoisir
+     */
     private ControlTuileAChoisir controlTuileAChoisir;
 
-	static GraphicsDevice device ;
-	private Image fondKing ;
-	private Image pressStart ;
+    /**
+     * L'endroit où faire apparaître le résultat graphique
+     *
+     * @see GraphicsDevice
+     */
+	static GraphicsDevice device;
+
+	/**
+     * L'image de fond pour le jeu
+     *
+     * @see Image
+     */
+	private Image fondKing;
+
+	/**
+     * Une image particulière pour l'interface au commencement qu jeu
+     *
+     * @see Image
+     */
+	private Image pressStart;
+
 
 	private Image instruction_img ;
 	private Image instruction_img2 ;
@@ -85,7 +268,6 @@ FenetreTest extends JFrame {
 
 	private JLabel[] labelNomJouerSelectionNom;
 
-
 	private JPanel jPanelSouth ;
 
 	private JLabel dominoLabel ;
@@ -104,7 +286,6 @@ FenetreTest extends JFrame {
 		initAtribut();
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.setVisible(true);
-
 	}
 
 	/**
@@ -115,7 +296,6 @@ FenetreTest extends JFrame {
 	}
 
 	private void initAtributJeu() throws IOException {
-
 		jpanelNomJoueur = new JPanel();
 		jPanelNombreJoueur = new JPanel();
 		jPanelCentre = new JPanel();
@@ -133,7 +313,6 @@ FenetreTest extends JFrame {
 		jLabelsDomSelectByPlayer = new JLabel[model.getNbJoueur()];
 		jLabelsDomPreviousSelectByPlayer = new JLabel[model.getNbJoueur()];
 
-
 		boutonTour = new Bouton();
 
 		jPanelSouth = new JPanel(new FlowLayout());
@@ -150,14 +329,10 @@ FenetreTest extends JFrame {
 		setActionListenerCaseRoyaume();
 		controlTuileAChoisir = new ControlTuileAChoisir(model,this);
 		setActionListenerTuileCentreAChoisir();
-
 	}
 
 	private void initAtribut() throws IOException {
-
-
-
-		valider = new Bouton() ;
+	    valider = new Bouton() ;
 		valider.setText("Jouer");
 
 		boutonRetour = new Bouton();
@@ -183,7 +358,6 @@ FenetreTest extends JFrame {
 
 		setFullscreen(jFrame);
 		jFrame.setLayout(new BorderLayout());
-
 
 		controlRotationTuile = new ControlRotationTuile(model, this);
 		keyListener = new KeyListener() {
@@ -215,8 +389,6 @@ FenetreTest extends JFrame {
 		boutonQuitter.addActionListener(e -> fermer());
 
 		jFrame.add(jPanelPressStart);
-
-
 	}
 
 	private void setFullscreen(JFrame JFrame){
@@ -250,8 +422,6 @@ FenetreTest extends JFrame {
 		}
 	}
 
-
-
 	private void afficherTuilleAuCentre() throws IOException {
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
@@ -276,13 +446,10 @@ FenetreTest extends JFrame {
 				jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAChoisir[i]);
 				jPanel2PartTuileAChoisir[i].add(jLabelsDomSelectByPlayer[i]);
 				jPanelTuileAuCentre.add(jPanel2PartTuileAChoisir[i]);
-			}else{
+			} else {
 				jPanel2PartTuileAChoisir[i].add(jButtonTuilleCentreAPlacer[i]);
 				jPanelTuileAuCentre.add(jPanel2PartTuileAChoisir[i]);
 			}
-
-
-
 		}
 
 
@@ -294,20 +461,16 @@ FenetreTest extends JFrame {
 				jPanel2PartTuileAPlacer[i].add(jButtonTuilleCentreAPlacer[i]);
 				jPanel2PartTuileAPlacer[i].add(jLabelsDomPreviousSelectByPlayer[i]);
 				jPanelTuileAuCentre.add(jPanel2PartTuileAPlacer[i]);
-
-			}else{
+			} else {
 				jPanel2PartTuileAPlacer[i].add(jButtonTuilleCentreAPlacer[i]);
 				jPanelTuileAuCentre.add(jPanel2PartTuileAPlacer[i]);
 			}
 		}
-
 		jPanelCentre.add(jPanelTuileAuCentre);
 		jPanelCentre.add(jPanelTuileSelect);
 		jFrame.add(jPanelCentre,BorderLayout.CENTER);
 		jFrame.revalidate();
-
 	}
-
 
 	/**
 	 * Affiche sur le plateau les tuiles composants le dominos séléctionner
@@ -316,7 +479,6 @@ FenetreTest extends JFrame {
 	 * @param id   id de la tuile
 	 */
 	public void afficheTuileSelect(Icon icon,int id){
-
 	    boutontuileSelect.setIcon(icon);
 	    boutontuileSelect.setActionCommand(String.valueOf(id));
 		jPanelTuileSelect.add(boutontuileSelect);
@@ -332,7 +494,6 @@ FenetreTest extends JFrame {
 	 * @throws IOException the io exception
 	 */
 	public void tournerTuileSelect(int rot,int idDom) throws IOException {
-
         BufferedImage image = ImageIO.read(new File(donneCheminDomino(idDom,rot)));
         jPanelTuileSelect.remove(boutontuileSelect);
         afficheTuileSelect(new ImageIcon(image),idDom);
@@ -355,7 +516,6 @@ FenetreTest extends JFrame {
 			jPanelOuest.add(new JPanel());
 			jPanelEst.add(jPanelRoyaumes[1]);
 			jPanelOuest.add(jPanelRoyaumes[0]);
-
 		}
 		if (model.getNbJoueur() == 3){
 			jFrame.add(jPanelRoyaumes[2],BorderLayout.SOUTH);
@@ -367,7 +527,6 @@ FenetreTest extends JFrame {
 			jPanelOuest.add(jPanelRoyaumes[2]);
 
 		}
-
 
 		jFrame.add(jPanelEst,BorderLayout.EAST);
 		jFrame.add(jPanelOuest,BorderLayout.WEST);
@@ -382,10 +541,7 @@ FenetreTest extends JFrame {
 		});
 
 		jFrame.add(jPanelSouth, BorderLayout.SOUTH);
-
-
 		bloquerToutRoyaumes(true);
-
 	}
 
 	/**
@@ -405,9 +561,7 @@ FenetreTest extends JFrame {
         }
 		if(numeroDomino<10) return "img/0"+ numeroDomino+ nomImg +".jpg";
 		return "img/"+ numeroDomino + nomImg +".jpg";
-
 	}
-
 
 	/**
 	 * Création et application du listener sur tout les boutons
@@ -434,7 +588,6 @@ FenetreTest extends JFrame {
 		if (model.getJoueurActuel().isIA()){
 			tourIA();
 		}
-
 	}
 
 	/**
@@ -450,8 +603,7 @@ FenetreTest extends JFrame {
 			model.getJoueurActuel().getRoyaume().showRoyaume();
 			boutontuileSelect.setActionCommand(""+ coord[0] +"/"+ coord[1]);
 			controlCaseRoyaume.actionPerformed(new ActionEvent(boutontuileSelect, ActionEvent.ACTION_PERFORMED, boutontuileSelect.getActionCommand()));
-
-		}else{
+		} else {
 			System.out.println("passe tour");
 			model.getJoueurActuel().getRoyaume().showRoyaume();
 			model.changementJoueur();
@@ -461,8 +613,6 @@ FenetreTest extends JFrame {
 		controlTuileAChoisir.actionPerformed(
 				new ActionEvent(jButtonTuilleCentreAChoisir[posDom],
 						ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[posDom].getActionCommand()));
-
-
 	}
 
 	/**
@@ -474,13 +624,12 @@ FenetreTest extends JFrame {
 			bloquerToutRoyaumes(true);
 			if (model.getNbTour()<model.getNbTourMax()){
 				setActionListenerTuileCentreAChoisir();
-			}else{
+			} else {
 				model.changementJoueur();
 				changementJoueur();
 				changementTour();
 				unTruc();
 			}
-
 			updateAllRoyaume();
 			jFrame.revalidate();
 		} catch (IOException e1) {
@@ -501,7 +650,6 @@ FenetreTest extends JFrame {
 			System.out.println("géchan");
 			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()].getActionCommand()));
 		}
-
 	}
 
 	/**
@@ -524,7 +672,6 @@ FenetreTest extends JFrame {
 		    jButtonTuilleCentreAPlacer[i].setEnabled(!b);
 		}
 	}
-
 
 	/**
 	 * Enlève les controller des boutons au centres une fois que le joueur à choisis.
@@ -555,7 +702,6 @@ FenetreTest extends JFrame {
 			jPanelRoyaumes[i].bloquerRoyaume(b);
 		}
 	}
-
 
 	private void bloquerBoutonAPlacerCentre(int index, boolean b){
 		jButtonTuilleCentreAPlacer[index].setEnabled(b);
@@ -626,7 +772,6 @@ FenetreTest extends JFrame {
 				removeAllControlerAChoisirCentre();
 				afficherTuilleAuCentre();
 			}
-
 		}
 	}
 
@@ -655,7 +800,6 @@ FenetreTest extends JFrame {
 			controlTuileAChoisir.actionPerformed(new ActionEvent(jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()], ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[model.getPosJoueurActuel()].getActionCommand()));
 		}
 		jFrame.revalidate();
-
 	}
 
 	/**
@@ -674,7 +818,6 @@ FenetreTest extends JFrame {
 			jFrame.repaint();
 			jFrame.add(panelMenuJouerQuiter);
 			jFrame.removeKeyListener(keyListener);
-
 
 			instruction.setText("Instruction");
 			boutonJouer.setText("Jouer");
@@ -699,9 +842,7 @@ FenetreTest extends JFrame {
 					e1.printStackTrace();
 				}
 			});
-
 	}
-
 
 	private void afficherChoixNbJoueur() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
@@ -710,7 +851,6 @@ FenetreTest extends JFrame {
 		troisJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
 		quatreJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
 		joueur.setFont(new Font("Helvetica",Font.BOLD,70));
-
 
 		JPanel joueurBox = new JPanel();
 		joueurBox.setLayout(new BoxLayout(joueurBox,BoxLayout.Y_AXIS));
@@ -791,7 +931,6 @@ FenetreTest extends JFrame {
 						System.exit(0);
 						break;
 				case JOptionPane.NO_OPTION:
-
 					break;
 		}
 	}
@@ -805,7 +944,6 @@ FenetreTest extends JFrame {
 	 */
 	public void choixNomJoueur(int nombreJoueur) throws IOException {
 		labelNomJouerSelectionNom= new JLabel[model.getNbJoueur()];
-
 
 		JTextField[] jTextField = new JTextField[nombreJoueur];
 		for (int i = 0; i < nombreJoueur; i++) {
@@ -822,11 +960,9 @@ FenetreTest extends JFrame {
 		jpanelNomJoueur = new JPanelPressStart(fondKing);
 		jpanelNomJoueur.setLayout(new FlowLayout());
 
-
 		valider.setFont(new Font("Helvetica",Font.BOLD,100));
 
 		jpanelNomJoueur.setOpaque(false);
-
 
 		if(nombreJoueur>=1){
 			jpanelNomJoueur.add(labelNomJouerSelectionNom[0]);
@@ -865,7 +1001,6 @@ FenetreTest extends JFrame {
 		jpanelNomJoueur.add(valider);
 		jFrame.add(jpanelNomJoueur);
 		jFrame.revalidate();
-
 	}
 
 	/**
