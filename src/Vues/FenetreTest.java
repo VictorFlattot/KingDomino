@@ -515,9 +515,9 @@ FenetreTest extends JFrame {
 
 	/**
 	 * Fonction qui permet de bloquer l'action du joueur sur les tuiles au centre.
-	 * Fonction
+	 * Elle est appeller quand le joueur à choisis sa tuile.
 	 *
-	 * @param b the b
+	 * @param b Permet de savoir si on bloque ou débloque les tuiles.
 	 */
 	public void bloquerToutBoutonAPlacerCentre(boolean b){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
@@ -527,7 +527,7 @@ FenetreTest extends JFrame {
 
 
 	/**
-	 * Remove all controler a choisir centre.
+	 * Enlève les controller des boutons au centres une fois que le joueur à choisis.
 	 */
 	public void removeAllControlerAChoisirCentre(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
@@ -536,19 +536,19 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Bloquer royaume joueur.
+	 * Bloque le royaume du joueur désigné.
 	 *
-	 * @param b      the b
-	 * @param joueur the joueur
+	 * @param b      Booléen permettant de bloquer ou débloquer le joueur
+	 * @param joueur Le joueur désigné
 	 */
 	public void bloquerRoyaumeJoueur(boolean b, int joueur){
 		jPanelRoyaumes[joueur].bloquerRoyaume(b);
 	}
 
 	/**
-	 * Bloquer tout royaumes.
+	 * On bloque ou débloque tout les royaume en fonction du paramètre.
 	 *
-	 * @param b the b
+	 * @param b Permet de bloquer ou débloquer le royaume de tout les joueurs.
 	 */
 	public void bloquerToutRoyaumes(boolean b){
 		for (int i = 0; i < model.getNbJoueur(); i++) {
@@ -562,25 +562,26 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Remove controler bouton a choisr centre.
+	 * Permet d'enlever le controller d'un bouton spécifique au centre.
 	 *
-	 * @param index the index
+	 * @param index indice du bouton dans le tableau de domino au centre.
 	 */
 	public void removeControlerBoutonAChoisrCentre(int index){
 		jButtonTuilleCentreAChoisir[index].removeActionListener(controlTuileAChoisir);
 	}
 
 	/**
-	 * Add controler bouton a choisr centre.
+	 * On ajoute un controlleur sur un bouton spécifique au centre.
 	 *
-	 * @param index the index
+	 * @param index indice du bouton dans le tableau de domino au centre.
 	 */
 	public void addControlerBoutonAChoisrCentre(int index){
 		jButtonTuilleCentreAChoisir[index].addActionListener(controlTuileAChoisir);
 	}
 
 	/**
-	 * Nouvelle selection domino.
+	 * Une fois que tout les premiers domino on été séléctionner on les passes en temps que domino choisi
+	 * et on affiche un nouveau tirage de domino à choisir.
 	 *
 	 * @throws IOException the io exception
 	 */
@@ -595,7 +596,10 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Changement tour.
+	 * Ici on va changer de tour.
+	 * On regarde d'abord si la partie est fini:
+	 * - si oui on enlève les dominos au centre et on affiche une popup avec "Fin de partie" et on affiche les scores ensuites
+	 * - si non on enlève les dominos du centre, on réaffiche les dominos séléctionner au tour précédent par les joueurs et on affiche une nouvelle séléction de domino.
 	 *
 	 * @throws IOException the io exception
 	 */
@@ -634,7 +638,8 @@ FenetreTest extends JFrame {
 
 
 	/**
-	 * Afficher jeu.
+	 * Fonction qui permet d'afficher la fenêtre du jeu.
+	 * On initialise les attributs du jeu et on enlève le menu à l'écran du joueur.
 	 *
 	 * @throws IOException the io exception
 	 */
@@ -654,7 +659,8 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Afficher menu jouer quitter.
+	 * Affichage de la première page de menu.
+	 * Boutons présents : Jouer, instructions, Quitter
 	 *
 	 * @throws IOException the io exception
 	 */
@@ -752,7 +758,7 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Instruction.
+	 * Permet d'afficher les instructions de jeu pour savoir comment jouer.
 	 *
 	 * @throws IOException the io exception
 	 */
@@ -773,7 +779,9 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Fermer.
+	 * Permet de fermer le jeu.
+	 * Une popup demande confirmation.
+	 *
 	 */
 	public void fermer() {
     	int res = JOptionPane.showConfirmDialog(jFrame,"Voulez-vous abandonner votre royaume ?","", JOptionPane.YES_NO_OPTION);
@@ -789,9 +797,10 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Choix nom joueur.
+	 * Affichage des différents composants pour que le joueur puisse saisir son nom.
+	 * Affichage des composants en fonction du nombre de joueur.
 	 *
-	 * @param nombreJoueur the nombre joueur
+	 * @param nombreJoueur Paramètre concernant le nombre de joueur.
 	 * @throws IOException the io exception
 	 */
 	public void choixNomJoueur(int nombreJoueur) throws IOException {
@@ -860,7 +869,7 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Gets frame.
+	 * Retourne la frame actuelle.
 	 *
 	 * @return the frame
 	 */
@@ -869,10 +878,10 @@ FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Change label player.
+	 * Change le nom du label du joueur actuelle.
 	 *
-	 * @param posDom  the pos dom
-	 * @param couleur the couleur
+	 * @param posDom  Position du domino.
+	 * @param couleur Couleur du joueur.
 	 * @throws IOException the io exception
 	 */
 	public void changeLabelPlayer(int posDom, String couleur) throws IOException {

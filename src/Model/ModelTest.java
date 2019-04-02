@@ -101,7 +101,11 @@ public class ModelTest {
         tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre,false);
     }
 
-
+    /**
+     *
+     *
+     * @see Joueur
+     */
     private void initOrdre(int nbJoueur){
         ordreJoueurTourActuel = new Joueur[nbJoueur];
         ordreJoueurTourSuivant = new Joueur[nbJoueur];
