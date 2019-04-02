@@ -3,6 +3,9 @@ package Vues;
 import Control.ControlCaseRoyaume;
 import Control.ControlRotationTuile;
 import Control.ControlTuileAChoisir;
+import Model.Couleur;
+import Model.Domino;
+import Model.Joueur;
 import Model.ModelTest;
 
 import javax.imageio.ImageIO;
@@ -17,7 +20,12 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * The type Fenetre test.
+ * Classe définissant les fonctionnalités de la fenêtre
+ * Permet d'initialiser les différentes fenêtres de jeu
+ * Permet d'effectuer les actions de chaque tour pour chaque joueur
+ * Intègre une partie pour l'IA
+ * Gère le changement de tour; Possibilité de passer son tour
+ * Gère les différentes interfaces, les boutons ont des fonctionnalités implémentées
  */
 public class FenetreTest extends JFrame {
 
@@ -249,30 +257,131 @@ public class FenetreTest extends JFrame {
      */
 	private Image pressStart;
 
+    /**
+     * La page <b>1</b> des instructions
+     *
+     * @see Image
+     */
+	private Image instruction_img;
 
-	private Image instruction_img ;
-	private Image instruction_img2 ;
-	private Image instruction_img3 ;
+    /**
+     * La page <b>2</b> des instructions
+     *
+     * @see Image
+     */
+	private Image instruction_img2;
+
+    /**
+     * La page <b>3</b> des instructions
+     *
+     * @see Image
+     */
+	private Image instruction_img3;
+
+	/**
+     * Permet la lecture des touches claviers appuyées
+     *
+     * @see KeyListener
+     */
 	private KeyListener keyListener;
 
-	private Image[] instructionTab ;
+	/**
+     * Un tableau d'<b>Images</b> pour les instructions
+     *
+     * @see Image
+     */
+	private Image[] instructionTab;
+
+	/**
+     * Le controlleur pour les cases des différents royaumes
+     *
+     * @see ControlCaseRoyaume
+     */
 	private ControlCaseRoyaume controlCaseRoyaume;
+
+	/**
+     * Bouton pour sélectionner le mode <b>deux Joueurs</b>
+     *
+     * @see Bouton
+     */
 	private Bouton deuxJoueurs;
+
+    /**
+     * Bouton pour sélectionner le mode <b>trois Joueurs</b>
+     *
+     * @see Bouton
+     */
 	private Bouton troisJoueurs;
-	private Bouton quatreJoueurs ;
-	private JLabel joueur ;
 
-	private Bouton valider ;
+    /**
+     * Bouton pour sélectionner le mode <b>quatre Joueurs</b>
+     *
+     * @see Bouton
+     */
+	private Bouton quatreJoueurs;
 
-	public Bouton boutonTour ;
+	/**
+     * Permet l'affichage des joueurs
+     *
+     * @see JLabel
+     */
+	private JLabel joueur;
 
+    /**
+     * Le bouton pour <b>valider</b> le choix
+     *
+     * @see Bouton
+     */
+	private Bouton valider;
+
+	/**
+     * Le bouton pour <b>passer le tour</b>
+     *
+     * @see Bouton
+     */
+	public Bouton boutonTour;
+
+	/**
+     * Tableau pour l'affichage des différents nom des joueurs
+     *
+     * @see JLabel
+     */
 	private JLabel[] labelNomJouerSelectionNom;
 
-	private JPanel jPanelSouth ;
+    /**
+     * Perment de diviser l'intreface en 4 zones
+     * <i><b>jPanelSouth</b></i> représente la zone inférieur
+     *
+     * @see JPanel
+     */
+	private JPanel jPanelSouth;
 
-	private JLabel dominoLabel ;
+	/**
+     * Permet d'afficher le domino
+     *
+     * @see JLabel
+     */
+	private JLabel dominoLabel;
+
+	/**
+     * Affiche le nom du joueur actif
+     *
+     * @see JLabel
+     */
 	private JLabel nomJoueurActif;
+
+	/**
+     * Un tableau représentant les tuiles à choisir
+     *
+     * @see JPanel
+     */
 	private JPanel[] jPanel2PartTuileAChoisir;
+
+	/**
+     * Un tableau repésentant les tuiles à placer
+     *
+     * @see JPanel
+     */
 	private JPanel[] jPanel2PartTuileAPlacer;
 
 	/**
@@ -295,6 +404,16 @@ public class FenetreTest extends JFrame {
 
 	}
 
+	/**
+     * Initialise les attributs pour le jeu
+     * Affichage graphique des différents éléments, affichage des noms, royaumes...
+     *
+     * @see Bouton
+     * @see ControlCaseRoyaume
+     * @see ControlTuileAChoisir
+     *
+     * @throws IOException
+     */
 	private void initAtributJeu() throws IOException {
 		jpanelNomJoueur = new JPanel();
 		jPanelNombreJoueur = new JPanel();
@@ -331,6 +450,19 @@ public class FenetreTest extends JFrame {
 		setActionListenerTuileCentreAChoisir();
 	}
 
+	/**
+     * Initialise les attributs suivants les choix effectués par l'utilisateurs
+     * Possiblilité de plusieurs joueurs <i>(2, 3, 4)</i>
+     * Réglage de l'affichage des instructions
+     * Gère le fait que la touche <b>Entrée</b> du clavier permet d'acéder à la fenêtre suivante
+     *
+     * @throws IOException
+     *
+     * @see Bouton
+     * @see JFrame
+     * @see ControlRotationTuile
+     * @see KeyListener
+     */
 	private void initAtribut() throws IOException {
 	    valider = new Bouton() ;
 		valider.setText("Jouer");
@@ -391,37 +523,83 @@ public class FenetreTest extends JFrame {
 		jFrame.add(jPanelPressStart);
 	}
 
+	/**
+     * Permet de mettre le jeu en plein écran
+     *
+     * @see JFrame
+     * @see GraphicsDevice
+     */
 	private void setFullscreen(JFrame JFrame){
 		device.setFullScreenWindow(JFrame);
-
 	}
 
+	/**
+     * Initialise le royaume de chaque joueur un par un
+     *
+     * @throws IOException
+     *
+     * @see JPanelRoyaume
+     * @see ModelTest
+     * @see Joueur
+     */
 	private void initRoyaumeToutJoueur() throws IOException {
 		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jPanelRoyaumes[i] = new JPanelRoyaume(model,model.getJoueurs()[i].getId());
-
 		}
 	}
 
+	/**
+     * Initialise les boutons au centre
+     * Initialise donc les <i>tuiles à placer</i> et les <i>tuiles à choisir</i>
+     *
+     * @see Bouton
+     * @see ModelTest
+     * @see Joueur
+     */
 	private void initBoutonCentre(){
 		for (int i = 0; i < model.getNbJoueur(); i++) {
 			jButtonTuilleCentreAPlacer[i] = new Bouton();
 			jButtonTuilleCentreAChoisir[i] = new Bouton();
-
 		}
 	}
+
+	/**
+     * Initialise les jetons des joueurs
+     * Les joueurs seront représentés par des couronnes de couleurs
+     *
+     * @see Couleur
+     * @see ModelTest
+     * @see Domino
+     * @see JLabel
+     */
 	private void initJLabelCouronneAChoisir(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			jLabelsDomSelectByPlayer[i] = new JLabel();
 		}
 	}
 
+	/**
+     * Initialise les couronnes des joueurs à placer
+     *
+     * @see ModelTest
+     * @see JLabel
+     */
 	private void initJLabelCouronneAPlacer(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 			jLabelsDomPreviousSelectByPlayer[i] = new JLabel();
 		}
 	}
 
+	/**
+     * Affiche les deux <i>types</i> tuiles au centre
+     * Les tuiles à choisir et les tuiles à placer
+     *
+     * @throws IOException
+     *
+     * @see JPanel
+     * @see ModelTest
+     * @see JFrame
+     */
 	private void afficherTuilleAuCentre() throws IOException {
 		JPanel jPanelTuileAuCentre = new JPanel();
 		jPanelTuileAuCentre.setLayout(new GridLayout(2,4));
@@ -477,6 +655,10 @@ public class FenetreTest extends JFrame {
 	 *
 	 * @param icon image de la tuile à placer sur le bouton
 	 * @param id   id de la tuile
+     *
+     * @see Bouton
+     * @see JPanel
+     * @see JFrame
 	 */
 	public void afficheTuileSelect(Icon icon,int id){
 	    boutontuileSelect.setIcon(icon);
@@ -491,7 +673,10 @@ public class FenetreTest extends JFrame {
 	 *
 	 * @param rot   degrées qui permet de faire tourner le domino
 	 * @param idDom ici on envoie l'id du domino
-	 * @throws IOException the io exception
+	 *
+     * @throws IOException the io exception
+     *
+     * @see BufferedImage
 	 */
 	public void tournerTuileSelect(int rot,int idDom) throws IOException {
         BufferedImage image = ImageIO.read(new File(donneCheminDomino(idDom,rot)));
@@ -500,9 +685,12 @@ public class FenetreTest extends JFrame {
     }
 
 	/**
-	 * Update de tout les royaumes
+	 * Update les royaumes de chaque joueurs
 	 *
 	 * @throws IOException the io exception
+     *
+     * @see ModelTest
+     * @see JPanelRoyaume
 	 */
 	public void updateAllRoyaume() throws IOException {
 	    for (int i = 0; i < model.getNbJoueur(); i++) {
@@ -510,6 +698,16 @@ public class FenetreTest extends JFrame {
 	    }
     }
 
+    /**
+     * Affiche les royaumes suivant le nombre de joueurs <i>(2,3 ou 4)</i>
+     * Le bouton <i><b>boutonTour</b></i> se nomme <i>Passer mon tour</i> et effectue l'action du même nom
+     *
+     * @see FenetreTest#boutonTour
+     * @see FenetreTest#passerTour()
+     * @see FenetreTest#bloquerToutRoyaumes(boolean)
+     *
+     * @throws IOException
+     */
 	private void afficherRoyaume() throws IOException {
 		if (model.getNbJoueur() == 2){
 			jPanelEst.add(new JPanel());
@@ -517,9 +715,11 @@ public class FenetreTest extends JFrame {
 			jPanelEst.add(jPanelRoyaumes[1]);
 			jPanelOuest.add(jPanelRoyaumes[0]);
 		}
+
 		if (model.getNbJoueur() == 3){
 			jFrame.add(jPanelRoyaumes[2],BorderLayout.SOUTH);
 		}
+
 		if (model.getNbJoueur() == 4){
 			jPanelEst.add(jPanelRoyaumes[1]);
 			jPanelEst.add(jPanelRoyaumes[3]);
@@ -548,8 +748,11 @@ public class FenetreTest extends JFrame {
 	 * Permet de donnée le chemin de l'image du domino.
 	 *
 	 * @param numeroDomino Numero du domino
-	 * @param rot          le degrées de rotation
-	 * @return the string
+	 * @param rot          le degrée de rotation du domino
+     *
+     * @see Domino
+     *
+	 * @return le chemin de l'image désirée
 	 */
 	public String donneCheminDomino(int numeroDomino , int rot){
 	    String nomImg =".pivoté";
@@ -564,7 +767,7 @@ public class FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Création et application du listener sur tout les boutons
+	 * Création et application du listener sur tous les boutons
 	 */
 	public void setActionListenerTuileCentreAChoisir(){
 		for (int i = 0; i < model.getNbJoueur(); i++) {
@@ -573,8 +776,10 @@ public class FenetreTest extends JFrame {
 	}
 
 	/**
-	 * AH BAH LA CA FAIT UN TRUC MDR .
+	 * Permet qu'après la sélection d'un domino tous les royaumes soient bloqués sauf celui du joueur actuel
 	 *
+     * @see FenetreTest#tourIA()
+     *
 	 * @throws IOException the io exception
 	 */
 	public void unTruc() throws IOException {
@@ -592,6 +797,8 @@ public class FenetreTest extends JFrame {
 
 	/**
 	 * Liste des actions à effectuer quand viens le tour de l'ia.
+     * L'IA peut prendre un domino parmi ceux disponible sinon l'IA passe son tour
+     * Si l'IA a un domino, l'IA le place dans son royaume
 	 */
 	public void tourIA() {
 		System.out.println("tourIA");
@@ -616,7 +823,9 @@ public class FenetreTest extends JFrame {
 	}
 
 	/**
-	 * Passer son tour
+	 * Passer au joueur suivant
+     * Vérifie si ce n'est pas le dernier tour, si c'est bien le dernier alors la partie se termine
+     * Sinon, on commence un nouveau tour avec de nouveaux dominos
 	 */
 	public void passerTour() {
 		try {
@@ -703,6 +912,13 @@ public class FenetreTest extends JFrame {
 		}
 	}
 
+	/**
+     * Permet de bloquer les dominos au centre
+     * Impossible pour un joueur de sélectionner plusieurs dominos ou de prendre un domino déjà réservé
+     *
+     * @param index     le domino à bloquer
+     * @param b         Booléen bloquant ou non ledit domino
+     */
 	private void bloquerBoutonAPlacerCentre(int index, boolean b){
 		jButtonTuilleCentreAPlacer[index].setEnabled(b);
 	}
@@ -775,6 +991,9 @@ public class FenetreTest extends JFrame {
 		}
 	}
 
+	/**
+     * Permet de bloquer un domino déja placé
+     */
 	private void bloquerBoutonDominoDejaPlacé(){
 		for (int i = 0; i < model.getNbDominoCentre(); i++) {
 				bloquerBoutonAPlacerCentre(i,!model.getDominoDejaPlace()[i]);
@@ -844,6 +1063,11 @@ public class FenetreTest extends JFrame {
 			});
 	}
 
+	/**
+     * Système d'affichage suivant le nombre de joueurs sélectionné
+     *
+     * @throws IOException
+     */
 	private void afficherChoixNbJoueur() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
 
