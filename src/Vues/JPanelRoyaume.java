@@ -54,7 +54,7 @@ public class JPanelRoyaume extends JPanel {
     private void initBoutonPanel() throws IOException {
 
         croix = ImageIO.read(new File("img/croix.png"));
-        final BufferedImage depart = ImageIO.read(new File("img/Tuile16.jpg"));
+        final BufferedImage depart = ImageIO.read(new File("img/Tuile16.pivoté0.jpg"));
 
         for (int i = 0; i < tailleRoyaume; i++) {
             for (int j = 0; j < tailleRoyaume; j++) {
@@ -72,7 +72,7 @@ public class JPanelRoyaume extends JPanel {
                 if (royaume.getTuile(i,j).getTerrain()!=null){
                     afficherTuileRoyaume(new ImageIcon(
                             ImageIO.read(new File("img/Tuile" +
-                                    royaume.getTuile(i,j).getId() + ".jpg"))),i,j);
+                                    royaume.getTuile(i,j).getId() + ".pivoté" + royaume.getRotation(i, j) + ".jpg"))),i,j);
                 }else{
 
                     afficherTuileRoyaume(new ImageIcon(croix),i,j);
