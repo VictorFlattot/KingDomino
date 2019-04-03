@@ -1219,7 +1219,20 @@ public class FenetreTest extends JFrame {
 		}
 
 		valider.addActionListener(e->{
+		    switch (model.getNbJoueurReel()){
+                case 1:
+                    model.setNomJoueur("Roi Jaune",1);
+                    model.setNomJoueur("Roi rouge",2);
+                    model.setNomJoueur("Roi vert",3);
+                    break;
+                case 2:
+                    model.setNomJoueur("Roi Jaune",1);
+                    model.setNomJoueur("Roi rouge",2);
+                    break;
+                case 3:
+                    model.setNomJoueur("Roi Jaune",1);
 
+            }
 			for (int i = 0; i < model.getNbJoueurReel(); i++) {
 				model.setNomJoueur(jTextField[i].getText(),i);
 
