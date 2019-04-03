@@ -18,6 +18,7 @@ public class ModelTest {
     private Domino dominoSelect;
     private boolean[] dominoDejaPlace;
     private int nbJoueur;
+    private int nbJoueurReel;
     private Joueur[] ordreJoueurTourActuel;
     private Joueur[] ordreJoueurTourSuivant;
     private boolean faireUnNouveauTour;
@@ -47,22 +48,21 @@ public class ModelTest {
     /**
      * Permet de définir le nombre de joueur.
      *
-     * @param nbJoueur Nombre de joueur présents.
+     * @param nbJoueurReel Nombre de joueur présents.
      */
-    public void setNbJoueur(int nbJoueur){
-        this.nbJoueur = nbJoueur;
+    public void setNbJoueur(int nbJoueurReel){
+        this.nbJoueurReel = nbJoueurReel;
+        this.nbJoueur = 4;
         joueurs = new Joueur[nbJoueur];
-        if (nbJoueur == 3) nbDominoCentre = 3;
-        else nbDominoCentre = 4;
-         if (nbJoueur > 2) tailleRoyaume = 5;
-        else tailleRoyaume = 7;
+        nbDominoCentre = 4;
+        tailleRoyaume = 5;
         for (int i = 0; i < nbJoueur; i++) {
             joueurs[i]=new Joueur("",i,tailleRoyaume, null,false);
         }
-        joueurs[0].setIA(true);
-        joueurs[1].setIA(true);
-        joueurs[2].setIA(true);
-        joueurs[3].setIA(true);
+        int nbIa = 4 - nbJoueurReel;
+        for (int i = 0; i < nbIa;i++){
+            joueurs[i].setIA(true);
+        }
         couleursUtilisé = new Couleur[nbJoueur];
         dominoDejaPlace = new boolean[nbDominoCentre];
         dominoDejaChoisi = new boolean[nbDominoCentre];
@@ -70,8 +70,8 @@ public class ModelTest {
             dominoDejaChoisi[i]=false;
         }
 
-		initCouleurUtilisé();
-		showCouleurUtilisé();
+        initCouleurUtilisé();
+        showCouleurUtilisé();
         initTuileCentre();
         initOrdre(nbJoueur);
     }
@@ -144,6 +144,7 @@ public class ModelTest {
      * @param posDom position du domino.(0,1,2,3)
      */
     public void nouveauIndextourSuivant(int posDom){
+        System.out.println("Le joueur ACTUELLE EST : "+getJoueurActuel().getNom());
         ordreJoueurTourSuivant[posDom]=getJoueurActuel();
     }
 
@@ -341,6 +342,13 @@ public class ModelTest {
         return null;
     }
 
+    public int getNbJoueurReel() {
+        return nbJoueurReel;
+    }
+
+    public void setNbJoueurReel(int nbJoueurReel) {
+        this.nbJoueurReel = nbJoueurReel;
+    }
 
     /**
      * Get joueur actuel joueur.
@@ -443,7 +451,7 @@ public class ModelTest {
            return dominoDejaChoisi[index];
     }
 
-    private void showOrdreActuel(){
+    public void showOrdreActuel(){
         for (Joueur joueur:
                 ordreJoueurTourActuel) {
             if (joueur !=null){

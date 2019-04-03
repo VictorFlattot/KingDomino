@@ -79,6 +79,7 @@ public class ControlTuileAChoisir implements ActionListener {
 
         if (autorisation){
             try {
+                System.out.println(model.getJoueurActuel().getCouleur().toString());
                 fenetre.changeLabelPlayer(posDom,model.getJoueurActuel().getCouleur().toString() );
                 model.setDominoDejaChoisi(posDom,true);
                 System.out.println(model.getDominoSelect());

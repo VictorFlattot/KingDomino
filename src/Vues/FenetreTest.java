@@ -306,6 +306,8 @@ public class FenetreTest extends JFrame {
      */
 	private Bouton deuxJoueurs;
 
+	private Bouton unJoueur;
+
     /**
      * Bouton pour sélectionner le mode <b>trois Joueurs</b>
      *
@@ -472,7 +474,8 @@ public class FenetreTest extends JFrame {
 
 		JFrameInstruction = new JFrame("Instruction");
 		JFrameInstruction.setSize(777,773);
-
+        unJoueur = new Bouton();
+        unJoueur.setText("Un rois");
 		deuxJoueurs = new Bouton();
 		deuxJoueurs.setText("Deux Rois");
 		troisJoueurs = new Bouton();
@@ -1070,7 +1073,7 @@ public class FenetreTest extends JFrame {
      */
 	private void afficherChoixNbJoueur() throws IOException {
 		jFrame.remove(panelMenuJouerQuiter);
-
+        unJoueur.setFont(new Font("Helvetica",Font.BOLD,70));
 		deuxJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
 		troisJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
 		quatreJoueurs.setFont(new Font("Helvetica",Font.BOLD,70));
@@ -1085,6 +1088,7 @@ public class FenetreTest extends JFrame {
 		joueurBox.setOpaque(false);
 		jPanelNombreJoueur = new JPanelPressStart(fondKing);
 		joueurBox.add(joueur);
+		joueurBox.add(unJoueur);
 		joueurBox.add(deuxJoueurs);
 		joueurBox.add(troisJoueurs);
 		joueurBox.add(quatreJoueurs);
@@ -1092,6 +1096,15 @@ public class FenetreTest extends JFrame {
 		jFrame.add(jPanelNombreJoueur);
 
 		jFrame.revalidate();
+
+		unJoueur.addActionListener(e ->{
+		    model.setNbJoueur(1);
+		    try{
+		        choixNomJoueur(1);
+            } catch (IOException e1){
+		        e1.printStackTrace();
+            }
+        });
 
 		deuxJoueurs.addActionListener(e ->{
 			model.setNbJoueur(2);
@@ -1207,10 +1220,13 @@ public class FenetreTest extends JFrame {
 
 		valider.addActionListener(e->{
 
-			for (int i = 0; i < model.getNbJoueur(); i++) {
+			for (int i = 0; i < model.getNbJoueurReel(); i++) {
 				model.setNomJoueur(jTextField[i].getText(),i);
-				model.setCouleurJoueur(model.getCouleursUtilisé()[i],i);
+
 			}
+            for (int i = 0; i < 4; i++) {
+                model.setCouleurJoueur(model.getCouleursUtilisé()[i],i);
+            }
 			try {
 
 				jPanelRoyaumes = new JPanelRoyaume[model.getNbJoueur()];

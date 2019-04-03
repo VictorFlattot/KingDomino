@@ -105,6 +105,7 @@ public class MainTest {
 				model.setDominoDejaChoisi(posDom,true);
 				int[] coord = model.ouPlacerDomino();
 
+
 				if (coord[0] != -1 ){
 					ControlCaseRoyaume controlCaseRoyaume = new ControlCaseRoyaume(model);
 					model.setRotDominoSelect(coord[4]);
