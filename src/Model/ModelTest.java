@@ -1,7 +1,6 @@
 package Model;
 
 
-import javax.print.attribute.standard.JobOriginatingUserName;
 import java.util.ArrayList;
 
 /**
@@ -11,27 +10,124 @@ import java.util.ArrayList;
  * -Manipulation des dominos/Tuiles.
  */
 public class ModelTest {
+
+    /**
+     * Le paquet de domino
+     *
+     * @see Paquet
+     */
     private Paquet paquet;
+
+    /**
+     * Les tuiles à placer
+     *
+     * @see TuilesAuCentre
+     */
     private TuilesAuCentre tuilesCentreAPLacer;
+
+    /**
+     * Les tuiles à choisir
+     *
+     * @see TuilesAuCentre
+     */
     private TuilesAuCentre tuilleCentreAChoisir;
+
+    /**
+     * La liste des joueurs
+     *
+     * @see Joueur
+     */
     private Joueur[] joueurs;
+
+    /**
+     * Le domino sélectionné
+     *
+     * @see Domino
+     */
     private Domino dominoSelect;
+
+    /**
+     * Un tableau pour savoir si un domino est déjà placé
+     */
     private boolean[] dominoDejaPlace;
+
+    /**
+     * Le nombre de joueur
+     */
     private int nbJoueur;
+
+    /**
+     * Le nombre de joueur qui ne sont pas des IA
+     */
     private int nbJoueurReel;
+
+    /**
+     * Un tableau pour connaitre l'ordre des joueurs pour ce tour
+     */
     private Joueur[] ordreJoueurTourActuel;
+
+    /**
+     * Un tableau pour connaitre l'ordre des joueurs au tour suivant
+     */
     private Joueur[] ordreJoueurTourSuivant;
+
+    /**
+     * Vrai si on fait un nouveau tour
+     */
     private boolean faireUnNouveauTour;
+
+    /**
+     * Le nombre de domino présent au centre
+     */
     private int nbDominoCentre;
+
+    /**
+     * La taille du royaume
+     */
     private int tailleRoyaume;
+
+    /**
+     * Le nombre de tour actuel
+     */
     private int nbTour;
+
+    /**
+     * Le nombre de tour maximum
+     */
     private int nbTourMax;
+
+    /**
+     * tableau pour savoir si un domino est déja choisi
+     */
     private boolean[] dominoDejaChoisi;
+
+    /**
+     * Le centre
+     *
+     * @see TuilesAuCentre
+     */
     private TuilesAuCentre centre;
+
+    /**
+     * tableau pour les couleurs utilisées
+     *
+     * @see Couleur
+     */
     private Couleur[] couleursUtilisé;
 
+    /**
+     * Vrai si on est en phase de test
+     */
     public boolean test;
+
+    /**
+     * Le score maximum
+     */
     private int maxScore;
+
+    /**
+     * Tableau contenant les meilleurs coordonnées pour l'IA
+     */
     private int[] bestCoord;
 
     /**
@@ -46,9 +142,13 @@ public class ModelTest {
     }
 
     /**
-     * Permet de définir le nombre de joueur.
+     * Permet de définir le nombre de joueur..
      *
      * @param nbJoueurReel Nombre de joueur présents.
+     * @see ModelTest#initCouleurUtilise() ModelTest#initCouleurUtilise()
+     * @see ModelTest#showCouleurUtilise() ModelTest#showCouleurUtilise()
+     * @see ModelTest#initTuileCentre() ModelTest#initTuileCentre()
+     * @see ModelTest#initOrdre(int) ModelTest#initOrdre(int)
      */
     public void setNbJoueur(int nbJoueurReel){
         this.nbJoueurReel = nbJoueurReel;
@@ -70,13 +170,18 @@ public class ModelTest {
             dominoDejaChoisi[i]=false;
         }
 
-        initCouleurUtilisé();
-        showCouleurUtilisé();
+		initCouleurUtilise();
+		showCouleurUtilise();
         initTuileCentre();
         initOrdre(nbJoueur);
     }
 
-    private void initCouleurUtilisé(){
+    /**
+     * Recence les couleurs utilisées
+     *
+     * @see Couleur
+     */
+    private void initCouleurUtilise(){
     	if (nbJoueur>=2){
     		couleursUtilisé[0] = Couleur.Bleu;
     		couleursUtilisé[1] = Couleur.Jaune;
@@ -90,22 +195,29 @@ public class ModelTest {
 
     }
 
-    private void showCouleurUtilisé(){
+    /**
+     * Affiche les couleurs utilisées
+     */
+    private void showCouleurUtilise(){
 	    for (Couleur couleur:
 	         couleursUtilisé) {
 		    System.out.println(couleur);
 	    }
     }
 
+    /**
+     * Initialise les tuiles présentes au centre du plateau
+     */
     private void initTuileCentre() {
         tuilleCentreAChoisir = new TuilesAuCentre(paquet,nbDominoCentre,true);
         tuilesCentreAPLacer = new TuilesAuCentre(paquet,nbDominoCentre,false);
     }
 
     /**
-     *
+     * Initialise l'ordre des joueurs
      *
      * @see Joueur
+     * @see ModelTest#setJoueurActuel(int)
      */
     private void initOrdre(int nbJoueur){
         ordreJoueurTourActuel = new Joueur[nbJoueur];
@@ -114,28 +226,25 @@ public class ModelTest {
             ordreJoueurTourActuel[i] = joueurs[i];
         }
         setJoueurActuel(0);
-
     }
 
     /**
      * Change le joueur actuelle.
+     *
+     * @see ModelTest#setJoueurActuel(int) ModelTest#setJoueurActuel(int)
+     * @see ModelTest#nouveauTour() ModelTest#nouveauTour()
      */
     public void changementJoueur(){
-
         if (getPosJoueurActuel() == nbJoueur-1){
             setJoueurActuel(0);
             faireUnNouveauTour = true;
-        }
-        else{
+        } else {
             setJoueurActuel(getPosJoueurActuel()+1);
             faireUnNouveauTour = false;
         }
-
         if (test && faireUnNouveauTour){
         	nouveauTour();
         }
-
-
     }
 
     /**
@@ -167,7 +276,6 @@ public class ModelTest {
         calculScore(joueurs[3]);
         setJoueurActuel(0);
     }
-
 
     /**
      * Gets paquet.
@@ -292,12 +400,21 @@ public class ModelTest {
     public boolean addDominoRoyaume(Domino domino,int idJoueur,int x,int y,int x2,int y2){
         try {
             joueurs[idJoueur].getRoyaume().addDominoRoyaume(domino, x, y, x2, y2);
-        }catch (ArrayIndexOutOfBoundsException | UnconnectedException e1){
+        } catch (ArrayIndexOutOfBoundsException | UnconnectedException e1){
             return false;
         }
         return  true;
     }
 
+    /**
+     * Retire un domino du royaume d'un joueur
+     *
+     * @param idJoueur  L'id du joueur auquel un domino sera retiré
+     * @param x         La position x du domino
+     * @param y         La position y du domino
+     * @param x2        La position x2 du domino
+     * @param y2        La position y2 du domino
+     */
     private void removeDominoRoyaume(int idJoueur,int x,int y,int x2,int y2){
         joueurs[idJoueur].getRoyaume().removeDominoRoyaume(x,y,x2,y2);
     }
@@ -342,10 +459,20 @@ public class ModelTest {
         return null;
     }
 
+    /**
+     * Gets nb joueur reel.
+     *
+     * @return the nb joueur reel
+     */
     public int getNbJoueurReel() {
         return nbJoueurReel;
     }
 
+    /**
+     * Sets nb joueur reel.
+     *
+     * @param nbJoueurReel the nb joueur reel
+     */
     public void setNbJoueurReel(int nbJoueurReel) {
         this.nbJoueurReel = nbJoueurReel;
     }
@@ -451,6 +578,9 @@ public class ModelTest {
            return dominoDejaChoisi[index];
     }
 
+    /**
+     * Affiche l'ordre actuel des joueurs
+     */
     public void showOrdreActuel(){
         for (Joueur joueur:
                 ordreJoueurTourActuel) {
@@ -492,42 +622,19 @@ public class ModelTest {
     /**
      * Is partie finie boolean.
      *
-     * @return the boolean
+     * @return vrai si la partie est terminée
      */
     public boolean isPartieFinie(){
         return nbTour >=
                 nbTourMax;
     }
 
-    private int getNbTuilleSame(Royaume royaumeJoueur, int i, int j, int nbTuilleSame, Tuile tuile, int i2) {
-        boolean memeTerrain;
-        if (i > 0) { //sinon ça fait OutOfBoundsException
-                if (royaumeJoueur.isMemeTerrain(tuile, royaumeJoueur.getTuile(i2, j))) {
-                    System.out.println("Les tuiles ont le même terrain");
-                    memeTerrain = true;
-                    nbTuilleSame++;
-                }
-            }
-        return nbTuilleSame;
-    }
-
-    private int getNbTuilleSame(Royaume royaumeJoueur, int j, int nbTuilleSame, Tuile tuile, int i2, int i3, int i) {
-        boolean memeTerrain;
-        if (j < 4) { //sinon ça fait OutOfBoundsException
-            if (royaumeJoueur.isMemeTerrain(tuile, royaumeJoueur.getTuile(i2, i3))) {
-                System.out.println("Les tuiles ont le même terrain");
-                memeTerrain = true;
-                nbTuilleSame++;
-            }
-        }
-        return nbTuilleSame;
-    }
-
     /**
-     * Calcul score int.
+     * La focntion de calcul des scores
      *
      * @param joueur the joueur
      * @return the int
+     * @see ModelTest#voisin(Royaume, int, int) ModelTest#voisin(Royaume, int, int)
      */
     public int calculScore(Joueur joueur){
         int score = 0;
@@ -550,6 +657,18 @@ public class ModelTest {
         return score;
     }
 
+    /**
+     * Fonction récurssive pour obtenir les voisins d'une tuile donnée
+     * Complète la fonction calculScore
+     *
+     * @param rJoueur   Le royaume du joueur courant
+     * @param x         Les coordonnées
+     * @param y         Les coordonnées
+     *
+     * @see ModelTest#calculScore(Joueur)
+     *
+     * @return Le score des voisins de cette tuile
+     */
     private int[] voisin(Royaume rJoueur, int x, int y){
         int[] preScore = new int[2];
         preScore[0] = 0; preScore[1] = 0;
@@ -827,6 +946,13 @@ public class ModelTest {
         return bestCoord;
     }
 
+    /**
+     * Avec une liste de position où placer le domino, retourne la meilleur position
+     *
+     * @param list  Une liste de coordonées
+     *
+     * @return Un tableau contenant les meilleurs coordonnées pour le placement d'un domino
+     */
     private int[] getBestCoord(ArrayList<int []> list){
         ArrayList<int[]> bestPositionPosible = new ArrayList<>(); //liste de positions
         if (getRotDominoSelect() == 0) maxScore = 0;
@@ -872,7 +998,6 @@ public class ModelTest {
             case 270:
                 rot=0;
                 setRotDominoSelect(0);
-
                 break;
         }
         return rot;
@@ -888,8 +1013,5 @@ public class ModelTest {
         for (int i = 0; i < pos ; i++) {
             rotate();
         }
-
     }
-
-
 }

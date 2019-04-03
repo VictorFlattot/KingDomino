@@ -1,12 +1,14 @@
 package Model;
 
 import Control.ControlCaseRoyaume;
-import Control.ControlRotationTuile;
 import Vues.Bouton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+/**
+ * La classe Main pour les test des différentes fonctionalités sur différents royaumes
+ */
 public class MainTest {
 	public static void main(String[] args) throws IOException, UnconnectedException {
 		ModelTest model = new ModelTest();
@@ -28,8 +30,6 @@ public class MainTest {
 				domChoisi = model.quelDomPourIA();
 			}
 		}*/
-
-
 	}
 
     private static void testRoyaume(ModelTest model) throws UnconnectedException {
@@ -44,10 +44,8 @@ public class MainTest {
         Domino doubleMarais = new Domino(new Tuile(Terrain.MARAIS, 0), new Tuile(Terrain.MARAIS, 0));
         Domino lac1Foret = new Domino(new Tuile(Terrain.LAC, 1), new Tuile(Terrain.FORET, 0));
         Domino foret1Prairie = new Domino(new Tuile(Terrain.FORET, 1), new Tuile(Terrain.PRAIRIE, 0));
-
         Domino foret1Champ = new Domino(new Tuile(Terrain.FORET, 1), new Tuile(Terrain.CHAMPS, 0));
         Domino doublePrairie = new Domino(new Tuile(Terrain.PRAIRIE, 0), new Tuile(Terrain.PRAIRIE, 0));
-
 
         //royaume.showRoyaume();
         royaume.addDominoRoyaume(foretChamp,1,2,1,3);
@@ -71,8 +69,6 @@ public class MainTest {
             System.out.println("");
             System.out.println("");
             royaume.showRoyaume();
-
-
         }
     }
 
@@ -81,8 +77,6 @@ public class MainTest {
 	    jButton.setActionCommand(""+ 3 +"/"+ 1);
 	    ControlCaseRoyaume controlCaseRoyaume = new ControlCaseRoyaume(model);
 	    controlCaseRoyaume.actionPerformed(new ActionEvent(jButton, ActionEvent.ACTION_PERFORMED, jButton.getActionCommand()));
-
-
     }
 
 	private static void prodK2Test(ModelTest model) throws UnconnectedException {
@@ -118,16 +112,9 @@ public class MainTest {
 					model.getJoueurActuel().getRoyaume().showRoyaume();
 					model.changementJoueur();
 				}
-
-
-
-
-
-
 				//model.showOrdreNext();
 			}
 		}
-
 		//model.getJoueur(0).getRoyaume();
 	}
 }
