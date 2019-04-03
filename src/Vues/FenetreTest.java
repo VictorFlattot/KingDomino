@@ -475,7 +475,7 @@ public class FenetreTest extends JFrame {
 		JFrameInstruction = new JFrame("Instruction");
 		JFrameInstruction.setSize(777,773);
         unJoueur = new Bouton();
-        unJoueur.setText("Un rois");
+        unJoueur.setText("Un roi");
 		deuxJoueurs = new Bouton();
 		deuxJoueurs.setText("Deux Rois");
 		troisJoueurs = new Bouton();
