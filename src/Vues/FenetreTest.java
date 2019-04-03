@@ -482,7 +482,7 @@ public class FenetreTest extends JFrame {
 		troisJoueurs.setText("Trois Rois");
 		quatreJoueurs = new Bouton();
 		quatreJoueurs.setText("Quatre Rois");
-		joueur = new JLabel("Combien de roi sont présent !");
+		joueur = new JLabel("Combien de rois sont présents !");
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 		jFrame = new JFrame("KingDomino");
 		fondKing = ImageIO.read(new File("img/kingdomino_fond.jpg"));
