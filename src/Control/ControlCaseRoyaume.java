@@ -114,7 +114,7 @@ public class ControlCaseRoyaume implements ActionListener {
         } else {
             System.out.println(model.getDominoSelect());
             JOptionPane.showMessageDialog(fenetre.getjFrame(),"Vous ne pouvez pas placer ce domino ici","Attention", JOptionPane.WARNING_MESSAGE);
-            model.changementJoueur();
+            //model.changementJoueur();
         }
     }
 }

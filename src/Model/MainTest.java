@@ -81,8 +81,8 @@ public class MainTest {
 
 	private static void prodK2Test(ModelTest model) throws UnconnectedException {
 	    //Création d'un nouveau paquet et mélange
-		Paquet paquet = new Paquet();
-		paquet.shuffle();
+		Paquet paquet = new Paquet(true);
+		//paquet.shuffle();
 		for (int a = 0; a < 12; a++) {//décompte du nombre de tour
 			System.out.println("tour : " + (a+1));
 			TuilesAuCentre tuilesAuCentre = new TuilesAuCentre(paquet,4,true); // instanciation des tuiles au centre

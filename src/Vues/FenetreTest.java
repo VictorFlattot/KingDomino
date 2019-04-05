@@ -823,6 +823,7 @@ public class FenetreTest extends JFrame {
 		controlTuileAChoisir.actionPerformed(
 				new ActionEvent(jButtonTuilleCentreAChoisir[posDom],
 						ActionEvent.ACTION_PERFORMED, jButtonTuilleCentreAChoisir[posDom].getActionCommand()));
+
 	}
 
 	/**
